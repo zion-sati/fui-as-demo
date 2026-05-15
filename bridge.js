@@ -1054,6 +1054,7 @@
   var UI_KEY_EVENT_DOWN = 1;
   var UI_KEY_EVENT_UP = 2;
   var EDGE_AUTOSCROLL_THRESHOLD = 30;
+  var TOUCH_SCROLL_THRESHOLD = 8;
   function currentInteractionTimeMs() {
     return BigInt(Math.floor(performance.now()));
   }
@@ -1120,6 +1121,7 @@
     let suppressedContextMenuPointerId = null;
     let edgeAutoScrollTickScheduled = false;
     let pointerMoveFrameScheduled = false;
+    let activeTouchGesture = null;
     let pendingPointerMove = null;
     const applySelectionAutoScroll = (x, y) => {
       if (!primaryPointerDown) {
@@ -1184,6 +1186,54 @@
         scheduleEdgeAutoScrollTick();
       });
     };
+    const releaseCanvasPointerCapture = (pointerId) => {
+      if (canvas.hasPointerCapture(pointerId)) {
+        canvas.releasePointerCapture(pointerId);
+      }
+    };
+    const captureCanvasPointer = (pointerId) => {
+      try {
+        canvas.setPointerCapture(pointerId);
+      } catch {
+      }
+    };
+    const cancelPressedPointerInteraction = (x, y) => {
+      const capturedHandle = interactionState.getCapturedPointerHandle();
+      interactionState.setCapturedPointerHandle(null);
+      primaryPointerDown = false;
+      pendingPointerMove = null;
+      ui._ui_set_interaction_time(currentInteractionTimeMs());
+      ui._ui_on_pointer_event(UI_EVENT_POINTER_LEAVE, capturedHandle ?? 0n, x, y);
+      runtime.commitFrame();
+    };
+    const handleTouchPointerScroll = (event, position, modifiers) => {
+      if (event.pointerType !== "touch" || activeTouchGesture === null || activeTouchGesture.pointerId !== event.pointerId) {
+        return false;
+      }
+      if (!activeTouchGesture.scrolling) {
+        const deltaFromStartX = position.x - activeTouchGesture.startX;
+        const deltaFromStartY = position.y - activeTouchGesture.startY;
+        if (deltaFromStartX * deltaFromStartX + deltaFromStartY * deltaFromStartY < TOUCH_SCROLL_THRESHOLD * TOUCH_SCROLL_THRESHOLD) {
+          return false;
+        }
+        activeTouchGesture.scrolling = true;
+        cancelPressedPointerInteraction(position.x, position.y);
+        ui._ui_touch_scroll_begin(runtime.getHandleFromPoint(position.x, position.y), position.x, position.y);
+      }
+      const deltaX = activeTouchGesture.lastX - position.x;
+      const deltaY = activeTouchGesture.lastY - position.y;
+      activeTouchGesture.lastX = position.x;
+      activeTouchGesture.lastY = position.y;
+      interactionState.setPointerInsideCanvas(isPointerInsideCanvas(canvas, event));
+      interactionState.setLastPointerPosition(position.x, position.y);
+      interactionState.setLastPointerModifiers(modifiers);
+      ui._ui_set_interaction_time(currentInteractionTimeMs());
+      ui._ui_on_pointer_event(UI_EVENT_POINTER_MOVE, runtime.getHandleFromPoint(position.x, position.y), position.x, position.y);
+      ui._ui_touch_scroll_update(deltaX, deltaY);
+      runtime.commitFrame();
+      event.preventDefault();
+      return true;
+    };
     const forwardPointerEvent = (type, useHitTest = true) => (event) => {
       const modifiers = computeModifiers(event);
       const pointerInsideCanvas = type === UI_EVENT_POINTER_LEAVE ? false : isPointerInsideCanvas(canvas, event);
@@ -1214,8 +1264,35 @@
         return;
       }
       if (type === UI_EVENT_POINTER_DOWN) {
-        canvas.setPointerCapture(event.pointerId);
+        captureCanvasPointer(event.pointerId);
         primaryPointerDown = true;
+        if (event.pointerType === "touch") {
+          activeTouchGesture = {
+            pointerId: event.pointerId,
+            startX: position.x,
+            startY: position.y,
+            lastX: position.x,
+            lastY: position.y,
+            scrolling: false
+          };
+        }
+      } else if (activeTouchGesture !== null && activeTouchGesture.pointerId === event.pointerId) {
+        if (type === UI_EVENT_POINTER_MOVE && handleTouchPointerScroll(event, position, modifiers)) {
+          return;
+        }
+        if (type === UI_EVENT_POINTER_UP || type === UI_EVENT_POINTER_LEAVE) {
+          const scrolling = activeTouchGesture.scrolling;
+          activeTouchGesture = null;
+          if (scrolling) {
+            interactionState.setCapturedPointerHandle(null);
+            primaryPointerDown = false;
+            pendingPointerMove = null;
+            ui._ui_touch_scroll_end();
+            releaseCanvasPointerCapture(event.pointerId);
+            event.preventDefault();
+            return;
+          }
+        }
       }
       const capturedHandle = interactionState.getCapturedPointerHandle();
       const hitHandle = useHitTest ? runtime.getHandleFromPoint(position.x, position.y) : 0n;
@@ -1264,8 +1341,8 @@
         primaryPointerDown = false;
         interactionState.setCapturedPointerHandle(null);
       }
-      if ((type === UI_EVENT_POINTER_UP || type === UI_EVENT_POINTER_LEAVE) && canvas.hasPointerCapture(event.pointerId)) {
-        canvas.releasePointerCapture(event.pointerId);
+      if (type === UI_EVENT_POINTER_UP || type === UI_EVENT_POINTER_LEAVE) {
+        releaseCanvasPointerCapture(event.pointerId);
       }
     };
     canvas.addEventListener("contextmenu", (event) => {
@@ -1414,9 +1491,24 @@
       start: Math.max(0, Math.min(selection.start, text.length)),
       end: Math.max(0, Math.min(selection.end, text.length))
     });
+    const detachBridgeTextInput = () => {
+      hiddenInput.blur();
+      const runtime = runtimeRef.current;
+      if (runtime !== null) {
+        delete runtime.canvas.editContext;
+      }
+    };
+    const isEditableHandle = (handleKey) => {
+      const runtime = runtimeRef.current;
+      if (runtime === null) {
+        return false;
+      }
+      const node = runtime.getSemanticTree().find((entry) => entry.handle === handleKey);
+      return node?.roleName === "textbox";
+    };
     const syncFocusedInputState = () => {
       if (activeTextHandle === null) {
-        hiddenInput.blur();
+        detachBridgeTextInput();
         return;
       }
       const handleKey = activeTextHandle.toString();
@@ -1477,6 +1569,11 @@
         const entry = { handle: handleKey, isFocused };
         logs.focusEvents.push(entry);
         if (isFocused) {
+          if (!isEditableHandle(handleKey)) {
+            activeTextHandle = null;
+            syncFocusedInputState();
+            return;
+          }
           activeTextHandle = handleToBigInt(handle);
           syncFocusedInputState();
           if (editContext === null) {
@@ -1490,7 +1587,7 @@
           }
         } else if (activeTextHandle !== null && activeTextHandle.toString() === handleKey) {
           activeTextHandle = null;
-          hiddenInput.blur();
+          syncFocusedInputState();
         }
       },
       onTextChanged: (handle, text) => {
@@ -2143,6 +2240,7 @@
         frameRequester = requester;
       },
       getSemanticTree: () => semanticTree,
+      getActiveTextHandle: () => interactionState.getActiveTextHandle(),
       getCapturedPointerHandle: () => interactionState.getCapturedPointerHandle(),
       setCapturedPointerHandle: (handle) => {
         interactionState.setCapturedPointerHandle(handle);

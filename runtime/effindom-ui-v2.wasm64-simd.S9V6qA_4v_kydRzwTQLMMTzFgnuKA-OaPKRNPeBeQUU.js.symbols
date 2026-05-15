@@ -1,0 +1,1674 @@
+0:__assert_fail
+1:js_on_selection_changed
+2:js_on_cross_selection_changed
+3:js_on_text_changed
+4:js_on_pointer_event
+5:js_on_clipboard_write
+6:__cxa_throw
+7:js_on_scroll
+8:js_on_focus_changed
+9:js_on_request_clipboard_read
+10:__wasi_fd_close
+11:js_on_request_font_load
+12:emscripten_resize_heap
+13:_setitimer_js
+14:_munmap_js
+15:_mmap_js
+16:_emscripten_runtime_keepalive_clear
+17:_abort_js
+18:__wasi_proc_exit
+19:__wasi_fd_write
+20:__wasi_fd_seek
+21:__wasi_environ_sizes_get
+22:__wasi_environ_get
+23:__syscall_stat64
+24:__syscall_openat
+25:emscripten_builtin_free
+26:emscripten_builtin_malloc
+27:hb_blob_destroy
+28:strlen
+29:facebook::yoga::StyleValuePool::getLength(facebook::yoga::StyleValueHandle) const
+30:emscripten_builtin_realloc
+31:std::__2::vector<unsigned int, std::__2::allocator<unsigned int>>::push_back[abi:ne210108](unsigned int&&)
+32:hb_buffer_t::message(hb_font_t*, char const*, ...)
+33:hb_buffer_t::enlarge(unsigned int)
+34:icu_74::CharString::append(char const*, int, UErrorCode&)
+35:strcmp
+36:strncmp
+37:operator new(unsigned long)
+38:ures_closeBundle(UResourceBundle*, signed char)
+39:effindom::v2::ui::UiRuntime::UiRuntime()
+40:utext_setNativeIndex_74
+41:hb_ot_map_builder_t::add_feature(unsigned int, hb_ot_map_feature_flags_t, unsigned int)
+42:icu_74::UnicodeString::doAppend(char16_t const*, int, int)
+43:emscripten_builtin_calloc
+44:umtx_lock_74
+45:icu_74::UnicodeSet::~UnicodeSet()_1519
+46:strchr
+47:memcmp
+48:OT::VarData::get_delta(unsigned int, int const*, unsigned int, OT::VarRegionList const&, float*) const
+49:OT::DeltaSetIndexMap::map(unsigned int) const
+50:hb_face_t::load_num_glyphs() const
+51:subtag_matches(char const*, char const*, char const*, unsigned int)
+52:facebook::yoga::Style::computeMargin(facebook::yoga::PhysicalEdge, facebook::yoga::Direction) const
+53:hb_blob_get_data_writable
+54:hb_ot_map_builder_t::add_pause(unsigned int, bool (*)(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*))
+55:OT::GDEF::accelerator_t::mark_set_covers(unsigned int, unsigned int) const
+56:strcpy
+57:_uhash_put(UHashtable*, UElement, UElement, signed char, UErrorCode*)
+58:icu_74::CharString::ensureCapacity(int, int, UErrorCode&)
+59:uprv_realloc_74
+60:icu_74::UnicodeString::copyFrom(icu_74::UnicodeString const&, signed char)
+61:hb_draw_funcs_t::start_path(void*, hb_draw_state_t&)
+62:OT::Layout::Common::Coverage::get_coverage(unsigned int) const
+63:icu_74::umtx_initImplPreInit(icu_74::UInitOnce&)
+64:hb_bit_set_t::page_for(unsigned int, bool)
+65:bool OT::Layout::Common::Coverage::collect_coverage<hb_set_digest_t>(hb_set_digest_t*) const
+66:__multf3
+67:hb_buffer_t::_set_glyph_flags(unsigned int, unsigned int, unsigned int, bool, bool)
+68:uhash_close_74
+69:std::__2::vector<effindom::v2::ui::UiRuntime::SemanticScopeEntry, std::__2::allocator<effindom::v2::ui::UiRuntime::SemanticScopeEntry>>::__throw_length_error[abi:ne210108]()
+70:hb_buffer_t::_infos_set_glyph_flags(hb_glyph_info_t*, unsigned int, unsigned int, unsigned int, unsigned int)
+71:hb_buffer_t::merge_clusters_impl(unsigned int, unsigned int)
+72:facebook::yoga::Style::computeRightEdge(std::__2::array<facebook::yoga::StyleValueHandle, 9ul> const&, facebook::yoga::Direction) const
+73:facebook::yoga::Style::computeLeftEdge(std::__2::array<facebook::yoga::StyleValueHandle, 9ul> const&, facebook::yoga::Direction) const
+74:facebook::yoga::fatalWithMessage(char const*)
+75:facebook::yoga::boundAxisWithinMinAndMax(facebook::yoga::Node const*, facebook::yoga::Direction, facebook::yoga::FlexDirection, facebook::yoga::FloatOptional, float, float)
+76:icu_74::UnicodeSet::add(int, int)
+77:ures_getByKey_74
+78:uhash_get_74
+79:facebook::yoga::paddingAndBorderForAxis(facebook::yoga::Node const*, facebook::yoga::FlexDirection, facebook::yoga::Direction, float)
+80:cff2_path_procs_extents_t::curve(CFF::cff2_cs_interp_env_t<CFF::number_t>&, cff2_extents_param_t&, CFF::point_t const&, CFF::point_t const&, CFF::point_t const&)
+81:cff2_path_param_t::cubic_to(CFF::point_t const&, CFF::point_t const&, CFF::point_t const&)
+82:cff1_path_param_t::cubic_to(CFF::point_t const&, CFF::point_t const&, CFF::point_t const&)
+83:icu_74::UnicodeString::cloneArrayIfNeeded(int, int, signed char, int**, signed char)
+84:icu_74::UnicodeSet::compact()
+85:bool std::__2::__any_of[abi:ne210108]<std::__2::__wrap_iter<unsigned long long const*>, std::__2::__wrap_iter<unsigned long long const*>, std::__2::__identity, effindom::v2::ui::UiRuntime::SubtreeContains(unsigned long long, unsigned long long) const::$_0>(std::__2::__wrap_iter<unsigned long long const*>, std::__2::__wrap_iter<unsigned long long const*>, effindom::v2::ui::UiRuntime::SubtreeContains(unsigned long long, unsigned long long) const::$_0&, std::__2::__identity&)
+86:icu_74::UnicodeSet::add(int)
+87:__shgetc
+88:icu_74::ReorderingBuffer::appendZeroCC(char16_t const*, char16_t const*, UErrorCode&)
+89:hb_bit_set_t::process_(hb_vector_size_t<unsigned long long, 64u> (*)(hb_vector_size_t<unsigned long long, 64u> const&, hb_vector_size_t<unsigned long long, 64u> const&), bool, bool, hb_bit_set_t const&)
+90:facebook::yoga::log(facebook::yoga::Node const*, facebook::yoga::LogLevel, char const*, ...)
+91:_output_with_dotted_circle(hb_buffer_t*)
+92:__multi3
+93:std::__throw_bad_array_new_length[abi:ne210108]()
+94:out
+95:icu_74::UnicodeSet::_appendToPat(icu_74::UnicodeString&, int, signed char)
+96:icu_74::Locale::init(char const*, signed char)
+97:icu_74::CharString::append(char, UErrorCode&)
+98:facebook::yoga::StyleValuePool::store(facebook::yoga::StyleValueHandle&, facebook::yoga::StyleLength)
+99:facebook::yoga::LayoutableChildren<facebook::yoga::Node>::Iterator::skipContentsNodes()
+100:utext_current32_74
+101:ures_openWithType(UResourceBundle*, char const*, char const*, UResOpenType, UErrorCode*)
+102:strstr
+103:pad
+104:OT::hb_paint_context_t::return_t OT::Paint::dispatch<OT::hb_paint_context_t>(OT::hb_paint_context_t*) const
+105:strncpy
+106:hb_lazy_loader_t<OT::GSUB_accelerator_t, hb_face_lazy_loader_t<OT::GSUB_accelerator_t, 25u>, hb_face_t, 25u, OT::GSUB_accelerator_t>::destroy(OT::GSUB_accelerator_t*)
+107:abort
+108:__munmap
+109:__ashlti3
+110:icu_74::locale_set_default_internal(char const*, UErrorCode&)
+111:icu_74::BytesTrie::next(int)
+112:hb_buffer_t::move_to(unsigned int)
+113:void* OT::hb_accelerate_subtables_context_t::cache_func_to<OT::Layout::GSUB_impl::SingleSubstFormat1_3<OT::Layout::SmallTypes>>(void*, OT::hb_ot_lookup_cache_op_t)
+114:icu_74::UnicodeString::doReplace(int, int, char16_t const*, int, int)
+115:expf
+116:effindom::v2::ui::UiRuntime::SetFocus(unsigned long long)
+117:__addtf3
+118:void AAT::Lookup<OT::HBGlyphID16>::collect_glyphs<hb_bit_set_t>(hb_bit_set_t&, unsigned int) const
+119:std::exception::~exception()
+120:icu_74::StringByteSink<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>::~StringByteSink()
+121:hb_buffer_t::next_glyphs(unsigned int)
+122:facebook::yoga::Style::computeFlexStartPaddingAndBorder(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
+123:_uhash_create(int (*)(UElement), signed char (*)(UElement, UElement), signed char (*)(UElement, UElement), int, UErrorCode*)
+124:__floatsitf
+125:AAT::Lookup<OT::HBGlyphID16>::get_value(unsigned int, unsigned int) const
+126:ures_getByKeyWithFallback_74
+127:icu_74::UVector::adoptElement(void*, UErrorCode&)
+128:hb_buffer_t::sync_so_far()
+129:facebook::yoga::Style::computeFlexEndPaddingAndBorder(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
+130:OT::hb_ot_apply_context_t::hb_ot_apply_context_t(unsigned int, hb_font_t*, hb_buffer_t*, hb_blob_t*)
+131:AAT::Lookup<OT::HBGlyphID16>::sanitize(hb_sanitize_context_t*) const
+132:strrchr
+133:std::__2::vector<unsigned int, std::__2::allocator<unsigned int>>::__throw_out_of_range[abi:ne210108]()
+134:icu_74::UnicodeString::setTo(signed char, icu_74::ConstChar16Ptr, int)
+135:icu_74::UVector::~UVector()_1456
+136:icu_74::RuleBasedBreakIterator::handleNext()
+137:hb_serialize_context_t::pop_pack(bool)
+138:ures_getNextResource_74
+139:hb_ot_layout_lookup_would_substitute
+140:hb_face_t::load_upem() const
+141:hb_buffer_destroy
+142:facebook::yoga::Style::computePosition(facebook::yoga::PhysicalEdge, facebook::yoga::Direction) const
+143:__sindf
+144:__cosdf
+145:(anonymous namespace)::init_resb_result(UResourceDataEntry*, unsigned int, char const*, int, UResourceDataEntry*, char const*, int, UResourceBundle*, UErrorCode*)
+146:ulocimp_getLanguage_74(char const*, char const**, UErrorCode&)
+147:icu_74::ReorderingBuffer::appendBMP(char16_t, unsigned char, UErrorCode&)
+148:icu_74::CharString::appendInvariantChars(icu_74::UnicodeString const&, UErrorCode&)
+149:hb_sanitize_context_t::return_t OT::Paint::dispatch<hb_sanitize_context_t>(hb_sanitize_context_t*) const
+150:hb_lazy_loader_t<OT::GDEF_accelerator_t, hb_face_lazy_loader_t<OT::GDEF_accelerator_t, 24u>, hb_face_t, 24u, OT::GDEF_accelerator_t>::do_destroy(OT::GDEF_accelerator_t*)
+151:hb_buffer_t::unsafe_to_break(unsigned int, unsigned int)
+152:hb_blob_t* hb_data_wrapper_t<hb_face_t, 6u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::OS2, 6u, true>>() const
+153:__extenddftf2
+154:OT::Layout::GSUB_impl::SubstLookup* hb_serialize_context_t::push<OT::Layout::GSUB_impl::SubstLookup>()
+155:OT::GSUB_accelerator_t* hb_data_wrapper_t<hb_face_t, 25u>::call_create<OT::GSUB_accelerator_t, hb_face_lazy_loader_t<OT::GSUB_accelerator_t, 25u>>() const
+156:OT::GDEF_accelerator_t* hb_data_wrapper_t<hb_face_t, 24u>::call_create<OT::GDEF_accelerator_t, hb_face_lazy_loader_t<OT::GDEF_accelerator_t, 24u>>() const
+157:OT::CmapSubtable::get_glyph(unsigned int, unsigned int*) const
+158:AAT::hb_aat_apply_context_t::buffer_intersects_machine() const
+159:ures_getStringByKey_74
+160:uhash_geti_74
+161:res_getTableItemByKey_74
+162:operator delete(void*)
+163:is_equal(std::type_info const*, std::type_info const*, bool)
+164:icu_74::UnicodeSet::copyFrom(icu_74::UnicodeSet const&, signed char)
+165:icu_74::UnicodeSet::applyPattern(icu_74::UnicodeString const&, UErrorCode&)
+166:icu_74::Normalizer2Impl::getFCD16FromNormData(int) const
+167:icu_74::Locale::~Locale()
+168:icu_74::Locale::Locale(char const*, char const*, char const*, char const*)
+169:hb_serialize_context_t::pop_discard()
+170:hb_blob_t* hb_data_wrapper_t<hb_face_t, 22u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::MVAR, 22u, true>>() const
+171:get_gsubgpos_table(hb_face_t*, unsigned int)
+172:effindom::v2::ui::UiRuntime::GetStringIndexFromPoint(effindom::v2::ui::UINode const&, float, float) const
+173:cff2_path_param_t::line_to(CFF::point_t const&)
+174:cff1_path_param_t::line_to(CFF::point_t const&)
+175:OT::MVAR::get_var(unsigned int, int const*, unsigned int) const
+176:ulocimp_getScript_74(char const*, char const**, UErrorCode&)
+177:ulocimp_getKeywordValue_74
+178:ucptrie_internalSmallIndex_74
+179:std::__throw_bad_alloc()
+180:icu_74::UnicodeSet::retain(int const*, int, signed char)
+181:icu_74::UCharsTrie::next(int)
+182:icu_74::RuleCharacterIterator::next(int, signed char&, UErrorCode&)
+183:icu_74::Edits::addUnchanged(int)
+184:icu_74::CharString::appendInvariantChars(char16_t const*, int, UErrorCode&)
+185:hb_buffer_t::merge_out_clusters(unsigned int, unsigned int)
+186:hb_buffer_t::make_room_for(unsigned int, unsigned int)
+187:hb_bit_set_t::add_range(unsigned int, unsigned int)
+188:facebook::yoga::Style::computeBorder(facebook::yoga::PhysicalEdge, facebook::yoga::Direction) const
+189:facebook::yoga::Node::resolveFlexGrow() const
+190:effindom::v2::ui::UiRuntime::BeginUndoGroup(effindom::v2::ui::UINode&)
+191:bool std::__2::__sort3[abi:nn210108]<std::__2::_ClassicAlgPolicy, std::__2::ranges::less, int*, 0>(int*, int*, int*, std::__2::ranges::less)
+192:_canonicalize(char const*, icu_74::ByteSink&, unsigned int, UErrorCode*)
+193:OT::GDEF::get_mark_attachment_type(unsigned int) const
+194:OT::GDEF::get_glyph_class(unsigned int) const
+195:OT::DeltaSetIndexMap::sanitize(hb_sanitize_context_t*) const
+196:OT::ClassDef::sanitize(hb_sanitize_context_t*) const
+197:utext_setup_74
+198:ucptrie_get_74
+199:std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>::push_back[abi:ne210108](unsigned long long const&)
+200:std::__2::__murmur2_or_cityhash<unsigned long, 64ul>::__hash_len_16[abi:nn210108](unsigned long, unsigned long)
+201:scalbn
+202:icu_74::UnicodeString::moveIndex32(int, int) const
+203:icu_74::UnicodeSet::ensureCapacity(int)
+204:icu_74::ResourceTable::findValue(char const*, icu_74::ResourceValue&) const
+205:icu_74::ByteSinkUtil::appendUnchanged(unsigned char const*, unsigned char const*, icu_74::ByteSink&, unsigned int, icu_74::Edits*, UErrorCode&)
+206:icu_74::BreakIterator::~BreakIterator()
+207:hb_lazy_loader_t<AAT::kerx_accelerator_t, hb_face_lazy_loader_t<AAT::kerx_accelerator_t, 30u>, hb_face_t, 30u, AAT::kerx_accelerator_t>::do_destroy(AAT::kerx_accelerator_t*)
+208:hb_glyf_scratch_t::~hb_glyf_scratch_t()
+209:hb_font_t::scale_glyph_extents(hb_glyph_extents_t*)
+210:hb_font_t::get_glyph_h_origin_with_fallback(unsigned int, int*, int*)
+211:hb_buffer_reverse
+212:hb_buffer_append
+213:hb_blob_t* hb_data_wrapper_t<hb_face_t, 4u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::hhea, 4u, true>>() const
+214:hb_blob_t* hb_data_wrapper_t<hb_face_t, 11u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::vhea, 11u, true>>() const
+215:getenv
+216:facebook::yoga::calculateLayoutInternal(facebook::yoga::Node*, float, float, facebook::yoga::Direction, facebook::yoga::SizingMode, facebook::yoga::SizingMode, float, float, bool, facebook::yoga::LayoutPassReason, facebook::yoga::LayoutData&, unsigned int, unsigned int)
+217:facebook::yoga::Node::resolveFlexShrink() const
+218:effindom::v2::ui::UiRuntime::ApplyScrollOffset(unsigned long long, effindom::v2::ui::UINode&, float, float, bool)
+219:doOpenChoice(char const*, char const*, char const*, signed char (*)(void*, char const*, char const*, UDataInfo const*), void*, UErrorCode*)
+220:_hb_glyph_info_set_unicode_props(hb_glyph_info_t*, hb_buffer_t*)
+221:__letf2
+222:OT::Layout::GPOS_impl::AnchorFormat3::sanitize(hb_sanitize_context_t*) const
+223:OT::CFFIndex<OT::IntType<unsigned short, 2u>>::operator[](unsigned int) const
+224:OT::CFFIndex<OT::IntType<unsigned int, 4u>>::operator[](unsigned int) const
+225:void std::__2::__stable_sort<std::__2::_ClassicAlgPolicy, effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)::$_0&, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>(std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)::$_0&, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::value_type*, long)
+226:void std::__2::__stable_sort<std::__2::_ClassicAlgPolicy, effindom::v2::ui::UiRuntime::RebuildFocusOrder()::$_0&, std::__2::__wrap_iter<unsigned long long*>>(std::__2::__wrap_iter<unsigned long long*>, std::__2::__wrap_iter<unsigned long long*>, effindom::v2::ui::UiRuntime::RebuildFocusOrder()::$_0&, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::value_type*, long)
+227:void icu_74::(anonymous namespace)::MixedBlocks::extend<unsigned short>(unsigned short const*, int, int, int)
+228:void hb_serialize_context_t::add_link<OT::OffsetTo<OT::Layout::Common::Coverage, OT::IntType<unsigned short, 2u>, void, true>>(OT::OffsetTo<OT::Layout::Common::Coverage, OT::IntType<unsigned short, 2u>, void, true>&, unsigned int, hb_serialize_context_t::whence_t, unsigned int)
+229:ures_getStringByKeyWithFallback_74
+230:ulocimp_getCountry_74(char const*, char const**, UErrorCode&)
+231:ucptrie_openFromBinary_74
+232:strtox
+233:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__init_copy_ctor_external(char const*, unsigned long)
+234:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__grow_by_and_replace(unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, unsigned long, char const*)
+235:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__erase_external_with_move(unsigned long, unsigned long)
+236:std::__2::__next_prime(unsigned long)
+237:sbrk
+238:res_getStringNoTrace_74
+239:init_entry(char const*, char const*, UErrorCode*)
+240:icu_74::initSingletons(char const*, UErrorCode&)
+241:icu_74::UnicodeSet::span(char16_t const*, int, USetSpanCondition) const
+242:icu_74::UVector::~UVector()
+243:icu_74::ReorderingBuffer::appendSupplementary(int, unsigned char, UErrorCode&)
+244:icu_74::PropNameData::getPropertyOrValueEnum(int, char const*)
+245:icu_74::Locale::operator=(icu_74::Locale const&)
+246:icu_74::LSR::LSR(char, char const*, char const*, char const*, int, UErrorCode&)
+247:hb_lazy_loader_t<OT::hmtx_accelerator_t, hb_face_lazy_loader_t<OT::hmtx_accelerator_t, 5u>, hb_face_t, 5u, OT::hmtx_accelerator_t>::do_destroy(OT::hmtx_accelerator_t*)
+248:hb_lazy_loader_t<AAT::morx_accelerator_t, hb_face_lazy_loader_t<AAT::morx_accelerator_t, 28u>, hb_face_t, 28u, AAT::morx_accelerator_t>::do_destroy(AAT::morx_accelerator_t*)
+249:hb_buffer_t::next_glyph()
+250:hb_bit_set_t::resize(unsigned int, bool, bool)
+251:fmt_u
+252:facebook::yoga::constrainMaxSizeForMode(facebook::yoga::Node const*, facebook::yoga::Direction, facebook::yoga::FlexDirection, float, float, facebook::yoga::SizingMode*, float*)
+253:facebook::yoga::Style::computePadding(facebook::yoga::PhysicalEdge, facebook::yoga::Direction) const
+254:effindom::v2::ui::UiRuntime::GetLocalPositionFromIndex(effindom::v2::ui::UINode const&, unsigned int) const
+255:effindom::v2::ui::UiRuntime::CollectSelectionAreaNodes(unsigned long long, std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>&) const
+256:effindom::v2::ui::UiRuntime::BuildCrossSelectionText() const
+257:_isVariantSubtag(char const*, int)
+258:_hb_ot_metrics_get_position_common(hb_font_t*, hb_ot_metrics_tag_t, int*)
+259:_getStringOrCopyKey(char const*, char const*, char const*, char const*, char const*, char const*, char16_t*, int, UErrorCode*)
+260:__vfprintf_internal
+261:__tandf
+262:__lshrti3
+263:__floatunsitf
+264:(anonymous namespace)::getRange(void const*, int, unsigned int (*)(void const*, unsigned int), void const*, unsigned int*)
+265:(anonymous namespace)::getInclusionsForSource(UPropertySource, UErrorCode&)
+266:OT::cmap::find_subtable(unsigned int, unsigned int) const
+267:OT::Layout::GPOS_impl::ValueFormat::apply_value(OT::hb_ot_apply_context_t*, OT::Layout::GPOS_impl::ValueBase const*, OT::IntType<unsigned short, 2u> const*, hb_glyph_position_t&) const
+268:OT::ItemVariationStore::sanitize(hb_sanitize_context_t*) const
+269:OT::HVARVVAR::sanitize(hb_sanitize_context_t*) const
+270:CFF::dict_opset_t::process_op(unsigned int, CFF::interp_env_t<CFF::number_t>&)
+271:utf8_prevCharSafeBody_74
+272:utf8_nextCharSafeBody_74
+273:ures_getStringWithAlias(UResourceBundle const*, unsigned int, int, int*, UErrorCode*)
+274:uprv_sortArray_74
+275:ulocimp_forLanguageTag_74
+276:ucptrie_internalSmallU8Index_74
+277:u_strToUTF8WithSub_74
+278:std::__2::vector<effindom::v2::ui::SceneInstruction, std::__2::allocator<effindom::v2::ui::SceneInstruction>>::push_back[abi:ne210108](effindom::v2::ui::SceneInstruction&&)
+279:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__throw_out_of_range[abi:ne210108]()
+280:std::__2::__hash_iterator<std::__2::__hash_node<std::__2::__hash_value_type<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, unsigned long long>, void*>*> std::__2::__hash_table<std::__2::__hash_value_type<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, unsigned long long>, std::__2::__unordered_map_hasher<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, std::__2::pair<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const, unsigned long long>, std::__2::hash<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, std::__2::equal_to<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, true>, std::__2::__unordered_map_equal<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, std::__2::pair<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const, unsigned long long>, std::__2::equal_to<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, std::__2::hash<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, true>, std::__2::allocator<std::__2::pair<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const, unsigned long long>>>::find<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>(std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const&)
+281:snprintf
+282:res_getTableItemByIndex_74
+283:init()
+284:icu_74::(anonymous namespace)::AliasReplacer::replaceLanguage(bool, bool, bool, icu_74::UVector&, UErrorCode&)
+285:icu_74::UnicodeString::fromUTF8(icu_74::StringPiece)
+286:icu_74::UnicodeSetStringSpan::UnicodeSetStringSpan(icu_74::UnicodeSet const&, icu_74::UVector const&, unsigned int)
+287:icu_74::UnicodeSet::complement()
+288:icu_74::UnicodeSet::applyIntPropertyValue(UProperty, int, UErrorCode&)
+289:icu_74::UnicodeSet::_add(icu_74::UnicodeString const&)
+290:icu_74::UnicodeSet::UnicodeSet(icu_74::UnicodeString const&, UErrorCode&)
+291:icu_74::UVector::addElement(void*, UErrorCode&)
+292:icu_74::UVector32::setSize(int)
+293:icu_74::UCharsTrieBuilder::write(char16_t const*, int)
+294:icu_74::RuleBasedBreakIterator::BreakCache::populatePreceding(UErrorCode&)
+295:icu_74::ReorderingBuffer::previousCC()
+296:icu_74::Normalizer2Impl::compose(char16_t const*, char16_t const*, signed char, signed char, icu_74::ReorderingBuffer&, UErrorCode&) const
+297:icu_74::Normalizer2Factory::getNFCImpl(UErrorCode&)
+298:icu_74::LocaleUtility::initLocaleFromName(icu_74::UnicodeString const&, icu_74::Locale&)
+299:icu_74::LSR::LSR(icu_74::StringPiece, icu_74::StringPiece, icu_74::StringPiece, int, UErrorCode&)
+300:icu_74::CanonIterData::~CanonIterData()
+301:icu_74::BreakIterator::buildInstance(icu_74::Locale const&, char const*, UErrorCode&)
+302:hb_vector_t<hb_pair_t<hb_bit_set_t, hb_bit_set_t>, false>::shrink_vector(unsigned int)
+303:hb_unicode_funcs_destroy
+304:hb_lazy_loader_t<OT::glyf_accelerator_t, hb_face_lazy_loader_t<OT::glyf_accelerator_t, 15u>, hb_face_t, 15u, OT::glyf_accelerator_t>::do_destroy(OT::glyf_accelerator_t*)
+305:hb_hashmap_t<unsigned int, unsigned int, true>::alloc(unsigned int)
+306:hb_buffer_create_similar
+307:effindom::v2::ui::UiRuntime::WalkTree(unsigned long long, float, float, effindom::v2::ui::CommandBuilder&, std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>&, std::__2::vector<effindom::v2::ui::SceneInstruction, std::__2::allocator<effindom::v2::ui::SceneInstruction>>&, std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>&)
+308:effindom::v2::ui::UiRuntime::ShapeText(std::__2::basic_string_view<char, std::__2::char_traits<char>>, unsigned int, float, effindom::v2::ui::UiRuntime::ShapedTextRun&) const
+309:decltype(fp.sanitize(this, std::forward<OT::ChainContextFormat3 const*>(fp1))) hb_sanitize_context_t::_dispatch<OT::OffsetTo<OT::Layout::Common::Coverage, OT::IntType<unsigned short, 2u>, void, true>, OT::ChainContextFormat3 const*>(OT::OffsetTo<OT::Layout::Common::Coverage, OT::IntType<unsigned short, 2u>, void, true> const&, hb_priority<1u>, OT::ChainContextFormat3 const*&&)
+310:__emscripten_stdout_close
+311:(anonymous namespace)::ulayout_ensureData(UErrorCode&)
+312:OT::kern_accelerator_t* hb_data_wrapper_t<hb_face_t, 23u>::call_create<OT::kern_accelerator_t, hb_face_lazy_loader_t<OT::kern_accelerator_t, 23u>>() const
+313:OT::hb_ot_layout_lookup_accelerator_t::fini()
+314:OT::hb_ot_apply_context_t::replace_glyph(unsigned int)
+315:OT::glyf_accelerator_t* hb_data_wrapper_t<hb_face_t, 15u>::call_create<OT::glyf_accelerator_t, hb_face_lazy_loader_t<OT::glyf_accelerator_t, 15u>>() const
+316:OT::cff1::accelerator_templ_t<CFF::cff1_private_dict_opset_t, CFF::cff1_private_dict_values_base_t<CFF::dict_val_t>>::_fini()
+317:OT::Layout::GPOS_impl::ValueFormat::sanitize_value_devices(hb_sanitize_context_t*, OT::Layout::GPOS_impl::ValueBase const*, OT::IntType<unsigned short, 2u> const*) const
+318:OT::GPOS_accelerator_t* hb_data_wrapper_t<hb_face_t, 26u>::call_create<OT::GPOS_accelerator_t, hb_face_lazy_loader_t<OT::GPOS_accelerator_t, 26u>>() const
+319:CFF::opset_t<CFF::number_t>::process_op(unsigned int, CFF::interp_env_t<CFF::number_t>&)
+320:CFF::Charset::get_glyph(unsigned int, unsigned int) const
+321:CFF::CFF1FDArray const& CFF::StructAtOffsetOrNull<CFF::CFF1FDArray>(void const*, int, hb_sanitize_context_t&)
+322:void std::__2::vector<unsigned char, std::__2::allocator<unsigned char>>::__assign_with_size[abi:ne210108]<unsigned char const*, unsigned char const*>(unsigned char const*, unsigned char const*, long)
+323:void std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__assign_trivial[abi:ne210108]<char const*, char const*>(char const*, char const*, unsigned long)
+324:void sort_r_simple<>(void*, unsigned long, unsigned long, int (*)(void const*, void const*))
+325:void icu_74::(anonymous namespace)::MixedBlocks::extend<unsigned int>(unsigned int const*, int, int, int)
+326:void AAT::Lookup<OT::IntType<unsigned short, 2u>>::collect_glyphs_filtered<hb_bit_set_t, hb_bit_page_t>(hb_bit_set_t&, unsigned int, hb_bit_page_t const&) const
+327:void AAT::ClassTable<OT::IntType<unsigned char, 1u>>::collect_glyphs<hb_bit_set_t>(hb_bit_set_t&, unsigned int) const
+328:umutablecptrie_set_74
+329:uloc_getVariant_74
+330:u_strstr_74
+331:toUpperOrTitle(int, int (*)(void*, signed char), void*, char16_t const**, int, signed char)
+332:tanf
+333:std::__2::vector<float, std::__2::allocator<float>>::assign(unsigned long, float const&)
+334:std::__2::__murmur2_or_cityhash<unsigned long, 64ul>::__weak_hash_len_32_with_seeds[abi:nn210108](char const*, unsigned long, unsigned long)
+335:res_getArrayItem_74
+336:res_findResource_74
+337:icu_74::compute(int, icu_74::ReadArray2D const&, icu_74::ReadArray2D const&, icu_74::ReadArray1D const&, icu_74::ReadArray1D const&, icu_74::Array1D&, icu_74::Array1D&, icu_74::Array1D&)
+338:icu_74::UnicodeString::UnicodeString(char const*, int, icu_74::UnicodeString::EInvariant)
+339:icu_74::UnicodeSetStringSpan::~UnicodeSetStringSpan()
+340:icu_74::UnicodeSet::removeAllStrings()
+341:icu_74::UnicodeSet::freeze()
+342:icu_74::UnicodeSet::applyFilter(signed char (*)(int, void*), void*, icu_74::UnicodeSet const*, UErrorCode&)
+343:icu_74::UnicodeSet::add(int const*, int, signed char)
+344:icu_74::UVector32::addElement(int, UErrorCode&)
+345:icu_74::UObject::getDynamicClassID() const
+346:icu_74::UCharsTrie::branchNext(char16_t const*, int, int)
+347:icu_74::StringTrieBuilder::writeNode(int, int, int)
+348:icu_74::SimpleFilteredSentenceBreakIterator::breakExceptionAt(int)
+349:icu_74::RuleBasedBreakIterator::BreakCache::populateNear(int, UErrorCode&)
+350:icu_74::RuleBasedBreakIterator::BreakCache::populateFollowing()
+351:icu_74::ReorderingBuffer::init(int, UErrorCode&)
+352:icu_74::Normalizer2Impl::~Normalizer2Impl()
+353:icu_74::Normalizer2Impl::makeFCD(char16_t const*, char16_t const*, icu_74::ReorderingBuffer*, UErrorCode&) const
+354:icu_74::Normalizer2Impl::hasCompBoundaryBefore(unsigned char const*, unsigned char const*) const
+355:icu_74::Normalizer2Impl::hasCompBoundaryBefore(char16_t const*, char16_t const*) const
+356:icu_74::Normalizer2Impl::decomposeShort(unsigned char const*, unsigned char const*, icu_74::Normalizer2Impl::StopAt, signed char, icu_74::ReorderingBuffer&, UErrorCode&) const
+357:icu_74::Normalizer2Impl::addPropertyStarts(USetAdder const*, UErrorCode&) const
+358:icu_74::Norm2AllModes::createNFCInstance(UErrorCode&)
+359:icu_74::NoopNormalizer2::hasBoundaryBefore(int) const
+360:icu_74::Edits::addReplace(int, int)
+361:hb_syllabic_insert_dotted_circles(hb_font_t*, hb_buffer_t*, unsigned int, unsigned int, int, int)
+362:hb_shape_full
+363:hb_serialize_context_t::~hb_serialize_context_t()
+364:hb_serialize_context_t::resolve_links()
+365:hb_serialize_context_t::reset()
+366:hb_paint_extents_context_t::paint()
+367:hb_lazy_loader_t<OT::cff1_accelerator_t, hb_face_lazy_loader_t<OT::cff1_accelerator_t, 16u>, hb_face_t, 16u, OT::cff1_accelerator_t>::do_destroy(OT::cff1_accelerator_t*)
+368:hb_hashmap_t<hb_serialize_context_t::object_t const*, unsigned int, false>::alloc(unsigned int)
+369:hb_font_t::mults_changed()
+370:hb_font_destroy
+371:hb_blob_t* hb_data_wrapper_t<hb_face_t, 34u>::call_create<hb_blob_t, hb_table_lazy_loader_t<AAT::feat, 34u, false>>() const
+372:hb_blob_create_sub_blob
+373:hb_array_t<char const>::hash() const
+374:facebook::yoga::calculateBaseline(facebook::yoga::Node const*)
+375:facebook::yoga::Node::cloneChildrenIfNeeded()
+376:effindom::v2::ui::UiRuntime::LayoutParagraph(effindom::v2::ui::UINode const&, std::__2::optional<float>) const
+377:effindom::v2::ui::UiRuntime::BuildSelectionRects(effindom::v2::ui::UINode const&, unsigned int, unsigned int) const
+378:dispose_chunk
+379:createPath(char const*, int, char const*, int, char const*, icu_74::CharString&, UErrorCode*)
+380:buffer_verify_error(hb_buffer_t*, hb_font_t*, char const*, ...)
+381:bool std::__2::__partially_sorted_swap[abi:nn210108]<std::__2::ranges::less, int*>(int*, int*, int*, std::__2::ranges::less)
+382:_uhash_remove(UHashtable*, UElement)
+383:_addExtensionToList(ExtensionListEntry**, ExtensionListEntry*, signed char)
+384:__memcpy
+385:__cxxabiv1::__base_class_type_info::search_below_dst(__cxxabiv1::__dynamic_cast_info*, void const*, int, bool) const
+386:YGNodeCalculateLayout
+387:OT::vmtx_accelerator_t* hb_data_wrapper_t<hb_face_t, 12u>::call_create<OT::vmtx_accelerator_t, hb_face_lazy_loader_t<OT::vmtx_accelerator_t, 12u>>() const
+388:OT::hb_ot_layout_lookup_accelerator_t* OT::hb_ot_layout_lookup_accelerator_t::create<OT::Layout::GSUB_impl::SubstLookup>(OT::Layout::GSUB_impl::SubstLookup const&)
+389:OT::hb_ot_apply_context_t::_set_glyph_class(unsigned int, unsigned int, bool, bool)
+390:OT::cff1_accelerator_t* hb_data_wrapper_t<hb_face_t, 16u>::call_create<OT::cff1_accelerator_t, hb_face_lazy_loader_t<OT::cff1_accelerator_t, 16u>>() const
+391:OT::apply_lookup(OT::hb_ot_apply_context_t*, unsigned int, unsigned int*, unsigned int, OT::LookupRecord const*, unsigned int)
+392:OT::VarRegionList::evaluate(unsigned int, int const*, unsigned int, float*) const
+393:OT::Lookup::serialize(hb_serialize_context_t*, unsigned int, unsigned int, unsigned int)
+394:OT::Layout::GPOS_impl::AnchorFormat3::get_anchor(OT::hb_ot_apply_context_t*, unsigned int, float*, float*) const
+395:OT::Layout::GPOS_impl::AnchorFormat2::get_anchor(OT::hb_ot_apply_context_t*, unsigned int, float*, float*) const
+396:OT::Layout::Common::Coverage* hb_serialize_context_t::extend_min<OT::Layout::Common::Coverage>(OT::Layout::Common::Coverage*)
+397:OT::Condition::sanitize(hb_sanitize_context_t*) const
+398:OT::CFFIndex<OT::IntType<unsigned short, 2u>>::sanitize(hb_sanitize_context_t*) const
+399:OT::CFFIndex<OT::IntType<unsigned int, 4u>>::sanitize(hb_sanitize_context_t*) const
+400:CFF::cs_interp_env_t<CFF::number_t, CFF::Subrs<OT::IntType<unsigned short, 2u>>>::call_subr(CFF::biased_subrs_t<CFF::Subrs<OT::IntType<unsigned short, 2u>>> const&, CFF::cs_type_t)
+401:AAT::TrackTableEntry::get_value(float, void const*, hb_array_t<OT::HBFixed<OT::IntType<int, 4u>, 16u> const>) const
+402:AAT::StateTable<AAT::ObsoleteTypes, void>::sanitize(hb_sanitize_context_t*, unsigned int*) const
+403:wmemchr
+404:vsnprintf
+405:void std::__2::__introsort<std::__2::_ClassicAlgPolicy, std::__2::ranges::less, int*, true>(int*, int*, std::__2::ranges::less, std::__2::iterator_traits<int*>::difference_type, bool)
+406:void std::__2::__inplace_merge<std::__2::_ClassicAlgPolicy, effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)::$_0&, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>(std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)::$_0&, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::value_type*, long)
+407:void std::__2::__inplace_merge<std::__2::_ClassicAlgPolicy, effindom::v2::ui::UiRuntime::RebuildFocusOrder()::$_0&, std::__2::__wrap_iter<unsigned long long*>>(std::__2::__wrap_iter<unsigned long long*>, std::__2::__wrap_iter<unsigned long long*>, std::__2::__wrap_iter<unsigned long long*>, effindom::v2::ui::UiRuntime::RebuildFocusOrder()::$_0&, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::value_type*, long)
+408:void sort_r_simple<void*>(void*, unsigned long, unsigned long, int (*)(void const*, void const*, void*), void*)
+409:void sort_r_simple<>(void*, unsigned long, unsigned long, int (*)(void const*, void const*)) (.810)
+410:void sort_r_simple<>(void*, unsigned long, unsigned long, int (*)(void const*, void const*)) (.1067)
+411:utext_char32At_74
+412:ures_copyResb_74
+413:ures_appendResPath(UResourceBundle*, char const*, int, UErrorCode*)
+414:uprv_deleteUObject_74
+415:uprv_compareASCIIPropertyNames_74
+416:ultag_isUnicodeLocaleType_74
+417:ultag_isPrivateuseValueSubtags_74
+418:ulocimp_toBcpType_74
+419:ulocimp_getKeywords_74
+420:uloc_openKeywords_74
+421:uhash_getiAndFound_74
+422:udata_getHashTable(UErrorCode&)
+423:udata_checkCommonData_74
+424:ucstrTextAccess(UText*, long long, signed char)
+425:u_getDataDirectory_74
+426:subQuickSort(char*, int, int, int, int (*)(void const*, void const*, void const*), void const*, void*, void*)
+427:strcat
+428:std::logic_error::~logic_error()_298
+429:std::__2::__hash_table<std::__2::__hash_value_type<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, unsigned long long>, std::__2::__unordered_map_hasher<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, std::__2::pair<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const, unsigned long long>, std::__2::hash<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, std::__2::equal_to<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, true>, std::__2::__unordered_map_equal<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, std::__2::pair<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const, unsigned long long>, std::__2::equal_to<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, std::__2::hash<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>, true>, std::__2::allocator<std::__2::pair<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const, unsigned long long>>>::remove(std::__2::__hash_const_iterator<std::__2::__hash_node<std::__2::__hash_value_type<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>, unsigned long long>, void*>*>)
+430:sinf
+431:setCommonICUData(UDataMemory*, signed char, UErrorCode*)
+432:operator_new_impl(unsigned long)
+433:open
+434:locale_get_default_74
+435:loadParentsExceptRoot(UResourceDataEntry*&, char*, int, signed char, char*, UErrorCode*)
+436:lang_find_or_insert(char const*)
+437:icu_74::(anonymous namespace)::AliasReplacer::replace(icu_74::Locale const&, icu_74::CharString&, UErrorCode&)::$_0::__invoke(UElement, UElement)
+438:icu_74::XLikelySubtagsData::readStrings(icu_74::ResourceTable const&, char const*, icu_74::ResourceValue&, icu_74::LocalMemory<int>&, int&, UErrorCode&)
+439:icu_74::UniqueCharStrings::addByValue(icu_74::UnicodeString, UErrorCode&)
+440:icu_74::UnicodeString::operator=(icu_74::UnicodeString&&)
+441:icu_74::UnicodeString::getTerminatedBuffer()
+442:icu_74::UnicodeString::extract(int, int, char*, int, icu_74::UnicodeString::EInvariant) const
+443:icu_74::UnicodeString::doIndexOf(char16_t, int, int) const
+444:icu_74::UnicodeSet::spanUTF8(char const*, int, USetSpanCondition) const
+445:icu_74::UnicodeSet::spanBack(char16_t const*, int, USetSpanCondition) const
+446:icu_74::UnicodeSet::spanBackUTF8(char const*, int, USetSpanCondition) const
+447:icu_74::UnicodeSet::setToBogus()
+448:icu_74::UnicodeSet::retainAll(icu_74::UnicodeSet const&)
+449:icu_74::UnicodeSet::exclusiveOr(int const*, int, signed char)
+450:icu_74::UnicodeSet::ensureBufferCapacity(int)
+451:icu_74::UnicodeSet::clear()
+452:icu_74::UVector::removeElement(void*)
+453:icu_74::UVector::insertElementAt(void*, int, UErrorCode&)
+454:icu_74::UVector32::~UVector32()
+455:icu_74::UDataPathIterator::next(UErrorCode*)
+456:icu_74::UCharsTrieBuilder::add(icu_74::UnicodeString const&, int, UErrorCode&)
+457:icu_74::SimpleFilteredSentenceBreakIterator::internalNext(int)
+458:icu_74::ReorderingBuffer::append(char16_t const*, int, signed char, unsigned char, unsigned char, UErrorCode&)
+459:icu_74::Normalizer2Impl::decompose(int, unsigned short, icu_74::ReorderingBuffer&, UErrorCode&) const
+460:icu_74::Normalizer2Impl::decompose(char16_t const*, char16_t const*, icu_74::ReorderingBuffer*, UErrorCode&) const
+461:icu_74::Normalizer2Impl::decomposeShort(char16_t const*, char16_t const*, signed char, signed char, icu_74::ReorderingBuffer&, UErrorCode&) const
+462:icu_74::LocaleUtility::initNameFromLocale(icu_74::Locale const&, icu_74::UnicodeString&)
+463:icu_74::LoadedNormalizer2Impl::load(char const*, char const*, UErrorCode&)
+464:icu_74::ICULocaleService::~ICULocaleService()
+465:icu_74::EmojiProps::getSingleton(UErrorCode&)
+466:icu_74::CharacterProperties::getInclusionsForProperty(UProperty, UErrorCode&)
+467:icu_74::BytesTrie::readValue(unsigned char const*, int)
+468:icu_74::ByteSinkUtil::appendChange(unsigned char const*, unsigned char const*, char16_t const*, int, icu_74::ByteSink&, icu_74::Edits*, UErrorCode&)
+469:icu_74::BreakIterator::makeInstance(icu_74::Locale const&, int, UErrorCode&)
+470:hb_vector_t<contour_point_t, false>::extend(hb_array_t<contour_point_t>)
+471:hb_unicode_combining_class_nil(hb_unicode_funcs_t*, unsigned int, void*)
+472:hb_shape_plan_destroy
+473:hb_script_get_horizontal_direction
+474:hb_pair_t<hb_bit_set_t, hb_bit_set_t>* hb_vector_t<hb_pair_t<hb_bit_set_t, hb_bit_set_t>, false>::realloc_vector<hb_pair_t<hb_bit_set_t, hb_bit_set_t>, (void*)0>(unsigned int, hb_priority<0u>)
+475:hb_paint_pop_transform_nil(hb_paint_funcs_t*, void*, void*)
+476:hb_paint_extents_context_t::push_clip(hb_extents_t)
+477:hb_lazy_loader_t<OT::cmap_accelerator_t, hb_face_lazy_loader_t<OT::cmap_accelerator_t, 3u>, hb_face_t, 3u, OT::cmap_accelerator_t>::do_destroy(OT::cmap_accelerator_t*)
+478:hb_lazy_loader_t<OT::SVG_accelerator_t, hb_face_lazy_loader_t<OT::SVG_accelerator_t, 39u>, hb_face_t, 39u, OT::SVG_accelerator_t>::do_destroy(OT::SVG_accelerator_t*)
+479:hb_lazy_loader_t<OT::COLR_accelerator_t, hb_face_lazy_loader_t<OT::COLR_accelerator_t, 35u>, hb_face_t, 35u, OT::COLR_accelerator_t>::destroy(OT::COLR_accelerator_t*)
+480:hb_indic_get_categories(unsigned int)
+481:hb_font_funcs_destroy
+482:hb_face_destroy
+483:hb_draw_cubic_to_nil(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, float, float, void*)
+484:hb_buffer_create
+485:hb_blob_t* hb_data_wrapper_t<hb_face_t, 32u>::call_create<hb_blob_t, hb_table_lazy_loader_t<AAT::trak, 32u, false>>() const
+486:hb_blob_t* hb_data_wrapper_t<hb_face_t, 2u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::maxp, 2u, true>>() const
+487:hb_blob_t* hb_data_wrapper_t<hb_face_t, 1u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::head, 1u, true>>() const
+488:hb_blob_t* hb_data_wrapper_t<hb_face_t, 18u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::fvar, 18u, true>>() const
+489:get_joining_type(unsigned int, hb_unicode_general_category_t)
+490:getDefaultScript(icu_74::CharString const&, icu_74::CharString const&)
+491:findFirstExisting(char const*, char*, char const*, UResOpenType, signed char*, signed char*, signed char*, UErrorCode*)
+492:facebook::yoga::cleanupContentsNodesRecursively(facebook::yoga::Node*)
+493:facebook::yoga::Node::dimensionWithMargin(facebook::yoga::FlexDirection, float)
+494:facebook::yoga::LayoutableChildren<facebook::yoga::Node>::Iterator::operator++(int)
+495:expm1f
+496:effindom::v2::ui::(anonymous namespace)::RestoreGridStyle(YGNode*, effindom::v2::ui::(anonymous namespace)::GridStyleSnapshot const&)
+497:effindom::v2::ui::(anonymous namespace)::ApplyGridMeasurementStyle(effindom::v2::ui::UINode&, std::__2::optional<float>, std::__2::optional<float>)
+498:effindom::v2::ui::UiRuntime::RemoveChild(unsigned long long, unsigned long long)
+499:effindom::v2::ui::UiRuntime::NextWordIndex(effindom::v2::ui::UINode const&, unsigned int, bool) const
+500:effindom::v2::ui::UiRuntime::IndexForVerticalMove(effindom::v2::ui::UINode const&, unsigned int, bool) const
+501:effindom::v2::ui::UiRuntime::FindDeepestNodeContainingPoint(unsigned long long, float, float) const
+502:effindom::v2::ui::UINode::~UINode()
+503:effindom::v2::ui::UINode::UndoEntry* std::__2::vector<effindom::v2::ui::UINode::UndoEntry, std::__2::allocator<effindom::v2::ui::UINode::UndoEntry>>::__emplace_back_slow_path<effindom::v2::ui::UINode::UndoEntry>(effindom::v2::ui::UINode::UndoEntry&&)
+504:decompose(hb_ot_shape_normalize_context_t const*, bool, unsigned int)
+505:cosf
+506:close
+507:cff2_path_param_t::move_to(CFF::point_t const&)
+508:cff1_path_param_t::move_to(CFF::point_t const&)
+509:bool hb_buffer_t::replace_glyphs<unsigned int>(unsigned int, unsigned int, unsigned int const*)
+510:bool OT::glyf_impl::Glyph::get_points<OT::glyf_accelerator_t>(hb_font_t*, OT::glyf_accelerator_t const&, contour_point_vector_t&, hb_glyf_scratch_t&, contour_point_vector_t*, head_maxp_info_t*, unsigned int*, bool, bool, bool, hb_array_t<int const>, unsigned int, unsigned int*) const
+511:bool OT::glyf_accelerator_t::get_points<OT::glyf_accelerator_t::points_aggregator_t>(hb_font_t*, unsigned int, OT::glyf_accelerator_t::points_aggregator_t, hb_array_t<int const>, hb_glyf_scratch_t&) const
+512:bool OT::GSUBGPOSVersion1_2<OT::Layout::SmallTypes>::sanitize<OT::Layout::GSUB_impl::SubstLookup>(hb_sanitize_context_t*) const
+513:bool OT::GSUBGPOSVersion1_2<OT::Layout::SmallTypes>::sanitize<OT::Layout::GPOS_impl::PosLookup>(hb_sanitize_context_t*) const
+514:bool OT::Condition::evaluate<OT::ItemVarStoreInstancer>(int const*, unsigned int, OT::ItemVarStoreInstancer*) const
+515:arabic_fallback_plan_destroy(arabic_fallback_plan_t*)
+516:_get_path(OT::cff1::accelerator_t const*, hb_font_t*, unsigned int, hb_draw_session_t&, bool, CFF::point_t*)
+517:_get_bounds(OT::cff1::accelerator_t const*, unsigned int, bounds_t&, bool)
+518:__towrite
+519:__subtf3
+520:__rem_pio2f
+521:__mmap
+522:__memset
+523:__fstatat
+524:__dynamic_cast
+525:__cxxabiv1::__shim_type_info::noop1() const
+526:__cxxabiv1::__class_type_info::process_static_type_above_dst(__cxxabiv1::__dynamic_cast_info*, void const*, void const*, int) const
+527:__cxxabiv1::__class_type_info::process_found_base_class(__cxxabiv1::__dynamic_cast_info*, void*, int) const
+528:__cxxabiv1::__base_class_type_info::search_above_dst(__cxxabiv1::__dynamic_cast_info*, void const*, void const*, int, bool) const
+529:_ZN9hb_pair_tIR12hb_bit_set_tS1_EcvS_IT_T0_EIS0_S0_TnPN12hb_enable_ifIXaasr3std14is_convertibleIS1_S3_EE5valuesr3std14is_convertibleIS1_S4_EE5valueEvE4typeELPv0EEEv
+530:OT::sbix::sanitize(hb_sanitize_context_t*) const
+531:OT::post::accelerator_t::cmp_gids(void const*, void const*, void*)
+532:OT::gvar_GVAR<OT::IntType<unsigned short, 2u>, 1735811442u>::sanitize_shallow(hb_sanitize_context_t*) const
+533:OT::fvar::sanitize(hb_sanitize_context_t*) const
+534:OT::cmap_accelerator_t* hb_data_wrapper_t<hb_face_t, 3u>::call_create<OT::cmap_accelerator_t, hb_face_lazy_loader_t<OT::cmap_accelerator_t, 3u>>() const
+535:OT::cmap::sanitize(hb_sanitize_context_t*) const
+536:OT::cff2::accelerator_templ_t<CFF::cff2_private_dict_opset_t, CFF::cff2_private_dict_values_base_t<CFF::dict_val_t>>::_fini()
+537:OT::avar::sanitize(hb_sanitize_context_t*) const
+538:OT::SortedArrayOf<OT::Layout::Common::RangeRecord<OT::Layout::SmallTypes>, OT::IntType<unsigned short, 2u>>::serialize(hb_serialize_context_t*, unsigned int)
+539:OT::STAT::sanitize(hb_sanitize_context_t*) const
+540:OT::Rule<OT::Layout::SmallTypes>::apply(OT::hb_ot_apply_context_t*, OT::ContextApplyLookupContext const&) const
+541:OT::OpenTypeFontFile::sanitize(hb_sanitize_context_t*) const
+542:OT::MVAR::sanitize(hb_sanitize_context_t*) const
+543:OT::Layout::GSUB_impl::LigatureSubstFormat1_2<OT::Layout::SmallTypes>::serialize(hb_serialize_context_t*, hb_sorted_array_t<OT::HBGlyphID16 const>, hb_array_t<unsigned int const>, hb_array_t<OT::HBGlyphID16 const>, hb_array_t<unsigned int const>, hb_array_t<OT::HBGlyphID16 const>)
+544:OT::Layout::GSUB::get_lookup(unsigned int) const
+545:OT::Layout::GPOS_impl::MarkArray::sanitize(hb_sanitize_context_t*) const
+546:OT::Layout::GPOS_impl::MarkArray::apply(OT::hb_ot_apply_context_t*, unsigned int, unsigned int, OT::Layout::GPOS_impl::AnchorMatrix const&, unsigned int, unsigned int) const
+547:OT::Layout::GPOS_impl::AnchorMatrix::sanitize(hb_sanitize_context_t*, unsigned int) const
+548:OT::GDEFVersion1_2<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+549:OT::Device::get_y_delta(hb_font_t*, OT::ItemVariationStore const&, float*) const
+550:OT::Device::get_x_delta(hb_font_t*, OT::ItemVariationStore const&, float*) const
+551:OT::ClipList::get_extents(unsigned int, hb_glyph_extents_t*, OT::ItemVarStoreInstancer const&) const
+552:OT::ChainRule<OT::Layout::SmallTypes>::apply(OT::hb_ot_apply_context_t*, OT::ChainContextApplyLookupContext const&) const
+553:OT::CPAL::sanitize(hb_sanitize_context_t*) const
+554:OT::COLR::sanitize(hb_sanitize_context_t*) const
+555:OT::COLR::paint_glyph(hb_font_t*, unsigned int, hb_paint_funcs_t*, void*, unsigned int, unsigned int, bool, hb_colr_scratch_t&) const
+556:AAT::trak::sanitize(hb_sanitize_context_t*) const
+557:AAT::morx_accelerator_t* hb_data_wrapper_t<hb_face_t, 28u>::call_create<AAT::morx_accelerator_t, hb_face_lazy_loader_t<AAT::morx_accelerator_t, 28u>>() const
+558:AAT::mortmorx<AAT::morx, AAT::ExtendedTypes, 1836020344u>::accelerator_t::~accelerator_t()
+559:AAT::mort_accelerator_t* hb_data_wrapper_t<hb_face_t, 29u>::call_create<AAT::mort_accelerator_t, hb_face_lazy_loader_t<AAT::mort_accelerator_t, 29u>>() const
+560:AAT::ltag::sanitize(hb_sanitize_context_t*) const
+561:AAT::Lookup<OT::OffsetTo<OT::ArrayOf<AAT::Anchor, OT::IntType<unsigned int, 4u>>, OT::IntType<unsigned short, 2u>, void, false>>::sanitize(hb_sanitize_context_t*, void const*) const
+562:AAT::KerxTable<OT::KernOT>::sanitize(hb_sanitize_context_t*) const
+563:AAT::KerxTable<OT::KernAAT>::sanitize(hb_sanitize_context_t*) const
+564:AAT::KerxTable<AAT::kerx>::sanitize(hb_sanitize_context_t*) const
+565:wctomb
+566:void std::__2::vector<float, std::__2::allocator<float>>::__assign_with_size[abi:ne210108]<float const*, float const*>(float const*, float const*, long)
+567:void std::__2::__swap_bitmap_pos[abi:nn210108]<std::__2::_ClassicAlgPolicy, int*>(int*, int*, unsigned long long&, unsigned long long&)
+568:void std::__2::__stable_sort_move<std::__2::_ClassicAlgPolicy, effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)::$_0&, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>(std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>, effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)::$_0&, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<effindom::v2::ui::(anonymous namespace)::ClusterStop*>>::value_type*)
+569:void std::__2::__stable_sort_move<std::__2::_ClassicAlgPolicy, effindom::v2::ui::UiRuntime::RebuildFocusOrder()::$_0&, std::__2::__wrap_iter<unsigned long long*>>(std::__2::__wrap_iter<unsigned long long*>, std::__2::__wrap_iter<unsigned long long*>, effindom::v2::ui::UiRuntime::RebuildFocusOrder()::$_0&, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::difference_type, std::__2::iterator_traits<std::__2::__wrap_iter<unsigned long long*>>::value_type*)
+570:void std::__2::__sort5[abi:nn210108]<std::__2::_ClassicAlgPolicy, std::__2::ranges::less, int*, 0>(int*, int*, int*, int*, int*, std::__2::ranges::less)
+571:void std::__2::__sort4[abi:nn210108]<std::__2::_ClassicAlgPolicy, std::__2::ranges::less, int*, 0>(int*, int*, int*, int*, std::__2::ranges::less)
+572:void sort_r_simple<>(void*, unsigned long, unsigned long, int (*)(void const*, void const*)) (.908)
+573:void* OT::hb_accelerate_subtables_context_t::cache_func_to<OT::Layout::GSUB_impl::LigatureSubstFormat1_2<OT::Layout::SmallTypes>>(void*, OT::hb_ot_lookup_cache_op_t)
+574:void* OT::hb_accelerate_subtables_context_t::cache_func_to<OT::ContextFormat2_5<OT::Layout::SmallTypes>>(void*, OT::hb_ot_lookup_cache_op_t)
+575:utext_openConstUnicodeString_74
+576:utext_moveIndex32_74
+577:utext_getPreviousNativeIndex_74
+578:ustrcase_internalFold_74
+579:ures_getValueWithFallback_74
+580:ures_getString_74
+581:ures_getNextString_74
+582:ures_getByIndex_74
+583:uprv_compareInvAscii_74
+584:upropsvec_addPropertyStarts_74
+585:uprops_addPropertyStarts_74
+586:unsigned int const* std::__2::lower_bound[abi:nn210108]<unsigned int const*, unsigned long, std::__2::__less<void, void>>(unsigned int const*, unsigned int const*, unsigned long const&, std::__2::__less<void, void>)
+587:unorm_getFCD16_74
+588:ultag_isExtensionSubtags_74
+589:ultag_getTKeyStart_74
+590:uloc_setKeywordValue_74
+591:uloc_getTableStringWithFallback_74
+592:uloc_getScript_74
+593:uloc_getDisplayName_74
+594:uloc_getCountry_74
+595:uhash_openSize_74
+596:uenum_close_74
+597:ucptrie_internalU8PrevIndex_74
+598:uchar_addPropertyStarts_74
+599:ucase_toFullLower_74
+600:ucase_toFullFolding_74
+601:ucase_addPropertyStarts_74
+602:u_unescapeAt_74
+603:u_getIntPropertyValue_74
+604:tanhf
+605:strtod
+606:std::logic_error::~logic_error()
+607:std::__2::vector<effindom::v2::ui::Rect, std::__2::allocator<effindom::v2::ui::Rect>>::push_back[abi:ne210108](effindom::v2::ui::Rect&&)
+608:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::insert(unsigned long, char const*, unsigned long)
+609:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>& std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__assign_no_alias<true>(char const*, unsigned long)
+610:std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>& std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>::__assign_no_alias<false>(char const*, unsigned long)
+611:std::__2::__throw_out_of_range[abi:ne210108](char const*)
+612:std::__2::__hash_memory(void const*, unsigned long)
+613:shallowTextClone(UText*, UText const*, UErrorCode*)
+614:setup_masks_arabic_plan(arabic_shape_plan_t const*, hb_buffer_t*, hb_script_t)
+615:scanexp
+616:scalbnl
+617:printf_core
+618:position_cluster(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*, unsigned int, unsigned int, bool)
+619:pop_arg_long_double
+620:pop_arg
+621:pointerTOCEntryCount(UDataMemory const*)
+622:openCommonData(char const*, int, UErrorCode*)
+623:memchr
+624:lroundf
+625:int icu_74::(anonymous namespace)::MixedBlocks::findBlock<unsigned short, unsigned short>(unsigned short const*, unsigned short const*, int) const
+626:int icu_74::(anonymous namespace)::MixedBlocks::findBlock<unsigned short, unsigned int>(unsigned short const*, unsigned int const*, int) const
+627:insertRootBundle(UResourceDataEntry*&, UErrorCode*)
+628:icu_74::set32x64Bits(unsigned int*, int, int)
+629:icu_74::enumGroupNames(icu_74::UCharNames*, unsigned short const*, int, int, signed char (*)(void*, int, UCharNameChoice, char const*, int), void*, UCharNameChoice)
+630:icu_74::compareUnicodeString(UElement, UElement)
+631:icu_74::(anonymous namespace)::mungeCharName(char*, char const*, int)
+632:icu_74::(anonymous namespace)::MutableCodePointTrie::getDataBlock(int)
+633:icu_74::XLikelySubtagsData::readLSREncodedStrings(icu_74::ResourceTable const&, char const*, icu_74::ResourceValue&, icu_74::ResourceArray const&, icu_74::LocalMemory<int>&, int&, UErrorCode&)
+634:icu_74::XLikelySubtags::initLikelySubtags(UErrorCode&)
+635:icu_74::UnicodeString::~UnicodeString()_1237
+636:icu_74::UnicodeString::toUTF8(icu_74::ByteSink&) const
+637:icu_74::UnicodeString::setToBogus()
+638:icu_74::UnicodeString::indexOf(char16_t const*, int, int, int, int) const
+639:icu_74::UnicodeString::doReverse(int, int)
+640:icu_74::UnicodeString::doAppend(icu_74::UnicodeString const&, int, int)
+641:icu_74::UnicodeSetStringSpan::span(char16_t const*, int, USetSpanCondition) const
+642:icu_74::UnicodeSetStringSpan::spanUTF8(unsigned char const*, int, USetSpanCondition) const
+643:icu_74::UnicodeSetStringSpan::spanBack(char16_t const*, int, USetSpanCondition) const
+644:icu_74::UnicodeSetStringSpan::spanBackUTF8(unsigned char const*, int, USetSpanCondition) const
+645:icu_74::UnicodeSet::set(int, int)
+646:icu_74::UnicodeSet::removeAll(icu_74::UnicodeSet const&)
+647:icu_74::UnicodeSet::matches(icu_74::Replaceable const&, int&, int, signed char)
+648:icu_74::UnicodeSet::matchesIndexValue(unsigned char) const
+649:icu_74::UnicodeSet::cloneAsThawed() const
+650:icu_74::UnicodeSet::applyPattern(icu_74::RuleCharacterIterator&, icu_74::SymbolTable const*, icu_74::UnicodeString&, unsigned int, icu_74::UnicodeSet& (icu_74::UnicodeSet::*)(int), int, UErrorCode&)
+651:icu_74::UnicodeSet::applyPatternIgnoreSpace(icu_74::UnicodeString const&, icu_74::ParsePosition&, icu_74::SymbolTable const*, UErrorCode&)
+652:icu_74::UnicodeSet::add(icu_74::UnicodeString const&)
+653:icu_74::UnicodeSet::addAll(icu_74::UnicodeSet const&)
+654:icu_74::UnicodeSet::_toPattern(icu_74::UnicodeString&, signed char) const
+655:icu_74::UnicodeSet::_generatePattern(icu_74::UnicodeString&, signed char) const
+656:icu_74::UnicodeFilter::toMatcher() const
+657:icu_74::UVector::sortedInsert(void*, int (*)(UElement, UElement), UErrorCode&)
+658:icu_74::UVector::setElementAt(void*, int)
+659:icu_74::UVector::removeAllElements()
+660:icu_74::UVector::indexOf(void*, int) const
+661:icu_74::UVector::assign(icu_74::UVector const&, void (*)(UElement*, UElement*), UErrorCode&)
+662:icu_74::UVector32::expandCapacity(int, UErrorCode&)
+663:icu_74::UDataPathIterator::UDataPathIterator(char const*, char const*, char const*, char const*, signed char, UErrorCode*)
+664:icu_74::UCharsTrieBuilder::~UCharsTrieBuilder()_2055
+665:icu_74::UCharsTrieBuilder::build(UStringTrieBuildOption, UErrorCode&)
+666:icu_74::UCharsTrie::Iterator::branchNext(char16_t const*, int, UErrorCode&)
+667:icu_74::StringTrieBuilder::writeBranchSubNode(int, int, int, int)
+668:icu_74::SimpleFilteredSentenceBreakIterator::~SimpleFilteredSentenceBreakIterator()_2023
+669:icu_74::ServiceEnumeration::~ServiceEnumeration()_1995
+670:icu_74::RuleCharacterIterator::skipIgnored(int)
+671:icu_74::RuleBasedBreakIterator::~RuleBasedBreakIterator()_1477
+672:icu_74::RuleBasedBreakIterator::handleSafePrevious(int)
+673:icu_74::RuleBasedBreakIterator::RuleBasedBreakIterator(UErrorCode*)
+674:icu_74::RuleBasedBreakIterator::DictionaryCache::populateDictionary(int, int, int, int)
+675:icu_74::RuleBasedBreakIterator::BreakCache::~BreakCache()
+676:icu_74::ResourceDataValue::getTable(UErrorCode&) const
+677:icu_74::ResourceDataValue::getArray(UErrorCode&) const
+678:icu_74::ReorderingBuffer::equals(unsigned char const*, unsigned char const*) const
+679:icu_74::RBBIDataWrapper::removeReference()
+680:icu_74::Normalizer2WithImpl::normalizeSecondAndAppend(icu_74::UnicodeString&, icu_74::UnicodeString const&, signed char, UErrorCode&) const
+681:icu_74::Normalizer2WithImpl::isNormalized(icu_74::UnicodeString const&, UErrorCode&) const
+682:icu_74::Normalizer2Impl::recompose(icu_74::ReorderingBuffer&, int, signed char) const
+683:icu_74::Normalizer2Impl::findNextFCDBoundary(char16_t const*, char16_t const*) const
+684:icu_74::Normalizer2Impl::decomposeUTF8(unsigned int, unsigned char const*, unsigned char const*, icu_74::ByteSink*, icu_74::Edits*, UErrorCode&) const
+685:icu_74::Normalizer2Impl::composeUTF8(unsigned int, signed char, unsigned char const*, unsigned char const*, icu_74::ByteSink*, icu_74::Edits*, UErrorCode&) const
+686:icu_74::Normalizer2Impl::composeQuickCheck(char16_t const*, char16_t const*, signed char, UNormalizationCheckResult*) const
+687:icu_74::Normalizer2Factory::getInstance(UNormalizationMode, UErrorCode&)
+688:icu_74::Normalizer2::getNFCInstance(UErrorCode&)
+689:icu_74::NoopNormalizer2::normalizeSecondAndAppend(icu_74::UnicodeString&, icu_74::UnicodeString const&, UErrorCode&) const
+690:icu_74::NoopNormalizer2::isNormalized(icu_74::UnicodeString const&, UErrorCode&) const
+691:icu_74::LocaleUtility::canonicalLocaleString(icu_74::UnicodeString const*, icu_74::UnicodeString&)
+692:icu_74::LocaleKey::~LocaleKey()_2007
+693:icu_74::LocaleKey::LocaleKey(icu_74::UnicodeString const&, icu_74::UnicodeString const&, icu_74::UnicodeString const*, int)
+694:icu_74::LocaleBuilder::~LocaleBuilder()
+695:icu_74::LocaleBuilder::build(UErrorCode&)
+696:icu_74::Locale::setKeywordValue(char const*, char const*, UErrorCode&)
+697:icu_74::Locale::operator=(icu_74::Locale&&)
+698:icu_74::Locale::createKeywords(UErrorCode&) const
+699:icu_74::LoadedNormalizer2Impl::~LoadedNormalizer2Impl()
+700:icu_74::LaoBreakEngine::divideUpDictionaryRange(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+701:icu_74::LSR::operator=(icu_74::LSR&&)
+702:icu_74::LSR::indexForRegion(char const*)
+703:icu_74::KeywordEnumeration::~KeywordEnumeration()_1430
+704:icu_74::InitCanonIterData::doInit(icu_74::Normalizer2Impl*, UErrorCode&)
+705:icu_74::ICU_Utility::skipWhitespace(icu_74::UnicodeString const&, int&, signed char)
+706:icu_74::ICU_Utility::escape(icu_74::UnicodeString&, int)
+707:icu_74::ICUServiceKey::parseSuffix(icu_74::UnicodeString&)
+708:icu_74::ICUService::~ICUService()_1974
+709:icu_74::ICUService::registerFactory(icu_74::ICUServiceFactory*, UErrorCode&)
+710:icu_74::ICUService::getVisibleIDs(icu_74::UVector&, UErrorCode&) const
+711:icu_74::ICUBreakIteratorFactory::~ICUBreakIteratorFactory()_1271
+712:icu_74::ICUBreakIteratorFactory::~ICUBreakIteratorFactory()
+713:icu_74::Hashtable::put(icu_74::UnicodeString const&, void*, UErrorCode&)
+714:icu_74::FCDNormalizer2::hasBoundaryBefore(int) const
+715:icu_74::FCDNormalizer2::hasBoundaryAfter(int) const
+716:icu_74::DictionaryBreakEngine::setCharacters(icu_74::UnicodeSet const&)
+717:icu_74::ConstArray1D::d1() const
+718:icu_74::CjkBreakEngine::~CjkBreakEngine()_1914
+719:icu_74::CjkBreakEngine::CjkBreakEngine(icu_74::DictionaryMatcher*, icu_74::LanguageType, UErrorCode&)
+720:icu_74::CharStringByteSink::Append(char const*, int)
+721:icu_74::CharString* icu_74::MemoryPool<icu_74::CharString, 8>::create<char const*&, UErrorCode&>(char const*&, UErrorCode&)
+722:icu_74::CharString* icu_74::MemoryPool<icu_74::CharString, 8>::create<>()
+723:icu_74::CanonIterData::addToStartSet(int, int, UErrorCode&)
+724:icu_74::BytesTrie::branchNext(unsigned char const*, int, int)
+725:icu_74::ByteSinkUtil::appendCodePoint(int, int, icu_74::ByteSink&, icu_74::Edits*)
+726:icu_74::BreakIterator::createInstance(icu_74::Locale const&, int, UErrorCode&)
+727:hb_vector_t<hb_vector_t<hb_aat_map_t::range_flags_t, true>, false>::resize(int, bool, bool)
+728:hb_vector_t<hb_pool_t<hb_serialize_context_t::object_t, 32u>::chunk_t*, false>::alloc(unsigned int, bool)
+729:hb_vector_t<hb_bit_set_t::page_map_t, true>::operator=(hb_vector_t<hb_bit_set_t::page_map_t, true> const&)
+730:hb_vector_t<hb_bit_page_t, false>::resize(int, bool, bool)
+731:hb_vector_size_t<unsigned long long, 64u> hb_bit_set_t::op_<$_11>(hb_vector_size_t<unsigned long long, 64u> const&, hb_vector_size_t<unsigned long long, 64u> const&)
+732:hb_utf8_t::next(unsigned char const*, unsigned char const*, unsigned int*, unsigned int)
+733:hb_unicode_funcs_t::is_default_ignorable(unsigned int)
+734:hb_unicode_funcs_t* hb_data_wrapper_t<void, 0u>::call_create<hb_unicode_funcs_t, hb_ucd_unicode_funcs_lazy_loader_t>() const
+735:hb_shape_plan_key_t::init(bool, hb_face_t*, hb_segment_properties_t const*, hb_feature_t const*, unsigned int, int const*, unsigned int, char const* const*)
+736:hb_shape_plan_create2
+737:hb_shape
+738:hb_serialize_context_t::fini()
+739:hb_pool_t<hb_serialize_context_t::object_t, 32u>::chunk_t::thread()
+740:hb_pool_t<hb_serialize_context_t::object_t, 32u>::chunk_t** hb_vector_t<hb_pool_t<hb_serialize_context_t::object_t, 32u>::chunk_t*, false>::push<hb_pool_t<hb_serialize_context_t::object_t, 32u>::chunk_t*&>(hb_pool_t<hb_serialize_context_t::object_t, 32u>::chunk_t*&)
+741:hb_paint_extents_paint_linear_gradient(hb_paint_funcs_t*, void*, hb_color_line_t*, float, float, float, float, float, float, void*)
+742:hb_paint_extents_funcs_lazy_loader_t::create()
+743:hb_paint_extents_context_t::clear()
+744:hb_paint_color_glyph_nil(hb_paint_funcs_t*, void*, unsigned int, hb_font_t*, void*)
+745:hb_ot_map_t::fini()
+746:hb_ot_layout_table_select_script
+747:hb_ot_layout_table_find_feature_variations
+748:hb_ot_layout_script_select_language
+749:hb_ot_layout_language_get_required_feature
+750:hb_ot_layout_language_find_feature
+751:hb_ot_layout_feature_with_variations_get_lookups
+752:hb_ot_layout_collect_features_map
+753:hb_ot_font_set_funcs
+754:hb_lazy_loader_t<hb_paint_funcs_t, hb_paint_extents_funcs_lazy_loader_t, void, 0u, hb_paint_funcs_t>::do_destroy(hb_paint_funcs_t*)
+755:hb_lazy_loader_t<OT::sbix_accelerator_t, hb_face_lazy_loader_t<OT::sbix_accelerator_t, 38u>, hb_face_t, 38u, OT::sbix_accelerator_t>::create(hb_face_t*)
+756:hb_lazy_loader_t<OT::post_accelerator_t, hb_face_lazy_loader_t<OT::post_accelerator_t, 7u>, hb_face_t, 7u, OT::post_accelerator_t>::do_destroy(OT::post_accelerator_t*)
+757:hb_lazy_loader_t<OT::cff2_accelerator_t, hb_face_lazy_loader_t<OT::cff2_accelerator_t, 17u>, hb_face_t, 17u, OT::cff2_accelerator_t>::do_destroy(OT::cff2_accelerator_t*)
+758:hb_lazy_loader_t<OT::CBDT_accelerator_t, hb_face_lazy_loader_t<OT::CBDT_accelerator_t, 37u>, hb_face_t, 37u, OT::CBDT_accelerator_t>::do_destroy(OT::CBDT_accelerator_t*)
+759:hb_hashmap_t<hb_serialize_context_t::object_t const*, unsigned int, false>::fetch_item(hb_serialize_context_t::object_t const* const&, unsigned int) const
+760:hb_font_t::get_glyph_v_origin_with_fallback(unsigned int, int*, int*)
+761:hb_font_get_glyph_h_kerning_nil(hb_font_t*, void*, unsigned int, unsigned int, void*)
+762:hb_font_get_font_h_extents_nil(hb_font_t*, void*, hb_font_extents_t*, void*)
+763:hb_draw_move_to_nil(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, void*)
+764:hb_draw_funcs_destroy
+765:hb_draw_extents_move_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, void*)
+766:hb_buffer_t::safe_to_insert_tatweel(unsigned int, unsigned int)
+767:hb_buffer_t::output_info(hb_glyph_info_t const&)
+768:hb_buffer_guess_segment_properties
+769:hb_buffer_diff
+770:hb_buffer_add_utf8
+771:hb_blob_t* hb_sanitize_context_t::sanitize_blob<AAT::ltag>(hb_blob_t*)
+772:hb_aat_layout_remove_deleted_glyphs(hb_buffer_t*)
+773:getint
+774:getFallbackData(UResourceBundle const*, char const**, unsigned int*, UErrorCode*)
+775:frexp
+776:free_entry(UResourceDataEntry*)
+777:fmt_fp
+778:fmodl
+779:facebook::yoga::zeroOutLayoutRecursively(facebook::yoga::Node*)
+780:facebook::yoga::roundLayoutResultsToPixelGrid(facebook::yoga::Node*, double, double)
+781:facebook::yoga::positionAbsoluteChild(facebook::yoga::Node const*, facebook::yoga::Node const*, facebook::yoga::Node*, facebook::yoga::Direction, facebook::yoga::FlexDirection, bool, float, float)
+782:facebook::yoga::layoutAbsoluteDescendants(facebook::yoga::Node*, facebook::yoga::Node*, facebook::yoga::SizingMode, facebook::yoga::Direction, facebook::yoga::LayoutData&, unsigned int, unsigned int, float, float, float, float)
+783:facebook::yoga::isBaselineLayout(facebook::yoga::Node const*)
+784:facebook::yoga::canUseCachedMeasurement(facebook::yoga::SizingMode, float, facebook::yoga::SizingMode, float, facebook::yoga::SizingMode, float, facebook::yoga::SizingMode, float, float, float, float, float, facebook::yoga::Config const*)
+785:facebook::yoga::calculateLayoutImpl(facebook::yoga::Node*, float, float, facebook::yoga::Direction, facebook::yoga::SizingMode, facebook::yoga::SizingMode, float, float, bool, facebook::yoga::LayoutData&, unsigned int, unsigned int, facebook::yoga::LayoutPassReason)
+786:facebook::yoga::calculateAvailableInnerDimension(facebook::yoga::Node const*, facebook::yoga::Direction, facebook::yoga::Dimension, float, float, float, float)
+787:facebook::yoga::SmallValueBuffer<4ul>::push(unsigned int)
+788:facebook::yoga::Node::setPosition(facebook::yoga::Direction, float, float)
+789:facebook::yoga::Node::relativePosition(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
+790:facebook::yoga::Node::processDimensions()
+791:effindom::v2::ui::(anonymous namespace)::MarkAutoTracksFromMeasures(std::__2::vector<float, std::__2::allocator<float>>&, std::__2::vector<unsigned char, std::__2::allocator<unsigned char>> const&, effindom::v2::ui::UINode const&, bool, bool)
+792:effindom::v2::ui::(anonymous namespace)::BuildClusterStops(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long)
+793:effindom::v2::ui::UiRuntime::UpdateCrossSelectionEndpoint(unsigned long long, float, float)
+794:effindom::v2::ui::UiRuntime::SubtreeContains(unsigned long long, unsigned long long) const
+795:effindom::v2::ui::UiRuntime::ResolveFontChain(unsigned int) const
+796:effindom::v2::ui::UiRuntime::RedoTextEdit(unsigned long long, effindom::v2::ui::UINode&)
+797:effindom::v2::ui::UiRuntime::MarkSelectionAreaNodesDirty()
+798:effindom::v2::ui::UiRuntime::HandleCopy(effindom::v2::ui::UINode const&) const
+799:effindom::v2::ui::UiRuntime::GetWordBoundaries(effindom::v2::ui::UINode const&, unsigned int) const
+800:effindom::v2::ui::UiRuntime::GetCrossSelectionHighlight(unsigned long long, unsigned int&, unsigned int&) const
+801:effindom::v2::ui::UiRuntime::GetActiveSemanticScopeRoot()
+802:effindom::v2::ui::UiRuntime::FindNearestScrollableDescendant(unsigned long long, float, float) const
+803:effindom::v2::ui::UiRuntime::ComputeLineBreaks(std::__2::basic_string_view<char, std::__2::char_traits<char>>, float, unsigned int, float) const::$_0::operator()(std::__2::vector<int, std::__2::allocator<int>> const&) const
+804:effindom::v2::ui::UiRuntime::ClearCurrentSelection(bool)
+805:effindom::v2::ui::UiRuntime::ClearCrossSelection(bool)
+806:effindom::v2::ui::UiRuntime::ClampPointToScrollViewport(unsigned long long, float, float) const
+807:effindom::v2::ui::UiRuntime::CapturePendingFocusId(unsigned long long)
+808:effindom::v2::ui::UiRuntime::AppendFocusableHandles(unsigned long long, std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>&) const
+809:effindom::v2::ui::UINode::operator=(effindom::v2::ui::UINode&&)
+810:doLoadFromIndividualFiles(char const*, char const*, char const*, char const*, char const*, char const*, signed char (*)(void*, char const*, char const*, UDataInfo const*), void*, UErrorCode*, UErrorCode*)
+811:doInsertionSort(char*, int, int, int (*)(void const*, void const*, void const*), void const*, void*)
+812:decompose_current_character(hb_ot_shape_normalize_context_t const*, bool)
+813:data_create_arabic(hb_ot_shape_plan_t const*)
+814:copysignl
+815:compose_use(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int, unsigned int*)
+816:charIterTextAccess(UText*, long long, signed char)
+817:bool std::__2::__insertion_sort_incomplete[abi:nn210108]<std::__2::_ClassicAlgPolicy, std::__2::ranges::less, int*>(int*, int*, std::__2::ranges::less)
+818:bool apply_string<GSUBProxy>(OT::hb_ot_apply_context_t*, GSUBProxy::Lookup const&, OT::hb_ot_layout_lookup_accelerator_t const&)
+819:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GSUB_impl::SingleSubstFormat2_4<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+820:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GSUB_impl::SingleSubstFormat1_3<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+821:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GSUB_impl::ReverseChainSingleSubstFormat1>(void const*, OT::hb_ot_apply_context_t*)
+822:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GSUB_impl::MultipleSubstFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+823:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GSUB_impl::AlternateSubstFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+824:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::SinglePosFormat2>(void const*, OT::hb_ot_apply_context_t*)
+825:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::SinglePosFormat1>(void const*, OT::hb_ot_apply_context_t*)
+826:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::MarkMarkPosFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+827:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::MarkLigPosFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+828:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::MarkBasePosFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+829:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::CursivePosFormat1>(void const*, OT::hb_ot_apply_context_t*)
+830:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::ContextFormat3>(void const*, OT::hb_ot_apply_context_t*)
+831:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::ContextFormat1_4<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+832:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::ChainContextFormat3>(void const*, OT::hb_ot_apply_context_t*)
+833:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::ChainContextFormat1_4<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+834:bool OT::TupleValues::decompile<int>(OT::IntType<unsigned char, 1u> const*&, hb_vector_t<int, false>&, OT::IntType<unsigned char, 1u> const*, bool)
+835:bool OT::OffsetTo<OT::Layout::Common::Coverage, OT::IntType<unsigned short, 2u>, void, true>::serialize_serialize<hb_map_iter_t<hb_zip_iter_t<hb_sorted_array_t<OT::HBGlyphID16>, hb_array_t<OT::HBGlyphID16>>, $_6 const&, (hb_function_sortedness_t)1, (void*)0>&>(hb_serialize_context_t*, hb_map_iter_t<hb_zip_iter_t<hb_sorted_array_t<OT::HBGlyphID16>, hb_array_t<OT::HBGlyphID16>>, $_6 const&, (hb_function_sortedness_t)1, (void*)0>&)
+836:apply_forward(OT::hb_ot_apply_context_t*, OT::hb_ot_layout_lookup_accelerator_t const&, unsigned int)
+837:_uhash_rehash(UHashtable*, UErrorCode*)
+838:_isUnicodeExtensionSubtag(int&, char const*, int)
+839:_isTransformedExtensionSubtag(int&, char const*, int)
+840:_hb_preprocess_text_vowel_constraints(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+841:_hb_ot_shape
+842:_hb_options_init()
+843:_hb_font_create(hb_face_t*)
+844:_hb_fallback_shape
+845:_glyf_get_advance_with_var_unscaled(hb_font_t*, unsigned int, bool)
+846:_getVariant(char const*, char, icu_74::ByteSink&, signed char)
+847:__trunctfdf2
+848:__strchrnul
+849:__overflow
+850:__lockfile
+851:__getf2
+852:__fwritex
+853:__divtf3
+854:__cxxabiv1::__base_class_type_info::has_unambiguous_public_base(__cxxabiv1::__dynamic_cast_info*, void*, int) const
+855:__cxa_allocate_exception
+856:(anonymous namespace)::getStringArray(ResourceData const*, icu_74::ResourceArray const&, icu_74::UnicodeString*, int, UErrorCode&)
+857:(anonymous namespace)::_set_addString(USet*, char16_t const*, int)
+858:YGNodeRemoveChild
+859:YGNodeFree
+860:OT::sbix::accelerator_t::get_png_extents(hb_font_t*, unsigned int, hb_glyph_extents_t*, bool) const
+861:OT::sbix::accelerator_t::choose_strike(hb_font_t*) const
+862:OT::post_accelerator_t* hb_data_wrapper_t<hb_face_t, 7u>::call_create<OT::post_accelerator_t, hb_face_lazy_loader_t<OT::post_accelerator_t, 7u>>() const
+863:OT::match_always(hb_glyph_info_t&, unsigned int, void const*)
+864:OT::hmtxvmtx<OT::hmtx, OT::hhea, OT::HVAR>::accelerator_t::get_advance_with_var_unscaled(unsigned int, hb_font_t*, float*) const
+865:OT::hmtx_accelerator_t* hb_data_wrapper_t<hb_face_t, 5u>::call_create<OT::hmtx_accelerator_t, hb_face_lazy_loader_t<OT::hmtx_accelerator_t, 5u>>() const
+866:OT::hb_ot_layout_lookup_accelerator_t* OT::hb_ot_layout_lookup_accelerator_t::create<OT::Layout::GPOS_impl::PosLookup>(OT::Layout::GPOS_impl::PosLookup const&)
+867:OT::hb_kern_machine_t<hb_ot_shape_fallback_kern_driver_t>::kern(hb_font_t*, hb_buffer_t*, unsigned int, bool) const
+868:OT::hb_accelerate_subtables_context_t::return_t OT::Context::dispatch<OT::hb_accelerate_subtables_context_t>(OT::hb_accelerate_subtables_context_t*) const
+869:OT::hb_accelerate_subtables_context_t::return_t OT::ChainContext::dispatch<OT::hb_accelerate_subtables_context_t>(OT::hb_accelerate_subtables_context_t*) const
+870:OT::glyf_accelerator_t::get_extents_at(hb_font_t*, unsigned int, hb_glyph_extents_t*, hb_array_t<int const>) const
+871:OT::cff2_accelerator_t* hb_data_wrapper_t<hb_face_t, 17u>::call_create<OT::cff2_accelerator_t, hb_face_lazy_loader_t<OT::cff2_accelerator_t, 17u>>() const
+872:OT::cff2::accelerator_templ_t<CFF::cff2_private_dict_opset_t, CFF::cff2_private_dict_values_base_t<CFF::dict_val_t>>::~accelerator_templ_t()
+873:OT::cff1::accelerator_templ_t<CFF::cff1_private_dict_opset_t, CFF::cff1_private_dict_values_base_t<CFF::dict_val_t>>::~accelerator_templ_t()
+874:OT::Variable<OT::PaintLinearGradient<OT::Variable>>::sanitize(hb_sanitize_context_t*) const
+875:OT::TupleVariationData<OT::IntType<unsigned short, 2u>>::decompile_points(OT::IntType<unsigned char, 1u> const*&, hb_vector_t<unsigned int, false>&, OT::IntType<unsigned char, 1u> const*)
+876:OT::SBIXStrike::get_glyph_blob(unsigned int, hb_blob_t*, unsigned int, int*, int*, unsigned int, unsigned int*) const
+877:OT::RuleSet<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+878:OT::RuleSet<OT::Layout::SmallTypes>::apply(OT::hb_ot_apply_context_t*, OT::ContextApplyLookupContext const&) const
+879:OT::RecordListOf<OT::Script>::sanitize(hb_sanitize_context_t*) const
+880:OT::RecordListOf<OT::Feature>::sanitize(hb_sanitize_context_t*) const
+881:OT::PaintTranslate::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+882:OT::PaintSolid::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+883:OT::PaintSkewAroundCenter::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+884:OT::PaintSkew::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+885:OT::PaintScaleUniformAroundCenter::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+886:OT::PaintScaleUniform::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+887:OT::PaintScaleAroundCenter::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+888:OT::PaintScale::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+889:OT::PaintRotateAroundCenter::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+890:OT::Layout::propagate_attachment_offsets(hb_glyph_position_t*, unsigned int, unsigned int, hb_direction_t, unsigned int)
+891:OT::Layout::GSUB_impl::LigatureSet<OT::Layout::SmallTypes>::apply(OT::hb_ot_apply_context_t*) const
+892:OT::Layout::GSUB_impl::Ligature<OT::Layout::SmallTypes>::apply(OT::hb_ot_apply_context_t*) const
+893:OT::Layout::GPOS_impl::reverse_cursive_minor_offset(hb_glyph_position_t*, unsigned int, hb_direction_t, unsigned int)
+894:OT::Layout::GPOS_impl::ValueFormat::sanitize_values_stride_unsafe(hb_sanitize_context_t*, OT::Layout::GPOS_impl::ValueBase const*, OT::IntType<unsigned short, 2u> const*, unsigned int, unsigned int) const
+895:OT::Layout::GPOS_impl::PairPosFormat2_4<OT::Layout::SmallTypes>::_apply(OT::hb_ot_apply_context_t*, bool) const
+896:OT::Layout::GPOS_impl::PairPosFormat1_3<OT::Layout::SmallTypes>::_apply(OT::hb_ot_apply_context_t*, bool) const
+897:OT::Layout::Common::CoverageFormat2_4<OT::Layout::SmallTypes>* hb_serialize_context_t::extend_min<OT::Layout::Common::CoverageFormat2_4<OT::Layout::SmallTypes>>(OT::Layout::Common::CoverageFormat2_4<OT::Layout::SmallTypes>*)
+898:OT::IndexSubtableRecord::get_image_data(unsigned int, void const*, unsigned int*, unsigned int*, unsigned int*) const
+899:OT::FeatureVariationRecord::sanitize(hb_sanitize_context_t*, void const*) const
+900:OT::FeatureParams::sanitize(hb_sanitize_context_t*, unsigned int) const
+901:OT::Feature::sanitize(hb_sanitize_context_t*, OT::Record_sanitize_closure_t const*) const
+902:OT::ContextFormat3::sanitize(hb_sanitize_context_t*) const
+903:OT::ContextFormat2_5<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+904:OT::ContextFormat2_5<OT::Layout::SmallTypes>::_apply(OT::hb_ot_apply_context_t*, bool) const
+905:OT::ContextFormat1_4<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+906:OT::ColorLine<OT::NoVariable>::static_get_extend(hb_color_line_t*, void*, void*)
+907:OT::CmapSubtableFormat4::accelerator_t::get_glyph(unsigned int, unsigned int*) const
+908:OT::ClassDef::get_class(unsigned int, hb_cache_t<15u, 8u, 7u, true>*) const
+909:OT::ChainRuleSet<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+910:OT::ChainRuleSet<OT::Layout::SmallTypes>::apply(OT::hb_ot_apply_context_t*, OT::ChainContextApplyLookupContext const&) const
+911:OT::ChainContextFormat3::sanitize(hb_sanitize_context_t*) const
+912:OT::ChainContextFormat2_5<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+913:OT::ChainContextFormat2_5<OT::Layout::SmallTypes>::_apply(OT::hb_ot_apply_context_t*, bool) const
+914:OT::ChainContextFormat1_4<OT::Layout::SmallTypes>::sanitize(hb_sanitize_context_t*) const
+915:OT::COLR_accelerator_t* hb_data_wrapper_t<hb_face_t, 35u>::call_create<OT::COLR_accelerator_t, hb_face_lazy_loader_t<OT::COLR_accelerator_t, 35u>>() const
+916:OT::CFFIndex<OT::IntType<unsigned short, 2u>>::get_size() const
+917:OT::CBDT_accelerator_t* hb_data_wrapper_t<hb_face_t, 37u>::call_create<OT::CBDT_accelerator_t, hb_face_lazy_loader_t<OT::CBDT_accelerator_t, 37u>>() const
+918:OT::CBDT::accelerator_t::get_extents(hb_font_t*, unsigned int, hb_glyph_extents_t*, bool) const
+919:OT::Affine2x3::paint_glyph(OT::hb_paint_context_t*, unsigned int) const
+920:CFF::cs_opset_t<CFF::number_t, cff2_cs_opset_path_t, CFF::cff2_cs_interp_env_t<CFF::number_t>, cff2_path_param_t, cff2_path_procs_path_t>::process_op(unsigned int, CFF::cff2_cs_interp_env_t<CFF::number_t>&, cff2_path_param_t&)
+921:CFF::cs_opset_t<CFF::number_t, cff2_cs_opset_extents_t, CFF::cff2_cs_interp_env_t<CFF::number_t>, cff2_extents_param_t, cff2_path_procs_extents_t>::process_op(unsigned int, CFF::cff2_cs_interp_env_t<CFF::number_t>&, cff2_extents_param_t&)
+922:CFF::cff2_cs_interp_env_t<CFF::number_t>::process_blend()
+923:CFF::cff1_private_dict_opset_t::process_op(unsigned int, CFF::interp_env_t<CFF::number_t>&, CFF::cff1_private_dict_values_base_t<CFF::dict_val_t>&)
+924:CFF::FDSelect3_4<OT::IntType<unsigned short, 2u>, OT::IntType<unsigned char, 1u>>::sanitize(hb_sanitize_context_t*, unsigned int) const
+925:CFF::Charset::get_sid(unsigned int, unsigned int, CFF::code_pair_t*) const
+926:CFF::CFF2FDSelect::get_fd(unsigned int) const
+927:AAT::kerx_accelerator_t* hb_data_wrapper_t<hb_face_t, 30u>::call_create<AAT::kerx_accelerator_t, hb_face_lazy_loader_t<AAT::kerx_accelerator_t, 30u>>() const
+928:AAT::hb_aat_apply_context_t::setup_buffer_glyph_set()
+929:AAT::hb_aat_apply_context_t::return_t AAT::ChainSubtable<AAT::ObsoleteTypes>::dispatch<AAT::hb_aat_apply_context_t>(AAT::hb_aat_apply_context_t*) const
+930:AAT::hb_aat_apply_context_t::return_t AAT::ChainSubtable<AAT::ExtendedTypes>::dispatch<AAT::hb_aat_apply_context_t>(AAT::hb_aat_apply_context_t*) const
+931:AAT::ankr::get_anchor(unsigned int, unsigned int, unsigned int) const
+932:AAT::TrackData::sanitize(hb_sanitize_context_t*, void const*) const
+933:AAT::TrackData::get_tracking(void const*, float, float) const
+934:AAT::SubtableGlyphCoverage::sanitize(hb_sanitize_context_t*, unsigned int) const
+935:AAT::Lookup<OT::IntType<unsigned int, 4u>>::sanitize(hb_sanitize_context_t*) const
+936:AAT::Lookup<OT::IntType<unsigned int, 4u>>::get_value(unsigned int, unsigned int) const
+937:AAT::Chain<AAT::ObsoleteTypes>::sanitize(hb_sanitize_context_t*, unsigned int) const
+938:AAT::Chain<AAT::ExtendedTypes>::sanitize(hb_sanitize_context_t*, unsigned int) const
+939:void* OT::hb_accelerate_subtables_context_t::cache_func_to<OT::Layout::GPOS_impl::PairPosFormat2_4<OT::Layout::SmallTypes>>(void*, OT::hb_ot_lookup_cache_op_t)
+940:ures_loc_resetLocales(UEnumeration*, UErrorCode*)
+941:ures_loc_nextLocale(UEnumeration*, int*, UErrorCode*)
+942:ures_loc_countLocales(UEnumeration*, UErrorCode*)
+943:ures_loc_closeLocales(UEnumeration*)
+944:unistrTextReplace(UText*, long long, long long, char16_t const*, int, UErrorCode*)
+945:unistrTextLength(UText*)
+946:unistrTextExtract(UText*, long long, long long, char16_t*, int, UErrorCode*)
+947:unistrTextCopy(UText*, long long, long long, long long, signed char, UErrorCode*)
+948:unistrTextClose(UText*)
+949:unistrTextClone(UText*, UText const*, signed char, UErrorCode*)
+950:unistrTextAccess(UText*, long long, signed char)
+951:uloc_kw_resetKeywords(UEnumeration*, UErrorCode*)
+952:uloc_kw_nextKeyword(UEnumeration*, int*, UErrorCode*)
+953:uloc_kw_countKeywords(UEnumeration*, UErrorCode*)
+954:uloc_kw_closeKeywords(UEnumeration*)
+955:ui_touch_scroll_update
+956:ui_touch_scroll_end
+957:ui_touch_scroll_begin
+958:ui_set_width
+959:ui_set_text_vertical_align
+960:ui_set_text_overflow
+961:ui_set_text_obscured
+962:ui_set_text_limits
+963:ui_set_text_color
+964:ui_set_text_align
+965:ui_set_text
+966:ui_set_semantic_value_range
+967:ui_set_semantic_selected
+968:ui_set_semantic_role
+969:ui_set_semantic_orientation
+970:ui_set_semantic_label
+971:ui_set_semantic_expanded
+972:ui_set_semantic_disabled
+973:ui_set_semantic_checked
+974:ui_set_selection_area_barrier
+975:ui_set_selection_area
+976:ui_set_selectable
+977:ui_set_scroll_offset
+978:ui_set_root
+979:ui_set_position_type
+980:ui_set_position
+981:ui_set_padding
+982:ui_set_node_id
+983:ui_set_linear_gradient
+984:ui_set_layer_effect
+985:ui_set_key_modifiers
+986:ui_set_justify_content
+987:ui_set_is_portal
+988:ui_set_interactive
+989:ui_set_interaction_time
+990:ui_set_height
+991:ui_set_font
+992:ui_set_focusable
+993:ui_set_flex_grow
+994:ui_set_flex_direction
+995:ui_set_editable
+996:ui_set_drop_shadow
+997:ui_set_clip_to_bounds
+998:ui_set_caret_color
+999:ui_set_box_style
+1000:ui_set_bg_color
+1001:ui_set_backdrop_blur
+1002:ui_set_align_items
+1003:ui_selection_autoscroll
+1004:ui_retarget_selection
+1005:ui_resize_window
+1006:ui_reset
+1007:ui_request_focus
+1008:ui_remove_semantic_scope
+1009:ui_register_icu_data
+1010:ui_register_font_fallback
+1011:ui_register_font
+1012:ui_push_semantic_scope
+1013:ui_on_wheel_event
+1014:ui_on_pointer_event
+1015:ui_on_paste_text
+1016:ui_on_key_event
+1017:ui_on_ime_update
+1018:ui_node_set_grid_placement
+1019:ui_node_remove_child
+1020:ui_node_add_child
+1021:ui_needs_animation_frame
+1022:ui_measure_text
+1023:ui_is_point_in_selection
+1024:ui_has_pointer_autoscroll
+1025:ui_grid_set_rows
+1026:ui_grid_set_columns
+1027:ui_get_semantic_buffer
+1028:ui_get_command_buffer
+1029:ui_get_bounds
+1030:ui_font_loaded
+1031:ui_delete_node
+1032:ui_create_node
+1033:ui_copy_current_selection
+1034:ui_commit_frame
+1035:ui_clear_selection
+1036:ui_clear_current_selection
+1037:ui_arena_alloc
+1038:uhash_hashUnicodeString_74
+1039:uhash_hashUChars_74
+1040:uhash_hashIChars_74
+1041:uhash_hashChars_74
+1042:uhash_deleteHashtable_74
+1043:uhash_compareUnicodeString_74
+1044:uhash_compareUChars_74
+1045:uhash_compareLong_74
+1046:uhash_compareIChars_74
+1047:uhash_compareChars_74
+1048:uenum_unextDefault_74
+1049:ucstrTextLength(UText*)
+1050:ucstrTextExtract(UText*, long long, long long, char16_t*, int, UErrorCode*)
+1051:ucstrTextClose(UText*)
+1052:ucstrTextClone(UText*, UText const*, signed char, UErrorCode*)
+1053:std::logic_error::what() const
+1054:std::bad_array_new_length::what() const
+1055:sn_write
+1056:setup_syllables_use(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1057:setup_syllables_myanmar(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1058:setup_syllables_khmer(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1059:setup_syllables_indic(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1060:setup_masks_use(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1061:setup_masks_myanmar(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1062:setup_masks_khmer(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1063:setup_masks_indic(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1064:setup_masks_hangul(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1065:setup_masks_arabic(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1066:scriptGetMaxValue(IntProperty const&, UProperty)
+1067:reorder_use(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1068:reorder_myanmar(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1069:reorder_marks_hebrew(hb_ot_shape_plan_t const*, hb_buffer_t*, unsigned int, unsigned int)
+1070:reorder_marks_arabic(hb_ot_shape_plan_t const*, hb_buffer_t*, unsigned int, unsigned int)
+1071:reorder_khmer(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1072:record_stch(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1073:record_rphf_use(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1074:record_pref_use(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1075:preprocess_text_use(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1076:preprocess_text_thai(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1077:preprocess_text_indic(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1078:preprocess_text_hangul(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1079:postprocess_glyphs_arabic(hb_ot_shape_plan_t const*, hb_buffer_t*, hb_font_t*)
+1080:pointerTOCLookupFn(UDataMemory const*, char const*, int*, UErrorCode*)
+1081:override_features_khmer(hb_ot_shape_planner_t*)
+1082:override_features_indic(hb_ot_shape_planner_t*)
+1083:override_features_hangul(hb_ot_shape_planner_t*)
+1084:offsetTOCLookupFn(UDataMemory const*, char const*, int*, UErrorCode*)
+1085:non-virtual thunk to icu_74::UnicodeSet::~UnicodeSet()_1556
+1086:non-virtual thunk to icu_74::UnicodeSet::~UnicodeSet()
+1087:non-virtual thunk to icu_74::UnicodeSet::toPattern(icu_74::UnicodeString&, signed char) const
+1088:non-virtual thunk to icu_74::UnicodeSet::matches(icu_74::Replaceable const&, int&, int, signed char)
+1089:non-virtual thunk to icu_74::UnicodeSet::matchesIndexValue(unsigned char) const
+1090:non-virtual thunk to icu_74::UnicodeSet::addMatchSetTo(icu_74::UnicodeSet&) const
+1091:layoutGetMaxValue(IntProperty const&, UProperty)
+1092:isRegionalIndicator(BinaryProperty const&, int, UProperty)
+1093:isPOSIX_xdigit(BinaryProperty const&, int, UProperty)
+1094:isPOSIX_print(BinaryProperty const&, int, UProperty)
+1095:isPOSIX_graph(BinaryProperty const&, int, UProperty)
+1096:isPOSIX_blank(BinaryProperty const&, int, UProperty)
+1097:isPOSIX_alnum(BinaryProperty const&, int, UProperty)
+1098:isNormInert(BinaryProperty const&, int, UProperty)
+1099:isMirrored(BinaryProperty const&, int, UProperty)
+1100:isJoinControl(BinaryProperty const&, int, UProperty)
+1101:isIDSUnaryOperator(BinaryProperty const&, int, UProperty)
+1102:isIDCompatMathStart(BinaryProperty const&, int, UProperty)
+1103:isIDCompatMathContinue(BinaryProperty const&, int, UProperty)
+1104:isCanonSegmentStarter(BinaryProperty const&, int, UProperty)
+1105:isBidiControl(BinaryProperty const&, int, UProperty)
+1106:isAcceptable(void*, char const*, char const*, UDataInfo const*)
+1107:initial_reordering_indic(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1108:icu_74::sortComparator(void const*, void const*, void const*)
+1109:icu_74::isAcceptable(void*, char const*, char const*, UDataInfo const*)
+1110:icu_74::compareElementStrings(void const*, void const*, void const*)
+1111:icu_74::cacheDeleter(void*)
+1112:icu_74::(anonymous namespace)::versionFilter(int, void*)
+1113:icu_74::(anonymous namespace)::numericValueFilter(int, void*)
+1114:icu_74::(anonymous namespace)::intPropertyFilter(int, void*)
+1115:icu_74::(anonymous namespace)::AliasReplacer::replace(icu_74::Locale const&, icu_74::CharString&, UErrorCode&)::$_1::__invoke(void*)
+1116:icu_74::(anonymous namespace)::AliasReplacer::AliasReplacer(UErrorCode)::'lambda'(UElement, UElement)::__invoke(UElement, UElement)
+1117:icu_74::UnicodeString::~UnicodeString()
+1118:icu_74::UnicodeString::handleReplaceBetween(int, int, icu_74::UnicodeString const&)
+1119:icu_74::UnicodeString::getLength() const
+1120:icu_74::UnicodeString::getDynamicClassID() const
+1121:icu_74::UnicodeString::getCharAt(int) const
+1122:icu_74::UnicodeString::getChar32At(int) const
+1123:icu_74::UnicodeString::extractBetween(int, int, icu_74::UnicodeString&) const
+1124:icu_74::UnicodeString::copy(int, int, int)
+1125:icu_74::UnicodeString::clone() const
+1126:icu_74::UnicodeSet::~UnicodeSet()
+1127:icu_74::UnicodeSet::toPattern(icu_74::UnicodeString&, signed char) const
+1128:icu_74::UnicodeSet::size() const
+1129:icu_74::UnicodeSet::retain(int, int)
+1130:icu_74::UnicodeSet::remove(int, int)
+1131:icu_74::UnicodeSet::operator==(icu_74::UnicodeSet const&) const
+1132:icu_74::UnicodeSet::isEmpty() const
+1133:icu_74::UnicodeSet::hashCode() const
+1134:icu_74::UnicodeSet::getRangeStart(int) const
+1135:icu_74::UnicodeSet::getRangeEnd(int) const
+1136:icu_74::UnicodeSet::getRangeCount() const
+1137:icu_74::UnicodeSet::getDynamicClassID() const
+1138:icu_74::UnicodeSet::contains(int, int) const
+1139:icu_74::UnicodeSet::contains(int) const
+1140:icu_74::UnicodeSet::containsAll(icu_74::UnicodeSet const&) const
+1141:icu_74::UnicodeSet::complement(int, int)
+1142:icu_74::UnicodeSet::complementAll(icu_74::UnicodeSet const&)
+1143:icu_74::UnicodeSet::clone() const
+1144:icu_74::UnicodeSet::addMatchSetTo(icu_74::UnicodeSet&) const
+1145:icu_74::UnicodeFilter::setData(icu_74::TransliterationRuleData const*)
+1146:icu_74::UnhandledEngine::~UnhandledEngine()_1853
+1147:icu_74::UnhandledEngine::~UnhandledEngine()
+1148:icu_74::UnhandledEngine::handles(int, char const*) const
+1149:icu_74::UnhandledEngine::handleCharacter(int)
+1150:icu_74::UnhandledEngine::findBreaks(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1151:icu_74::UVector::getDynamicClassID() const
+1152:icu_74::UVector32::~UVector32()_1693
+1153:icu_74::UVector32::getDynamicClassID() const
+1154:icu_74::UStack::getDynamicClassID() const
+1155:icu_74::UCharsTrieBuilder::~UCharsTrieBuilder()
+1156:icu_74::UCharsTrieBuilder::write(int)
+1157:icu_74::UCharsTrieBuilder::writeValueAndType(signed char, int, int)
+1158:icu_74::UCharsTrieBuilder::writeValueAndFinal(int, signed char)
+1159:icu_74::UCharsTrieBuilder::writeElementUnits(int, int, int)
+1160:icu_74::UCharsTrieBuilder::writeDeltaTo(int)
+1161:icu_74::UCharsTrieBuilder::skipElementsBySomeUnits(int, int, int) const
+1162:icu_74::UCharsTrieBuilder::indexOfElementWithNextUnit(int, int, char16_t) const
+1163:icu_74::UCharsTrieBuilder::getMinLinearMatch() const
+1164:icu_74::UCharsTrieBuilder::getMaxLinearMatchLength() const
+1165:icu_74::UCharsTrieBuilder::getMaxBranchLinearSubNodeLength() const
+1166:icu_74::UCharsTrieBuilder::getLimitOfLinearMatch(int, int, int) const
+1167:icu_74::UCharsTrieBuilder::getElementValue(int) const
+1168:icu_74::UCharsTrieBuilder::getElementUnit(int, int) const
+1169:icu_74::UCharsTrieBuilder::getElementStringLength(int) const
+1170:icu_74::UCharsTrieBuilder::createLinearMatchNode(int, int, int, icu_74::StringTrieBuilder::Node*) const
+1171:icu_74::UCharsTrieBuilder::countElementUnits(int, int, int) const
+1172:icu_74::UCharsTrieBuilder::UCTLinearMatchNode::write(icu_74::StringTrieBuilder&)
+1173:icu_74::UCharsTrieBuilder::UCTLinearMatchNode::operator==(icu_74::StringTrieBuilder::Node const&) const
+1174:icu_74::UCharsDictionaryMatcher::~UCharsDictionaryMatcher()_1920
+1175:icu_74::UCharsDictionaryMatcher::~UCharsDictionaryMatcher()
+1176:icu_74::UCharsDictionaryMatcher::matches(UText*, int, int, int*, int*, int*, int*) const
+1177:icu_74::UCharCharacterIterator::setIndex(int)
+1178:icu_74::UCharCharacterIterator::setIndex32(int)
+1179:icu_74::UCharCharacterIterator::previous()
+1180:icu_74::UCharCharacterIterator::previous32()
+1181:icu_74::UCharCharacterIterator::operator==(icu_74::ForwardCharacterIterator const&) const
+1182:icu_74::UCharCharacterIterator::next()
+1183:icu_74::UCharCharacterIterator::nextPostInc()
+1184:icu_74::UCharCharacterIterator::next32()
+1185:icu_74::UCharCharacterIterator::next32PostInc()
+1186:icu_74::UCharCharacterIterator::move(int, icu_74::CharacterIterator::EOrigin)
+1187:icu_74::UCharCharacterIterator::move32(int, icu_74::CharacterIterator::EOrigin)
+1188:icu_74::UCharCharacterIterator::last()
+1189:icu_74::UCharCharacterIterator::last32()
+1190:icu_74::UCharCharacterIterator::hashCode() const
+1191:icu_74::UCharCharacterIterator::hasPrevious()
+1192:icu_74::UCharCharacterIterator::hasNext()
+1193:icu_74::UCharCharacterIterator::getText(icu_74::UnicodeString&)
+1194:icu_74::UCharCharacterIterator::getDynamicClassID() const
+1195:icu_74::UCharCharacterIterator::first()
+1196:icu_74::UCharCharacterIterator::firstPostInc()
+1197:icu_74::UCharCharacterIterator::first32()
+1198:icu_74::UCharCharacterIterator::first32PostInc()
+1199:icu_74::UCharCharacterIterator::current() const
+1200:icu_74::UCharCharacterIterator::current32() const
+1201:icu_74::UCharCharacterIterator::clone() const
+1202:icu_74::ThaiBreakEngine::~ThaiBreakEngine()_1903
+1203:icu_74::ThaiBreakEngine::~ThaiBreakEngine()
+1204:icu_74::ThaiBreakEngine::divideUpDictionaryRange(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1205:icu_74::StringTrieBuilder::~StringTrieBuilder()_2080
+1206:icu_74::StringTrieBuilder::LinearMatchNode::markRightEdgesFirst(int)
+1207:icu_74::StringEnumeration::~StringEnumeration()_1468
+1208:icu_74::StringEnumeration::unext(int*, UErrorCode&)
+1209:icu_74::StringEnumeration::snext(UErrorCode&)
+1210:icu_74::StringEnumeration::operator==(icu_74::StringEnumeration const&) const
+1211:icu_74::StringEnumeration::operator!=(icu_74::StringEnumeration const&) const
+1212:icu_74::StringEnumeration::next(int*, UErrorCode&)
+1213:icu_74::StringByteSink<std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>>>::Append(char const*, int)
+1214:icu_74::SimpleLocaleKeyFactory::~SimpleLocaleKeyFactory()_2005
+1215:icu_74::SimpleLocaleKeyFactory::~SimpleLocaleKeyFactory()
+1216:icu_74::SimpleLocaleKeyFactory::updateVisibleIDs(icu_74::Hashtable&, UErrorCode&) const
+1217:icu_74::SimpleLocaleKeyFactory::getDynamicClassID() const
+1218:icu_74::SimpleLocaleKeyFactory::create(icu_74::ICUServiceKey const&, icu_74::ICUService const*, UErrorCode&) const
+1219:icu_74::SimpleFilteredSentenceBreakIterator::~SimpleFilteredSentenceBreakIterator()
+1220:icu_74::SimpleFilteredSentenceBreakIterator::setText(icu_74::UnicodeString const&)
+1221:icu_74::SimpleFilteredSentenceBreakIterator::setText(UText*, UErrorCode&)
+1222:icu_74::SimpleFilteredSentenceBreakIterator::refreshInputText(UText*, UErrorCode&)
+1223:icu_74::SimpleFilteredSentenceBreakIterator::previous()
+1224:icu_74::SimpleFilteredSentenceBreakIterator::preceding(int)
+1225:icu_74::SimpleFilteredSentenceBreakIterator::operator==(icu_74::BreakIterator const&) const
+1226:icu_74::SimpleFilteredSentenceBreakIterator::next(int)
+1227:icu_74::SimpleFilteredSentenceBreakIterator::next()
+1228:icu_74::SimpleFilteredSentenceBreakIterator::last()
+1229:icu_74::SimpleFilteredSentenceBreakIterator::isBoundary(int)
+1230:icu_74::SimpleFilteredSentenceBreakIterator::getUText(UText*, UErrorCode&) const
+1231:icu_74::SimpleFilteredSentenceBreakIterator::getText() const
+1232:icu_74::SimpleFilteredSentenceBreakIterator::following(int)
+1233:icu_74::SimpleFilteredSentenceBreakIterator::first()
+1234:icu_74::SimpleFilteredSentenceBreakIterator::current() const
+1235:icu_74::SimpleFilteredSentenceBreakIterator::createBufferClone(void*, int&, UErrorCode&)
+1236:icu_74::SimpleFilteredSentenceBreakIterator::clone() const
+1237:icu_74::SimpleFilteredSentenceBreakIterator::adoptText(icu_74::CharacterIterator*)
+1238:icu_74::SimpleFilteredSentenceBreakData::~SimpleFilteredSentenceBreakData()_2021
+1239:icu_74::SimpleFilteredSentenceBreakData::~SimpleFilteredSentenceBreakData()
+1240:icu_74::SimpleFilteredBreakIteratorBuilder::~SimpleFilteredBreakIteratorBuilder()_2046
+1241:icu_74::SimpleFilteredBreakIteratorBuilder::~SimpleFilteredBreakIteratorBuilder()
+1242:icu_74::SimpleFilteredBreakIteratorBuilder::unsuppressBreakAfter(icu_74::UnicodeString const&, UErrorCode&)
+1243:icu_74::SimpleFilteredBreakIteratorBuilder::suppressBreakAfter(icu_74::UnicodeString const&, UErrorCode&)
+1244:icu_74::SimpleFilteredBreakIteratorBuilder::build(icu_74::BreakIterator*, UErrorCode&)
+1245:icu_74::SimpleFactory::~SimpleFactory()_1959
+1246:icu_74::SimpleFactory::~SimpleFactory()
+1247:icu_74::SimpleFactory::updateVisibleIDs(icu_74::Hashtable&, UErrorCode&) const
+1248:icu_74::SimpleFactory::getDynamicClassID() const
+1249:icu_74::SimpleFactory::getDisplayName(icu_74::UnicodeString const&, icu_74::Locale const&, icu_74::UnicodeString&) const
+1250:icu_74::SimpleFactory::create(icu_74::ICUServiceKey const&, icu_74::ICUService const*, UErrorCode&) const
+1251:icu_74::ServiceEnumeration::~ServiceEnumeration()
+1252:icu_74::ServiceEnumeration::snext(UErrorCode&)
+1253:icu_74::ServiceEnumeration::reset(UErrorCode&)
+1254:icu_74::ServiceEnumeration::getDynamicClassID() const
+1255:icu_74::ServiceEnumeration::count(UErrorCode&) const
+1256:icu_74::ServiceEnumeration::clone() const
+1257:icu_74::RuleBasedBreakIterator::~RuleBasedBreakIterator()
+1258:icu_74::RuleBasedBreakIterator::setText(icu_74::UnicodeString const&)
+1259:icu_74::RuleBasedBreakIterator::setText(UText*, UErrorCode&)
+1260:icu_74::RuleBasedBreakIterator::refreshInputText(UText*, UErrorCode&)
+1261:icu_74::RuleBasedBreakIterator::previous()
+1262:icu_74::RuleBasedBreakIterator::preceding(int)
+1263:icu_74::RuleBasedBreakIterator::operator==(icu_74::BreakIterator const&) const
+1264:icu_74::RuleBasedBreakIterator::next(int)
+1265:icu_74::RuleBasedBreakIterator::next()
+1266:icu_74::RuleBasedBreakIterator::last()
+1267:icu_74::RuleBasedBreakIterator::isBoundary(int)
+1268:icu_74::RuleBasedBreakIterator::hashCode() const
+1269:icu_74::RuleBasedBreakIterator::getUText(UText*, UErrorCode&) const
+1270:icu_74::RuleBasedBreakIterator::getText() const
+1271:icu_74::RuleBasedBreakIterator::getRules() const
+1272:icu_74::RuleBasedBreakIterator::getRuleStatus() const
+1273:icu_74::RuleBasedBreakIterator::getRuleStatusVec(int*, int, UErrorCode&)
+1274:icu_74::RuleBasedBreakIterator::getDynamicClassID() const
+1275:icu_74::RuleBasedBreakIterator::getBinaryRules(unsigned int&)
+1276:icu_74::RuleBasedBreakIterator::following(int)
+1277:icu_74::RuleBasedBreakIterator::first()
+1278:icu_74::RuleBasedBreakIterator::current() const
+1279:icu_74::RuleBasedBreakIterator::createBufferClone(void*, int&, UErrorCode&)
+1280:icu_74::RuleBasedBreakIterator::clone() const
+1281:icu_74::RuleBasedBreakIterator::adoptText(icu_74::CharacterIterator*)
+1282:icu_74::RuleBasedBreakIterator::BreakCache::~BreakCache()_1846
+1283:icu_74::ResourceDataValue::isNoInheritanceMarker() const
+1284:icu_74::ResourceDataValue::getUInt(UErrorCode&) const
+1285:icu_74::ResourceDataValue::getType() const
+1286:icu_74::ResourceDataValue::getString(int&, UErrorCode&) const
+1287:icu_74::ResourceDataValue::getStringOrFirstOfArray(UErrorCode&) const
+1288:icu_74::ResourceDataValue::getStringArray(icu_74::UnicodeString*, int, UErrorCode&) const
+1289:icu_74::ResourceDataValue::getStringArrayOrStringAsArray(icu_74::UnicodeString*, int, UErrorCode&) const
+1290:icu_74::ResourceDataValue::getInt(UErrorCode&) const
+1291:icu_74::ResourceDataValue::getIntVector(int&, UErrorCode&) const
+1292:icu_74::ResourceDataValue::getBinary(int&, UErrorCode&) const
+1293:icu_74::ResourceDataValue::getAliasString(int&, UErrorCode&) const
+1294:icu_74::ResourceBundle::~ResourceBundle()_1918
+1295:icu_74::ResourceBundle::~ResourceBundle()
+1296:icu_74::ResourceBundle::getDynamicClassID() const
+1297:icu_74::ParsePosition::getDynamicClassID() const
+1298:icu_74::Normalizer2WithImpl::spanQuickCheckYes(icu_74::UnicodeString const&, UErrorCode&) const
+1299:icu_74::Normalizer2WithImpl::normalize(icu_74::UnicodeString const&, icu_74::UnicodeString&, UErrorCode&) const
+1300:icu_74::Normalizer2WithImpl::normalizeSecondAndAppend(icu_74::UnicodeString&, icu_74::UnicodeString const&, UErrorCode&) const
+1301:icu_74::Normalizer2WithImpl::getRawDecomposition(int, icu_74::UnicodeString&) const
+1302:icu_74::Normalizer2WithImpl::getDecomposition(int, icu_74::UnicodeString&) const
+1303:icu_74::Normalizer2WithImpl::getCombiningClass(int) const
+1304:icu_74::Normalizer2WithImpl::composePair(int, int) const
+1305:icu_74::Normalizer2WithImpl::append(icu_74::UnicodeString&, icu_74::UnicodeString const&, UErrorCode&) const
+1306:icu_74::Normalizer2Impl::~Normalizer2Impl()_1708
+1307:icu_74::Normalizer2::normalizeUTF8(unsigned int, icu_74::StringPiece, icu_74::ByteSink&, icu_74::Edits*, UErrorCode&) const
+1308:icu_74::Normalizer2::isNormalizedUTF8(icu_74::StringPiece, UErrorCode&) const
+1309:icu_74::Normalizer2::composePair(int, int) const
+1310:icu_74::NoopNormalizer2::spanQuickCheckYes(icu_74::UnicodeString const&, UErrorCode&) const
+1311:icu_74::NoopNormalizer2::quickCheck(icu_74::UnicodeString const&, UErrorCode&) const
+1312:icu_74::NoopNormalizer2::normalize(icu_74::UnicodeString const&, icu_74::UnicodeString&, UErrorCode&) const
+1313:icu_74::NoopNormalizer2::normalizeUTF8(unsigned int, icu_74::StringPiece, icu_74::ByteSink&, icu_74::Edits*, UErrorCode&) const
+1314:icu_74::LocaleKeyFactory::~LocaleKeyFactory()_1943
+1315:icu_74::LocaleKeyFactory::~LocaleKeyFactory()
+1316:icu_74::LocaleKeyFactory::updateVisibleIDs(icu_74::Hashtable&, UErrorCode&) const
+1317:icu_74::LocaleKeyFactory::handlesKey(icu_74::ICUServiceKey const&, UErrorCode&) const
+1318:icu_74::LocaleKeyFactory::handleCreate(icu_74::Locale const&, int, icu_74::ICUService const*, UErrorCode&) const
+1319:icu_74::LocaleKeyFactory::getSupportedIDs(UErrorCode&) const
+1320:icu_74::LocaleKeyFactory::getDynamicClassID() const
+1321:icu_74::LocaleKeyFactory::getDisplayName(icu_74::UnicodeString const&, icu_74::Locale const&, icu_74::UnicodeString&) const
+1322:icu_74::LocaleKeyFactory::create(icu_74::ICUServiceKey const&, icu_74::ICUService const*, UErrorCode&) const
+1323:icu_74::LocaleKey::~LocaleKey()
+1324:icu_74::LocaleKey::prefix(icu_74::UnicodeString&) const
+1325:icu_74::LocaleKey::kind() const
+1326:icu_74::LocaleKey::isFallbackOf(icu_74::UnicodeString const&) const
+1327:icu_74::LocaleKey::getDynamicClassID() const
+1328:icu_74::LocaleKey::fallback()
+1329:icu_74::LocaleKey::currentLocale(icu_74::Locale&) const
+1330:icu_74::LocaleKey::currentID(icu_74::UnicodeString&) const
+1331:icu_74::LocaleKey::currentDescriptor(icu_74::UnicodeString&) const
+1332:icu_74::LocaleKey::canonicalLocale(icu_74::Locale&) const
+1333:icu_74::LocaleKey::canonicalID(icu_74::UnicodeString&) const
+1334:icu_74::LocaleBuilder::~LocaleBuilder()_1469
+1335:icu_74::Locale::~Locale()_1437
+1336:icu_74::Locale::getDynamicClassID() const
+1337:icu_74::LoadedNormalizer2Impl::~LoadedNormalizer2Impl()_1697
+1338:icu_74::LoadedNormalizer2Impl::isAcceptable(void*, char const*, char const*, UDataInfo const*)
+1339:icu_74::LaoBreakEngine::~LaoBreakEngine()_1906
+1340:icu_74::LaoBreakEngine::~LaoBreakEngine()
+1341:icu_74::LSTMBreakEngine::~LSTMBreakEngine()_1896
+1342:icu_74::LSTMBreakEngine::~LSTMBreakEngine()
+1343:icu_74::LSTMBreakEngine::name() const
+1344:icu_74::LSTMBreakEngine::divideUpDictionaryRange(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1345:icu_74::KhmerBreakEngine::~KhmerBreakEngine()_1912
+1346:icu_74::KhmerBreakEngine::~KhmerBreakEngine()
+1347:icu_74::KhmerBreakEngine::divideUpDictionaryRange(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1348:icu_74::KeywordEnumeration::~KeywordEnumeration()
+1349:icu_74::KeywordEnumeration::snext(UErrorCode&)
+1350:icu_74::KeywordEnumeration::reset(UErrorCode&)
+1351:icu_74::KeywordEnumeration::next(int*, UErrorCode&)
+1352:icu_74::KeywordEnumeration::getDynamicClassID() const
+1353:icu_74::KeywordEnumeration::count(UErrorCode&) const
+1354:icu_74::KeywordEnumeration::clone() const
+1355:icu_74::ICUServiceKey::~ICUServiceKey()_1953
+1356:icu_74::ICUServiceKey::~ICUServiceKey()
+1357:icu_74::ICUServiceKey::prefix(icu_74::UnicodeString&) const
+1358:icu_74::ICUServiceKey::isFallbackOf(icu_74::UnicodeString const&) const
+1359:icu_74::ICUServiceKey::getDynamicClassID() const
+1360:icu_74::ICUServiceKey::currentID(icu_74::UnicodeString&) const
+1361:icu_74::ICUServiceKey::currentDescriptor(icu_74::UnicodeString&) const
+1362:icu_74::ICUServiceKey::canonicalID(icu_74::UnicodeString&) const
+1363:icu_74::ICUService::unregister(void const*, UErrorCode&)
+1364:icu_74::ICUService::reset()
+1365:icu_74::ICUService::registerInstance(icu_74::UObject*, icu_74::UnicodeString const&, signed char, UErrorCode&)
+1366:icu_74::ICUService::reInitializeFactories()
+1367:icu_74::ICUService::notifyListener(icu_74::EventListener&) const
+1368:icu_74::ICUService::isDefault() const
+1369:icu_74::ICUService::handleDefault(icu_74::ICUServiceKey const&, icu_74::UnicodeString*, UErrorCode&) const
+1370:icu_74::ICUService::getKey(icu_74::ICUServiceKey&, icu_74::UnicodeString*, UErrorCode&) const
+1371:icu_74::ICUService::createSimpleFactory(icu_74::UObject*, icu_74::UnicodeString const&, signed char, UErrorCode&)
+1372:icu_74::ICUService::createKey(icu_74::UnicodeString const*, UErrorCode&) const
+1373:icu_74::ICUService::clearCaches()
+1374:icu_74::ICUService::acceptsListener(icu_74::EventListener const&) const
+1375:icu_74::ICUResourceBundleFactory::handleCreate(icu_74::Locale const&, int, icu_74::ICUService const*, UErrorCode&) const
+1376:icu_74::ICUResourceBundleFactory::getSupportedIDs(UErrorCode&) const
+1377:icu_74::ICUResourceBundleFactory::getDynamicClassID() const
+1378:icu_74::ICUNotifier::~ICUNotifier()_1980
+1379:icu_74::ICUNotifier::removeListener(icu_74::EventListener const*, UErrorCode&)
+1380:icu_74::ICUNotifier::notifyChanged()
+1381:icu_74::ICUNotifier::addListener(icu_74::EventListener const*, UErrorCode&)
+1382:icu_74::ICULocaleService::registerInstance(icu_74::UObject*, icu_74::UnicodeString const&, signed char, UErrorCode&)
+1383:icu_74::ICULocaleService::registerInstance(icu_74::UObject*, icu_74::Locale const&, int, int, UErrorCode&)
+1384:icu_74::ICULocaleService::registerInstance(icu_74::UObject*, icu_74::Locale const&, int, UErrorCode&)
+1385:icu_74::ICULocaleService::registerInstance(icu_74::UObject*, icu_74::Locale const&, UErrorCode&)
+1386:icu_74::ICULocaleService::getAvailableLocales() const
+1387:icu_74::ICULocaleService::createKey(icu_74::UnicodeString const*, int, UErrorCode&) const
+1388:icu_74::ICULocaleService::createKey(icu_74::UnicodeString const*, UErrorCode&) const
+1389:icu_74::ICULanguageBreakFactory::~ICULanguageBreakFactory()_1869
+1390:icu_74::ICULanguageBreakFactory::~ICULanguageBreakFactory()
+1391:icu_74::ICULanguageBreakFactory::loadEngineFor(int, char const*)
+1392:icu_74::ICULanguageBreakFactory::loadDictionaryMatcherFor(UScriptCode)
+1393:icu_74::ICULanguageBreakFactory::getEngineFor(int, char const*)
+1394:icu_74::ICULanguageBreakFactory::addExternalEngine(icu_74::ExternalBreakEngine*, UErrorCode&)
+1395:icu_74::ICUBreakIteratorService::~ICUBreakIteratorService()_1278
+1396:icu_74::ICUBreakIteratorService::~ICUBreakIteratorService()
+1397:icu_74::ICUBreakIteratorService::isDefault() const
+1398:icu_74::ICUBreakIteratorService::handleDefault(icu_74::ICUServiceKey const&, icu_74::UnicodeString*, UErrorCode&) const
+1399:icu_74::ICUBreakIteratorService::cloneInstance(icu_74::UObject*) const
+1400:icu_74::ICUBreakIteratorFactory::handleCreate(icu_74::Locale const&, int, icu_74::ICUService const*, UErrorCode&) const
+1401:icu_74::GraphemeClusterVectorizer::vectorize(UText*, int, int, icu_74::UVector32&, icu_74::UVector32&, UErrorCode&) const
+1402:icu_74::FCDNormalizer2::spanQuickCheckYes(char16_t const*, char16_t const*, UErrorCode&) const
+1403:icu_74::FCDNormalizer2::normalize(char16_t const*, char16_t const*, icu_74::ReorderingBuffer&, UErrorCode&) const
+1404:icu_74::FCDNormalizer2::normalizeAndAppend(char16_t const*, char16_t const*, signed char, icu_74::UnicodeString&, icu_74::ReorderingBuffer&, UErrorCode&) const
+1405:icu_74::FCDNormalizer2::isInert(int) const
+1406:icu_74::EmojiProps::isAcceptable(void*, char const*, char const*, UDataInfo const*)
+1407:icu_74::DictionaryBreakEngine::~DictionaryBreakEngine()_1900
+1408:icu_74::DictionaryBreakEngine::handles(int, char const*) const
+1409:icu_74::DictionaryBreakEngine::findBreaks(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1410:icu_74::DecomposeNormalizer2::spanQuickCheckYes(char16_t const*, char16_t const*, UErrorCode&) const
+1411:icu_74::DecomposeNormalizer2::normalize(char16_t const*, char16_t const*, icu_74::ReorderingBuffer&, UErrorCode&) const
+1412:icu_74::DecomposeNormalizer2::normalizeUTF8(unsigned int, icu_74::StringPiece, icu_74::ByteSink&, icu_74::Edits*, UErrorCode&) const
+1413:icu_74::DecomposeNormalizer2::normalizeAndAppend(char16_t const*, char16_t const*, signed char, icu_74::UnicodeString&, icu_74::ReorderingBuffer&, UErrorCode&) const
+1414:icu_74::DecomposeNormalizer2::isNormalizedUTF8(icu_74::StringPiece, UErrorCode&) const
+1415:icu_74::DecomposeNormalizer2::isInert(int) const
+1416:icu_74::DecomposeNormalizer2::getQuickCheck(int) const
+1417:icu_74::ConstArray2D::get(int, int) const
+1418:icu_74::ConstArray2D::d2() const
+1419:icu_74::ConstArray1D::get(int) const
+1420:icu_74::ComposeNormalizer2::spanQuickCheckYes(char16_t const*, char16_t const*, UErrorCode&) const
+1421:icu_74::ComposeNormalizer2::quickCheck(icu_74::UnicodeString const&, UErrorCode&) const
+1422:icu_74::ComposeNormalizer2::normalize(char16_t const*, char16_t const*, icu_74::ReorderingBuffer&, UErrorCode&) const
+1423:icu_74::ComposeNormalizer2::normalizeUTF8(unsigned int, icu_74::StringPiece, icu_74::ByteSink&, icu_74::Edits*, UErrorCode&) const
+1424:icu_74::ComposeNormalizer2::normalizeAndAppend(char16_t const*, char16_t const*, signed char, icu_74::UnicodeString&, icu_74::ReorderingBuffer&, UErrorCode&) const
+1425:icu_74::ComposeNormalizer2::isNormalized(icu_74::UnicodeString const&, UErrorCode&) const
+1426:icu_74::ComposeNormalizer2::isNormalizedUTF8(icu_74::StringPiece, UErrorCode&) const
+1427:icu_74::ComposeNormalizer2::isInert(int) const
+1428:icu_74::ComposeNormalizer2::hasBoundaryBefore(int) const
+1429:icu_74::ComposeNormalizer2::hasBoundaryAfter(int) const
+1430:icu_74::ComposeNormalizer2::getQuickCheck(int) const
+1431:icu_74::CodePointsVectorizer::vectorize(UText*, int, int, icu_74::UVector32&, icu_74::UVector32&, UErrorCode&) const
+1432:icu_74::CjkBreakEngine::~CjkBreakEngine()
+1433:icu_74::CjkBreakEngine::divideUpDictionaryRange(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1434:icu_74::CheckedArrayByteSink::Reset()
+1435:icu_74::CheckedArrayByteSink::GetAppendBuffer(int, int, char*, int, int*)
+1436:icu_74::CheckedArrayByteSink::Append(char const*, int)
+1437:icu_74::CharStringByteSink::GetAppendBuffer(int, int, char*, int, int*)
+1438:icu_74::BytesDictionaryMatcher::~BytesDictionaryMatcher()_1924
+1439:icu_74::BytesDictionaryMatcher::~BytesDictionaryMatcher()
+1440:icu_74::BytesDictionaryMatcher::matches(UText*, int, int, int*, int*, int*, int*) const
+1441:icu_74::ByteSink::GetAppendBuffer(int, int, char*, int, int*)
+1442:icu_74::BurmeseBreakEngine::~BurmeseBreakEngine()_1909
+1443:icu_74::BurmeseBreakEngine::~BurmeseBreakEngine()
+1444:icu_74::BreakIterator::getRuleStatusVec(int*, int, UErrorCode&)
+1445:icu_74::BreakEngineWrapper::~BreakEngineWrapper()_1868
+1446:icu_74::BreakEngineWrapper::~BreakEngineWrapper()
+1447:icu_74::BreakEngineWrapper::handles(int, char const*) const
+1448:icu_74::BreakEngineWrapper::findBreaks(UText*, int, int, icu_74::UVector32&, signed char, UErrorCode&) const
+1449:icu_74::BMPSet::contains(int) const
+1450:icu_74::Array1D::~Array1D()_1875
+1451:icu_74::Array1D::~Array1D()
+1452:icu_74::Array1D::get(int) const
+1453:icu_74::Array1D::d1() const
+1454:hb_unicode_script_nil(hb_unicode_funcs_t*, unsigned int, void*)
+1455:hb_unicode_mirroring_nil(hb_unicode_funcs_t*, unsigned int, void*)
+1456:hb_unicode_general_category_nil(hb_unicode_funcs_t*, unsigned int, void*)
+1457:hb_unicode_decompose_nil(hb_unicode_funcs_t*, unsigned int, unsigned int*, unsigned int*, void*)
+1458:hb_unicode_decompose_compatibility_nil(hb_unicode_funcs_t*, unsigned int, unsigned int*, void*)
+1459:hb_unicode_compose_nil(hb_unicode_funcs_t*, unsigned int, unsigned int, unsigned int*, void*)
+1460:hb_ucd_script(hb_unicode_funcs_t*, unsigned int, void*)
+1461:hb_ucd_mirroring(hb_unicode_funcs_t*, unsigned int, void*)
+1462:hb_ucd_general_category(hb_unicode_funcs_t*, unsigned int, void*)
+1463:hb_ucd_decompose(hb_unicode_funcs_t*, unsigned int, unsigned int*, unsigned int*, void*)
+1464:hb_ucd_compose(hb_unicode_funcs_t*, unsigned int, unsigned int, unsigned int*, void*)
+1465:hb_ucd_combining_class(hb_unicode_funcs_t*, unsigned int, void*)
+1466:hb_syllabic_clear_var(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1467:hb_paint_sweep_gradient_nil(hb_paint_funcs_t*, void*, hb_color_line_t*, float, float, float, float, void*)
+1468:hb_paint_push_transform_nil(hb_paint_funcs_t*, void*, float, float, float, float, float, float, void*)
+1469:hb_paint_push_clip_rectangle_nil(hb_paint_funcs_t*, void*, float, float, float, float, void*)
+1470:hb_paint_push_clip_glyph_nil(hb_paint_funcs_t*, void*, unsigned int, hb_font_t*, void*)
+1471:hb_paint_pop_group_nil(hb_paint_funcs_t*, void*, hb_paint_composite_mode_t, void*)
+1472:hb_paint_image_nil(hb_paint_funcs_t*, void*, hb_blob_t*, unsigned int, unsigned int, unsigned int, float, hb_glyph_extents_t*, void*)
+1473:hb_paint_extents_push_transform(hb_paint_funcs_t*, void*, float, float, float, float, float, float, void*)
+1474:hb_paint_extents_push_group(hb_paint_funcs_t*, void*, void*)
+1475:hb_paint_extents_push_clip_rectangle(hb_paint_funcs_t*, void*, float, float, float, float, void*)
+1476:hb_paint_extents_push_clip_glyph(hb_paint_funcs_t*, void*, unsigned int, hb_font_t*, void*)
+1477:hb_paint_extents_pop_transform(hb_paint_funcs_t*, void*, void*)
+1478:hb_paint_extents_pop_group(hb_paint_funcs_t*, void*, hb_paint_composite_mode_t, void*)
+1479:hb_paint_extents_pop_clip(hb_paint_funcs_t*, void*, void*)
+1480:hb_paint_extents_paint_sweep_gradient(hb_paint_funcs_t*, void*, hb_color_line_t*, float, float, float, float, void*)
+1481:hb_paint_extents_paint_image(hb_paint_funcs_t*, void*, hb_blob_t*, unsigned int, unsigned int, unsigned int, float, hb_glyph_extents_t*, void*)
+1482:hb_paint_extents_paint_color(hb_paint_funcs_t*, void*, int, unsigned int, void*)
+1483:hb_paint_color_nil(hb_paint_funcs_t*, void*, int, unsigned int, void*)
+1484:hb_outline_recording_pen_quadratic_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, void*)
+1485:hb_outline_recording_pen_move_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, void*)
+1486:hb_outline_recording_pen_line_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, void*)
+1487:hb_outline_recording_pen_cubic_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, float, float, void*)
+1488:hb_outline_recording_pen_close_path(hb_draw_funcs_t*, void*, hb_draw_state_t*, void*)
+1489:hb_ot_shape_normalize_context_t::decompose_unicode(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int*, unsigned int*)
+1490:hb_ot_shape_normalize_context_t::compose_unicode(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int, unsigned int*)
+1491:hb_ot_paint_glyph(hb_font_t*, void*, unsigned int, hb_paint_funcs_t*, void*, unsigned int, unsigned int, void*)
+1492:hb_ot_map_t::lookup_map_t::cmp(void const*, void const*)
+1493:hb_ot_map_t::feature_map_t::cmp(void const*, void const*)
+1494:hb_ot_map_builder_t::feature_info_t::cmp(void const*, void const*)
+1495:hb_ot_get_variation_glyph(hb_font_t*, void*, unsigned int, unsigned int, unsigned int*, void*)
+1496:hb_ot_get_nominal_glyphs(hb_font_t*, void*, unsigned int, unsigned int const*, unsigned int, unsigned int*, unsigned int, void*)
+1497:hb_ot_get_nominal_glyph(hb_font_t*, void*, unsigned int, unsigned int*, void*)
+1498:hb_ot_get_glyph_v_origin(hb_font_t*, void*, unsigned int, int*, int*, void*)
+1499:hb_ot_get_glyph_v_advances(hb_font_t*, void*, unsigned int, unsigned int const*, unsigned int, int*, unsigned int, void*)
+1500:hb_ot_get_glyph_name(hb_font_t*, void*, unsigned int, char*, unsigned int, void*)
+1501:hb_ot_get_glyph_h_advances(hb_font_t*, void*, unsigned int, unsigned int const*, unsigned int, int*, unsigned int, void*)
+1502:hb_ot_get_glyph_from_name(hb_font_t*, void*, char const*, int, unsigned int*, void*)
+1503:hb_ot_get_glyph_extents(hb_font_t*, void*, unsigned int, hb_glyph_extents_t*, void*)
+1504:hb_ot_get_font_v_extents(hb_font_t*, void*, hb_font_extents_t*, void*)
+1505:hb_ot_get_font_h_extents(hb_font_t*, void*, hb_font_extents_t*, void*)
+1506:hb_ot_draw_glyph(hb_font_t*, void*, unsigned int, hb_draw_funcs_t*, void*, void*)
+1507:hb_font_paint_glyph_nil(hb_font_t*, void*, unsigned int, hb_paint_funcs_t*, void*, unsigned int, unsigned int, void*)
+1508:hb_font_paint_glyph_default(hb_font_t*, void*, unsigned int, hb_paint_funcs_t*, void*, unsigned int, unsigned int, void*)
+1509:hb_font_get_variation_glyph_nil(hb_font_t*, void*, unsigned int, unsigned int, unsigned int*, void*)
+1510:hb_font_get_variation_glyph_default(hb_font_t*, void*, unsigned int, unsigned int, unsigned int*, void*)
+1511:hb_font_get_nominal_glyphs_default(hb_font_t*, void*, unsigned int, unsigned int const*, unsigned int, unsigned int*, unsigned int, void*)
+1512:hb_font_get_nominal_glyph_nil(hb_font_t*, void*, unsigned int, unsigned int*, void*)
+1513:hb_font_get_nominal_glyph_default(hb_font_t*, void*, unsigned int, unsigned int*, void*)
+1514:hb_font_get_glyph_v_origin_nil(hb_font_t*, void*, unsigned int, int*, int*, void*)
+1515:hb_font_get_glyph_v_origin_default(hb_font_t*, void*, unsigned int, int*, int*, void*)
+1516:hb_font_get_glyph_v_kerning_default(hb_font_t*, void*, unsigned int, unsigned int, void*)
+1517:hb_font_get_glyph_v_advances_default(hb_font_t*, void*, unsigned int, unsigned int const*, unsigned int, int*, unsigned int, void*)
+1518:hb_font_get_glyph_v_advance_nil(hb_font_t*, void*, unsigned int, void*)
+1519:hb_font_get_glyph_v_advance_default(hb_font_t*, void*, unsigned int, void*)
+1520:hb_font_get_glyph_name_nil(hb_font_t*, void*, unsigned int, char*, unsigned int, void*)
+1521:hb_font_get_glyph_name_default(hb_font_t*, void*, unsigned int, char*, unsigned int, void*)
+1522:hb_font_get_glyph_h_origin_nil(hb_font_t*, void*, unsigned int, int*, int*, void*)
+1523:hb_font_get_glyph_h_origin_default(hb_font_t*, void*, unsigned int, int*, int*, void*)
+1524:hb_font_get_glyph_h_kerning_default(hb_font_t*, void*, unsigned int, unsigned int, void*)
+1525:hb_font_get_glyph_h_advances_default(hb_font_t*, void*, unsigned int, unsigned int const*, unsigned int, int*, unsigned int, void*)
+1526:hb_font_get_glyph_h_advance_nil(hb_font_t*, void*, unsigned int, void*)
+1527:hb_font_get_glyph_h_advance_default(hb_font_t*, void*, unsigned int, void*)
+1528:hb_font_get_glyph_from_name_nil(hb_font_t*, void*, char const*, int, unsigned int*, void*)
+1529:hb_font_get_glyph_from_name_default(hb_font_t*, void*, char const*, int, unsigned int*, void*)
+1530:hb_font_get_glyph_extents_nil(hb_font_t*, void*, unsigned int, hb_glyph_extents_t*, void*)
+1531:hb_font_get_glyph_extents_default(hb_font_t*, void*, unsigned int, hb_glyph_extents_t*, void*)
+1532:hb_font_get_glyph_contour_point_nil(hb_font_t*, void*, unsigned int, unsigned int, int*, int*, void*)
+1533:hb_font_get_glyph_contour_point_default(hb_font_t*, void*, unsigned int, unsigned int, int*, int*, void*)
+1534:hb_font_get_font_v_extents_default(hb_font_t*, void*, hb_font_extents_t*, void*)
+1535:hb_font_get_font_h_extents_default(hb_font_t*, void*, hb_font_extents_t*, void*)
+1536:hb_font_draw_glyph_nil(hb_font_t*, void*, unsigned int, hb_draw_funcs_t*, void*, void*)
+1537:hb_font_draw_glyph_default(hb_font_t*, void*, unsigned int, hb_draw_funcs_t*, void*, void*)
+1538:hb_draw_quadratic_to_nil(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, void*)
+1539:hb_draw_quadratic_to_default(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, void*)
+1540:hb_draw_move_to_default(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, void*)
+1541:hb_draw_line_to_default(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, void*)
+1542:hb_draw_extents_quadratic_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, void*)
+1543:hb_draw_extents_cubic_to(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, float, float, void*)
+1544:hb_draw_cubic_to_default(hb_draw_funcs_t*, void*, hb_draw_state_t*, float, float, float, float, float, float, void*)
+1545:hb_draw_close_path_nil(hb_draw_funcs_t*, void*, hb_draw_state_t*, void*)
+1546:hb_draw_close_path_default(hb_draw_funcs_t*, void*, hb_draw_state_t*, void*)
+1547:hb_aat_map_builder_t::feature_info_t::cmp(void const*, void const*)
+1548:hb_aat_map_builder_t::feature_event_t::cmp(void const*, void const*)
+1549:hashEntry(UElement)
+1550:hasFullCompositionExclusion(BinaryProperty const&, int, UProperty)
+1551:hasEmojiProperty(BinaryProperty const&, int, UProperty)
+1552:getVo(IntProperty const&, int, UProperty)
+1553:getTrailCombiningClass(IntProperty const&, int, UProperty)
+1554:getScript(IntProperty const&, int, UProperty)
+1555:getNumericType(IntProperty const&, int, UProperty)
+1556:getNormQuickCheck(IntProperty const&, int, UProperty)
+1557:getMaxValueFromShift(IntProperty const&, UProperty)
+1558:getLeadCombiningClass(IntProperty const&, int, UProperty)
+1559:getJoiningType(IntProperty const&, int, UProperty)
+1560:getJoiningGroup(IntProperty const&, int, UProperty)
+1561:getInSC(IntProperty const&, int, UProperty)
+1562:getInPC(IntProperty const&, int, UProperty)
+1563:getHangulSyllableType(IntProperty const&, int, UProperty)
+1564:getGeneralCategory(IntProperty const&, int, UProperty)
+1565:getCombiningClass(IntProperty const&, int, UProperty)
+1566:getBiDiPairedBracketType(IntProperty const&, int, UProperty)
+1567:getBiDiClass(IntProperty const&, int, UProperty)
+1568:final_reordering_indic(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1569:facebook::yoga::getDefaultLogger()::$_0::__invoke(YGConfig const*, YGNode const*, YGLogLevel, char const*, void*)
+1570:emscripten_stack_get_current
+1571:emscripten_futex_wake
+1572:emscripten_builtin_memalign
+1573:effindom::v2::ui::UiRuntime::MeasureTextCallback(YGNode const*, float, YGMeasureMode, float, YGMeasureMode)
+1574:defaultGetValue(IntProperty const&, int, UProperty)
+1575:defaultGetMaxValue(IntProperty const&, UProperty)
+1576:defaultContains(BinaryProperty const&, int, UProperty)
+1577:decompose_khmer(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int*, unsigned int*)
+1578:decompose_indic(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int*, unsigned int*)
+1579:deallocate_buffer_var(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1580:data_destroy_use(void*)
+1581:data_destroy_arabic(void*)
+1582:data_create_use(hb_ot_shape_plan_t const*)
+1583:data_create_khmer(hb_ot_shape_plan_t const*)
+1584:data_create_indic(hb_ot_shape_plan_t const*)
+1585:data_create_hangul(hb_ot_shape_plan_t const*)
+1586:compose_indic(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int, unsigned int*)
+1587:compose_hebrew(hb_ot_shape_normalize_context_t const*, unsigned int, unsigned int, unsigned int*)
+1588:compareKeywordStructs(void const*, void const*, void const*)
+1589:compareEntries(UElement, UElement)
+1590:collect_features_use(hb_ot_shape_planner_t*)
+1591:collect_features_myanmar(hb_ot_shape_planner_t*)
+1592:collect_features_khmer(hb_ot_shape_planner_t*)
+1593:collect_features_indic(hb_ot_shape_planner_t*)
+1594:collect_features_hangul(hb_ot_shape_planner_t*)
+1595:collect_features_arabic(hb_ot_shape_planner_t*)
+1596:charIterTextLength(UText*)
+1597:charIterTextExtract(UText*, long long, long long, char16_t*, int, UErrorCode*)
+1598:charIterTextClose(UText*)
+1599:charIterTextClone(UText*, UText const*, signed char, UErrorCode*)
+1600:changesWhenNFKC_Casefolded(BinaryProperty const&, int, UProperty)
+1601:changesWhenCasefolded(BinaryProperty const&, int, UProperty)
+1602:caseBinaryPropertyContains(BinaryProperty const&, int, UProperty)
+1603:bool OT::hb_accelerate_subtables_context_t::apply_to<OT::Layout::GSUB_impl::LigatureSubstFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1604:bool OT::hb_accelerate_subtables_context_t::apply_to<OT::Layout::GPOS_impl::PairPosFormat2_4<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1605:bool OT::hb_accelerate_subtables_context_t::apply_to<OT::Layout::GPOS_impl::PairPosFormat1_3<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1606:bool OT::hb_accelerate_subtables_context_t::apply_to<OT::ContextFormat2_5<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1607:bool OT::hb_accelerate_subtables_context_t::apply_to<OT::ChainContextFormat2_5<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1608:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GSUB_impl::LigatureSubstFormat1_2<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1609:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::PairPosFormat2_4<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1610:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::Layout::GPOS_impl::PairPosFormat1_3<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1611:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::ContextFormat2_5<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1612:bool OT::hb_accelerate_subtables_context_t::apply_cached_to<OT::ChainContextFormat2_5<OT::Layout::SmallTypes>>(void const*, OT::hb_ot_apply_context_t*)
+1613:bool OT::cmap::accelerator_t::get_glyph_from_symbol<OT::CmapSubtable, &_hb_arabic_pua_trad_map(unsigned int)>(void const*, unsigned int, unsigned int*)
+1614:bool OT::cmap::accelerator_t::get_glyph_from_symbol<OT::CmapSubtable, &_hb_arabic_pua_simp_map(unsigned int)>(void const*, unsigned int, unsigned int*)
+1615:bool OT::cmap::accelerator_t::get_glyph_from_symbol<OT::CmapSubtable, &OT::_hb_symbol_pua_map(unsigned int)>(void const*, unsigned int, unsigned int*)
+1616:bool OT::cmap::accelerator_t::get_glyph_from_macroman<OT::CmapSubtable>(void const*, unsigned int, unsigned int*)
+1617:bool OT::cmap::accelerator_t::get_glyph_from_ascii<OT::CmapSubtable>(void const*, unsigned int, unsigned int*)
+1618:bool OT::cmap::accelerator_t::get_glyph_from<OT::CmapSubtableFormat12>(void const*, unsigned int, unsigned int*)
+1619:bool OT::cmap::accelerator_t::get_glyph_from<OT::CmapSubtable>(void const*, unsigned int, unsigned int*)
+1620:biDiGetMaxValue(IntProperty const&, UProperty)
+1621:as_on_text_changed
+1622:as_on_selection_changed
+1623:as_on_scroll
+1624:as_on_request_font_load
+1625:as_on_request_clipboard_read
+1626:as_on_pointer_event
+1627:as_on_focus_changed
+1628:as_on_cross_selection_changed
+1629:as_on_clipboard_write
+1630:arabic_fallback_shape(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1631:action_terminate
+1632:action_abort
+1633:_hb_ot_font_destroy(void*)
+1634:_hb_face_for_data_reference_table(hb_face_t*, unsigned int, void*)
+1635:_hb_face_for_data_get_table_tags(hb_face_t const*, unsigned int, unsigned int*, unsigned int*, void*)
+1636:_hb_face_for_data_closure_destroy(void*)
+1637:_hb_clear_substitution_flags(hb_ot_shape_plan_t const*, hb_font_t*, hb_buffer_t*)
+1638:_hb_blob_destroy(void*)
+1639:_emscripten_timeout
+1640:_emscripten_stack_restore
+1641:_emscripten_stack_alloc
+1642:__wasm_call_ctors
+1643:__stdio_write
+1644:__stdio_seek
+1645:__stdio_close
+1646:__emscripten_stdout_seek
+1647:__cxxabiv1::__vmi_class_type_info::search_below_dst(__cxxabiv1::__dynamic_cast_info*, void const*, int, bool) const
+1648:__cxxabiv1::__vmi_class_type_info::search_above_dst(__cxxabiv1::__dynamic_cast_info*, void const*, void const*, int, bool) const
+1649:__cxxabiv1::__vmi_class_type_info::has_unambiguous_public_base(__cxxabiv1::__dynamic_cast_info*, void*, int) const
+1650:__cxxabiv1::__si_class_type_info::search_below_dst(__cxxabiv1::__dynamic_cast_info*, void const*, int, bool) const
+1651:__cxxabiv1::__si_class_type_info::search_above_dst(__cxxabiv1::__dynamic_cast_info*, void const*, void const*, int, bool) const
+1652:__cxxabiv1::__si_class_type_info::has_unambiguous_public_base(__cxxabiv1::__dynamic_cast_info*, void*, int) const
+1653:__cxxabiv1::__class_type_info::search_below_dst(__cxxabiv1::__dynamic_cast_info*, void const*, int, bool) const
+1654:__cxxabiv1::__class_type_info::search_above_dst(__cxxabiv1::__dynamic_cast_info*, void const*, void const*, int, bool) const
+1655:__cxxabiv1::__class_type_info::has_unambiguous_public_base(__cxxabiv1::__dynamic_cast_info*, void*, int) const
+1656:__cxxabiv1::__class_type_info::can_catch(__cxxabiv1::__shim_type_info const*, void*&) const
+1657:__cxa_pure_virtual
+1658:__cxa_get_exception_ptr
+1659:(anonymous namespace)::ulayout_isAcceptable(void*, char const*, char const*, UDataInfo const*)
+1660:(anonymous namespace)::_set_add(USet*, int)
+1661:(anonymous namespace)::_set_addRange(USet*, int, int)
+1662:OT::match_glyph(hb_glyph_info_t&, unsigned int, void const*)
+1663:OT::match_coverage(hb_glyph_info_t&, unsigned int, void const*)
+1664:OT::match_class_cached(hb_glyph_info_t&, unsigned int, void const*)
+1665:OT::match_class_cached2(hb_glyph_info_t&, unsigned int, void const*)
+1666:OT::match_class_cached1(hb_glyph_info_t&, unsigned int, void const*)
+1667:OT::match_class(hb_glyph_info_t&, unsigned int, void const*)
+1668:OT::hb_ot_apply_context_t::return_t OT::Layout::GSUB_impl::SubstLookup::dispatch_recurse_func<OT::hb_ot_apply_context_t>(OT::hb_ot_apply_context_t*, unsigned int)
+1669:OT::hb_ot_apply_context_t::return_t OT::Layout::GPOS_impl::PosLookup::dispatch_recurse_func<OT::hb_ot_apply_context_t>(OT::hb_ot_apply_context_t*, unsigned int)
+1670:OT::ColorLine<OT::Variable>::static_get_color_stops(hb_color_line_t*, void*, unsigned int, unsigned int*, hb_color_stop_t*, void*)
+1671:OT::ColorLine<OT::NoVariable>::static_get_color_stops(hb_color_line_t*, void*, unsigned int, unsigned int*, hb_color_stop_t*, void*)
+1672:OT::CmapSubtableFormat4::accelerator_t::get_glyph_func(void const*, unsigned int, unsigned int*)
+1673:DataCacheElement_deleter(void*)
