@@ -862,10 +862,15 @@ function startManagedHarness(options) {
       }
       return toNumberHandle(ptr) + byteOffset;
     }
+    function syncUiHostCapabilities() {
+      const coarsePointerMode = window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+      runtime.ui._ui_set_coarse_pointer_mode(coarsePointerMode ? 1 : 0);
+    }
     const imports = {
       effindom_v2_ui: {
         ui_reset() {
           runtime.ui._ui_reset();
+          syncUiHostCapabilities();
           resetUiState();
         },
         ui_create_node(type) {
@@ -1422,6 +1427,7 @@ function startManagedHarness(options) {
       runtime.core._ed_clear_text_input_state?.();
       runtime.core._ed_reset_scene();
       runtime.ui._ui_reset();
+      syncUiHostCapabilities();
       resetUiState();
       runtime.commitFrame();
       queueHarnessFrame();

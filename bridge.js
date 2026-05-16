@@ -1152,11 +1152,20 @@
     }
     return { x: deltaX, y: deltaY };
   }
+  function detectCoarsePointerMode() {
+    return window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+  }
   function installEventHandlers(runtime, interactionState) {
     const { canvas, ui } = runtime;
     canvas.tabIndex = 0;
     canvas.style.touchAction = "none";
     canvas.style.outline = "none";
+    const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
+    const updateCoarsePointerMode = () => {
+      ui._ui_set_coarse_pointer_mode(detectCoarsePointerMode() ? 1 : 0);
+    };
+    updateCoarsePointerMode();
+    coarsePointerQuery.addEventListener?.("change", updateCoarsePointerMode);
     let primaryPointerDown = false;
     let suppressedContextMenuPointerId = null;
     let edgeAutoScrollTickScheduled = false;
