@@ -453,7 +453,9 @@ var PLATFORM_FAMILY_UNKNOWN = 0;
 var PLATFORM_FAMILY_APPLE = 1;
 var PLATFORM_FAMILY_WINDOWS = 2;
 var PLATFORM_FAMILY_LINUX = 3;
-var SHARED_BROWSER_BRIDGE_MANIFEST_URL = "/v2/browser-bridge/effindom.v2.manifest.json";
+var LOADING_OVERLAY_ID = "effindom-loading-overlay";
+var LOADING_TITLE_ID = "effindom-loading-title";
+var LOADING_DETAIL_ID = "effindom-loading-detail";
 function toBigIntHandle(handle) {
   if (typeof handle === "bigint") {
     return handle;
@@ -527,6 +529,28 @@ function parseCssColorToRgba(colorValue) {
   const alphaPart = parts[3];
   const alpha = alphaPart === void 0 ? 255 : Math.max(0, Math.min(255, Math.round(Number.parseFloat(alphaPart) * 255)));
   return packColor(red, green, blue, alpha);
+}
+function setLoadingOverlay(state, title, detail) {
+  const overlay = document.getElementById(LOADING_OVERLAY_ID);
+  const titleNode = document.getElementById(LOADING_TITLE_ID);
+  const detailNode = document.getElementById(LOADING_DETAIL_ID);
+  if (!(overlay instanceof HTMLElement) || !(titleNode instanceof HTMLElement) || !(detailNode instanceof HTMLElement)) {
+    return;
+  }
+  overlay.dataset.state = state;
+  overlay.hidden = false;
+  overlay.setAttribute("aria-hidden", "false");
+  titleNode.textContent = title;
+  detailNode.textContent = detail;
+}
+function hideLoadingOverlay() {
+  const overlay = document.getElementById(LOADING_OVERLAY_ID);
+  if (!(overlay instanceof HTMLElement)) {
+    return;
+  }
+  overlay.hidden = true;
+  overlay.dataset.state = "ready";
+  overlay.setAttribute("aria-hidden", "true");
 }
 function ensureUrlPreviewBar() {
   const existing = document.getElementById(URL_PREVIEW_BAR_ID);
@@ -622,7 +646,11 @@ function startManagedHarness(options) {
   let cleanup = () => {
     delete window.__fui_debug;
   };
-  window.__effindomManifestUrl ?? (window.__effindomManifestUrl = SHARED_BROWSER_BRIDGE_MANIFEST_URL);
+  setLoadingOverlay(
+    "loading",
+    "Teaching the pixels their lines...",
+    "The runtime orchestra is tuning up behind the canvas."
+  );
   void window.EffinDomBrowserBridge?.ready.then(async (runtime) => {
     ensureManagedHistoryInitialized();
     const debugLogsEnabled = new URLSearchParams(window.location.search).get("debug-logs") === "1";
@@ -1401,6 +1429,11 @@ function startManagedHarness(options) {
       await waitForFrame();
     }
     async function loadApp(loadOptions) {
+      setLoadingOverlay(
+        "loading",
+        "Winding up the tiny widget clockwork...",
+        `Loading ${loadOptions.wasmPath}`
+      );
       await unloadApp();
       const wasmBytes = await fetchWasmBytes(loadOptions.wasmPath);
       const module = await instantiate(wasmBytes, imports);
@@ -1449,6 +1482,7 @@ function startManagedHarness(options) {
       runtime.flushPendingCommit();
       await waitForFrame();
       updateState();
+      hideLoadingOverlay();
       return context;
     }
     const controller = {
@@ -1463,6 +1497,12 @@ function startManagedHarness(options) {
     await options.onReady?.(controller);
   }).catch((error) => {
     cleanup();
+    const message = error instanceof Error ? error.message : String(error);
+    setLoadingOverlay(
+      "error",
+      "The render raccoons chewed through a cable.",
+      message
+    );
     options.onError?.(error);
     throw error;
   });

@@ -447,7 +447,6 @@
   }
 
   // v2/browser-bridge/src/bridge/utils/assets.ts
-  var MANIFEST_URL = "./effindom.v2.manifest.json";
   var MEMORY64_VALIDATION_MODULE_BYTES = new Uint8Array([
     0,
     97,
@@ -677,18 +676,24 @@
     26,
     11
   ]);
-  function requireTextElement(id) {
-    const element = document.getElementById(id);
-    if (!(element instanceof HTMLElement)) {
-      throw new Error(`Expected #${id} element.`);
-    }
-    return element;
-  }
   function showIcuError(message) {
-    const errorBox = requireTextElement("icu-error");
-    const messageNode = requireTextElement("icu-error-message");
-    messageNode.textContent = message;
-    errorBox.style.display = "block";
+    const errorBox = document.getElementById("icu-error");
+    const messageNode = document.getElementById("icu-error-message");
+    if (errorBox instanceof HTMLElement && messageNode instanceof HTMLElement) {
+      messageNode.textContent = message;
+      errorBox.style.display = "block";
+      return;
+    }
+    const overlay = document.getElementById("effindom-loading-overlay");
+    const overlayTitle = document.getElementById("effindom-loading-title");
+    const overlayDetail = document.getElementById("effindom-loading-detail");
+    if (overlay instanceof HTMLElement && overlayTitle instanceof HTMLElement && overlayDetail instanceof HTMLElement) {
+      overlay.dataset.state = "error";
+      overlay.hidden = false;
+      overlay.setAttribute("aria-hidden", "false");
+      overlayTitle.textContent = "The typesetter dragon sneezed on the runtime.";
+      overlayDetail.textContent = message;
+    }
   }
   function createErrorWithCause(message, cause) {
     const wrappedError = new Error(message);
@@ -816,7 +821,14 @@
     };
   }
   function readManifestUrl() {
-    return window.__effindomManifestUrl ?? MANIFEST_URL;
+    const runtimeConfig = window.__effindomRuntime;
+    if (runtimeConfig === void 0) {
+      throw new Error("Missing effindom-runtime-config.js. Expected window.__effindomRuntime.manifestUrl before bridge.js loads.");
+    }
+    if (typeof runtimeConfig.manifestUrl !== "string" || runtimeConfig.manifestUrl.length === 0) {
+      throw new Error("Malformed effindom-runtime-config.js. Expected window.__effindomRuntime.manifestUrl to be a non-empty string.");
+    }
+    return runtimeConfig.manifestUrl;
   }
   function resolveManifestAssetUrl(manifestUrl, assetUrl) {
     return new URL(assetUrl, manifestUrl).toString();
