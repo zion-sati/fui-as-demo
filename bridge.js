@@ -1088,6 +1088,7 @@
   var UI_KEY_EVENT_UP = 2;
   var EDGE_AUTOSCROLL_THRESHOLD = 30;
   var TOUCH_SCROLL_THRESHOLD = 8;
+  var TOUCH_SECONDARY_AXIS_THRESHOLD = 14;
   function currentInteractionTimeMs() {
     return BigInt(Math.floor(performance.now()));
   }
@@ -1260,14 +1261,17 @@
       if (event.pointerType !== "touch" || activeTouchGesture === null || activeTouchGesture.pointerId !== event.pointerId) {
         return false;
       }
+      const deltaFromStartX = position.x - activeTouchGesture.startX;
+      const deltaFromStartY = position.y - activeTouchGesture.startY;
       if (!activeTouchGesture.scrolling) {
-        const deltaFromStartX = position.x - activeTouchGesture.startX;
-        const deltaFromStartY = position.y - activeTouchGesture.startY;
         if (deltaFromStartX * deltaFromStartX + deltaFromStartY * deltaFromStartY < TOUCH_SCROLL_THRESHOLD * TOUCH_SCROLL_THRESHOLD) {
           event.preventDefault();
           return true;
         }
         activeTouchGesture.scrolling = true;
+        const primaryAxis = Math.abs(deltaFromStartX) >= Math.abs(deltaFromStartY) ? "x" : "y";
+        activeTouchGesture.allowX = primaryAxis === "x";
+        activeTouchGesture.allowY = primaryAxis === "y";
         cancelPressedPointerInteraction(position.x, position.y);
         ui._ui_touch_scroll_begin(
           ui._ui_touch_scroll_target_at_point(activeTouchGesture.startX, activeTouchGesture.startY),
@@ -1275,16 +1279,24 @@
           activeTouchGesture.startY
         );
       }
+      if (!activeTouchGesture.allowX && Math.abs(deltaFromStartX) >= TOUCH_SECONDARY_AXIS_THRESHOLD) {
+        activeTouchGesture.allowX = true;
+      }
+      if (!activeTouchGesture.allowY && Math.abs(deltaFromStartY) >= TOUCH_SECONDARY_AXIS_THRESHOLD) {
+        activeTouchGesture.allowY = true;
+      }
       const deltaX = activeTouchGesture.lastX - position.x;
       const deltaY = activeTouchGesture.lastY - position.y;
       activeTouchGesture.lastX = position.x;
       activeTouchGesture.lastY = position.y;
+      const scrollDeltaX = activeTouchGesture.allowX ? deltaX : 0;
+      const scrollDeltaY = activeTouchGesture.allowY ? deltaY : 0;
       interactionState.setPointerInsideCanvas(isPointerInsideCanvas(canvas, event));
       interactionState.setLastPointerPosition(position.x, position.y);
       interactionState.setLastPointerModifiers(modifiers);
       ui._ui_set_interaction_time(currentInteractionTimeMs());
       ui._ui_on_pointer_event(UI_EVENT_POINTER_MOVE, runtime.getHandleFromPoint(position.x, position.y), position.x, position.y);
-      ui._ui_touch_scroll_update(deltaX, deltaY);
+      ui._ui_touch_scroll_update(scrollDeltaX, scrollDeltaY);
       runtime.commitFrame();
       event.preventDefault();
       return true;
@@ -1329,7 +1341,9 @@
             startY: position.y,
             lastX: position.x,
             lastY: position.y,
-            scrolling: false
+            scrolling: false,
+            allowX: false,
+            allowY: false
           };
         }
       } else if (activeTouchGesture !== null && activeTouchGesture.pointerId === event.pointerId) {
