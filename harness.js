@@ -453,6 +453,7 @@ var PLATFORM_FAMILY_UNKNOWN = 0;
 var PLATFORM_FAMILY_APPLE = 1;
 var PLATFORM_FAMILY_WINDOWS = 2;
 var PLATFORM_FAMILY_LINUX = 3;
+var SHARED_BROWSER_BRIDGE_MANIFEST_URL = "/v2/browser-bridge/effindom.v2.manifest.json";
 function toBigIntHandle(handle) {
   if (typeof handle === "bigint") {
     return handle;
@@ -602,6 +603,13 @@ function detectPlatformFamily() {
   }
   return PLATFORM_FAMILY_UNKNOWN;
 }
+function detectCoarsePointer() {
+  return window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+}
+function getCanvasSizeSource(canvas) {
+  const source = canvas.closest("[data-effindom-canvas-size-source]");
+  return source instanceof HTMLElement ? source : canvas;
+}
 function startHarness(options) {
   startManagedHarness({
     async onReady(controller) {
@@ -614,6 +622,7 @@ function startManagedHarness(options) {
   let cleanup = () => {
     delete window.__fui_debug;
   };
+  window.__effindomManifestUrl ?? (window.__effindomManifestUrl = SHARED_BROWSER_BRIDGE_MANIFEST_URL);
   void window.EffinDomBrowserBridge?.ready.then(async (runtime) => {
     ensureManagedHistoryInitialized();
     const debugLogsEnabled = new URLSearchParams(window.location.search).get("debug-logs") === "1";
@@ -1004,6 +1013,18 @@ function startManagedHarness(options) {
         ui_set_interactive(handle, flag) {
           runtime.ui._ui_set_interactive(toBigIntHandle(handle), flag);
         },
+        ui_set_scroll_proxy_target(handle, scrollHandle) {
+          runtime.ui._ui_set_scroll_proxy_target(toBigIntHandle(handle), toBigIntHandle(scrollHandle));
+        },
+        ui_set_scroll_enabled(handle, enabledX, enabledY) {
+          runtime.ui._ui_set_scroll_enabled(toBigIntHandle(handle), enabledX, enabledY);
+        },
+        ui_set_show_scrollbars(handle, showScrollbars) {
+          runtime.ui._ui_set_show_scrollbars(toBigIntHandle(handle), showScrollbars);
+        },
+        ui_set_scroll_friction(handle, friction) {
+          runtime.ui._ui_set_scroll_friction(toBigIntHandle(handle), friction);
+        },
         ui_set_focusable(handle, flag, tabIndex) {
           runtime.ui._ui_set_focusable(toBigIntHandle(handle), flag, tabIndex);
         },
@@ -1110,12 +1131,14 @@ function startManagedHarness(options) {
           queueHarnessFrame();
         },
         get_viewport_width() {
-          const rect = runtime.canvas.getBoundingClientRect();
-          return rect.width > 0 ? rect.width : runtime.canvas.width;
+          const sizeSource = getCanvasSizeSource(runtime.canvas);
+          const rect = sizeSource.getBoundingClientRect();
+          return sizeSource.clientWidth > 0 ? sizeSource.clientWidth : rect.width > 0 ? rect.width : runtime.canvas.width;
         },
         get_viewport_height() {
-          const rect = runtime.canvas.getBoundingClientRect();
-          return rect.height > 0 ? rect.height : runtime.canvas.height;
+          const sizeSource = getCanvasSizeSource(runtime.canvas);
+          const rect = sizeSource.getBoundingClientRect();
+          return sizeSource.clientHeight > 0 ? sizeSource.clientHeight : rect.height > 0 ? rect.height : runtime.canvas.height;
         },
         fui_set_pointer_capture(handle) {
           runtime.setCapturedPointerHandle(toBigIntHandle(handle));
@@ -1143,6 +1166,9 @@ function startManagedHarness(options) {
           window.__effindomCallbacks?.onClipboardWrite?.(text);
         },
         fui_set_cursor(style) {
+          if (detectCoarsePointer()) {
+            return;
+          }
           const cursor = style === 1 ? "pointer" : style === 2 ? "text" : style === 3 ? "move" : style === 4 ? "grab" : style === 5 ? "grabbing" : style === 6 ? "ns-resize" : style === 7 ? "ew-resize" : "default";
           runtime.canvas.style.cursor = cursor;
         },
@@ -1154,6 +1180,9 @@ function startManagedHarness(options) {
         },
         fui_get_platform_family() {
           return detectPlatformFamily();
+        },
+        fui_is_coarse_pointer() {
+          return detectCoarsePointer() ? 1 : 0;
         },
         fui_show_url_preview(ptr, len) {
           const rawTarget = readAppUtf8(ptr, len);

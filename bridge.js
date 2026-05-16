@@ -815,13 +815,24 @@
       manifestEntry
     };
   }
+  function readManifestUrl() {
+    return window.__effindomManifestUrl ?? MANIFEST_URL;
+  }
+  function resolveManifestAssetUrl(manifestUrl, assetUrl) {
+    return new URL(assetUrl, manifestUrl).toString();
+  }
   async function loadRuntimeManifest() {
-    return await fetchWithRetry(
-      MANIFEST_URL,
+    const manifestUrl = resolveAssetUrl(readManifestUrl());
+    const manifest = await fetchWithRetry(
+      manifestUrl,
       ASSET_FETCH_ATTEMPTS,
       async (response) => await response.json(),
       { cache: "no-store" }
     );
+    return {
+      manifest,
+      manifestUrl
+    };
   }
   async function instantiatePreparedWasm(preparedAsset, imports) {
     const response = await preparedAsset.responsePromise;
@@ -997,11 +1008,21 @@
     return DEFAULT_BACKEND_LADDER;
   }
   async function prepareRuntimeAssets() {
-    const manifest = await loadRuntimeManifest();
+    const loadedManifest = await loadRuntimeManifest();
+    const manifest = loadedManifest.manifest;
+    const manifestUrl = loadedManifest.manifestUrl;
     const selection = selectManifestArchitecture(manifest, readRequestedArchitecture());
     const requestedRendererBackend = readRequestedRendererBackend();
-    const coreBundle = selection.manifestEntry.core;
-    const uiBundle = selection.manifestEntry.ui;
+    const coreBundle = {
+      ...selection.manifestEntry.core,
+      js: resolveManifestAssetUrl(manifestUrl, selection.manifestEntry.core.js),
+      wasm: resolveManifestAssetUrl(manifestUrl, selection.manifestEntry.core.wasm)
+    };
+    const uiBundle = {
+      ...selection.manifestEntry.ui,
+      js: resolveManifestAssetUrl(manifestUrl, selection.manifestEntry.ui.js),
+      wasm: resolveManifestAssetUrl(manifestUrl, selection.manifestEntry.ui.wasm)
+    };
     const icuAsset = manifest.assets?.icu;
     if (icuAsset === void 0) {
       throw new Error("Manifest is missing the ICU asset descriptor.");
@@ -1016,7 +1037,7 @@
       simdSupported: selection.simdSupported,
       coreCompileMode: "buffer",
       uiCompileMode: "buffer",
-      icuDataUrl: resolveAssetUrl(icuAsset.url),
+      icuDataUrl: resolveManifestAssetUrl(manifestUrl, icuAsset.url),
       activeRenderer: "none",
       deviceRecoveryCount: 0
     };
@@ -1027,19 +1048,19 @@
       coreBundle,
       uiBundle,
       coreWasm: {
-        url: resolveAssetUrl(coreBundle.wasm),
+        url: coreBundle.wasm,
         integrity: coreBundle.wasm_integrity ?? null,
         responsePromise: fetchResponseWithRetry(coreBundle.wasm, coreBundle.wasm_integrity ?? null)
       },
       uiWasm: {
-        url: resolveAssetUrl(uiBundle.wasm),
+        url: uiBundle.wasm,
         integrity: uiBundle.wasm_integrity ?? null,
         responsePromise: fetchResponseWithRetry(uiBundle.wasm, uiBundle.wasm_integrity ?? null)
       },
       icu: {
-        url: resolveAssetUrl(icuAsset.url),
+        url: resolveManifestAssetUrl(manifestUrl, icuAsset.url),
         integrity: icuAsset.integrity ?? null,
-        bytesPromise: fetchBinaryAsset(icuAsset.url, icuAsset.integrity ?? null)
+        bytesPromise: fetchBinaryAsset(resolveManifestAssetUrl(manifestUrl, icuAsset.url), icuAsset.integrity ?? null)
       }
     };
   }
@@ -1088,29 +1109,36 @@
     };
   }
   function getPointerPosition(canvas, event) {
-    const rect = canvas.getBoundingClientRect();
+    const sizeSource = getCanvasSizeSource(canvas);
+    const rect = sizeSource.getBoundingClientRect();
     const logicalSize = readCanvasLogicalSize(canvas);
-    const contentLeft = rect.left + canvas.clientLeft;
-    const contentTop = rect.top + canvas.clientTop;
-    const displayWidth = canvas.clientWidth || rect.width - (canvas.clientLeft + canvas.clientLeft) || DEFAULT_LOGICAL_WIDTH;
-    const displayHeight = canvas.clientHeight || rect.height - (canvas.clientTop + canvas.clientTop) || DEFAULT_LOGICAL_HEIGHT;
+    const contentLeft = rect.left + sizeSource.clientLeft;
+    const contentTop = rect.top + sizeSource.clientTop;
+    const displayWidth = sizeSource.clientWidth || rect.width - (sizeSource.clientLeft + sizeSource.clientLeft) || DEFAULT_LOGICAL_WIDTH;
+    const displayHeight = sizeSource.clientHeight || rect.height - (sizeSource.clientTop + sizeSource.clientTop) || DEFAULT_LOGICAL_HEIGHT;
     const x = displayWidth > 0 ? (event.clientX - contentLeft) / displayWidth * logicalSize.width : 0;
     const y = displayHeight > 0 ? (event.clientY - contentTop) / displayHeight * logicalSize.height : 0;
     return { x, y };
   }
   function isPointerInsideCanvas(canvas, event) {
-    const rect = canvas.getBoundingClientRect();
+    const rect = getCanvasSizeSource(canvas).getBoundingClientRect();
     return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
   }
   function normalizeWheelDelta(event, canvas) {
+    let deltaX = event.deltaX;
+    let deltaY = event.deltaY;
     if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
-      return { x: event.deltaX * 16, y: event.deltaY * 16 };
-    }
-    if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+      deltaX *= 16;
+      deltaY *= 16;
+    } else if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
       const logicalSize = readCanvasLogicalSize(canvas);
-      return { x: event.deltaX * logicalSize.width, y: event.deltaY * logicalSize.height };
+      deltaX *= logicalSize.width;
+      deltaY *= logicalSize.height;
     }
-    return { x: event.deltaX, y: event.deltaY };
+    if (event.shiftKey && Math.abs(deltaX) < 1e-3 && Math.abs(deltaY) > 0) {
+      return { x: deltaY, y: 0 };
+    }
+    return { x: deltaX, y: deltaY };
   }
   function installEventHandlers(runtime, interactionState) {
     const { canvas, ui } = runtime;
@@ -1121,10 +1149,11 @@
     let suppressedContextMenuPointerId = null;
     let edgeAutoScrollTickScheduled = false;
     let pointerMoveFrameScheduled = false;
+    let activePrimaryPointerType = null;
     let activeTouchGesture = null;
     let pendingPointerMove = null;
     const applySelectionAutoScroll = (x, y) => {
-      if (!primaryPointerDown) {
+      if (!primaryPointerDown || activePrimaryPointerType === "touch") {
         return;
       }
       if (handleToBigInt(ui._ui_selection_autoscroll(x, y, EDGE_AUTOSCROLL_THRESHOLD)) === 0n) {
@@ -1167,7 +1196,7 @@
       });
     };
     const scheduleEdgeAutoScrollTick = () => {
-      if (edgeAutoScrollTickScheduled || !primaryPointerDown) {
+      if (edgeAutoScrollTickScheduled || !primaryPointerDown || activePrimaryPointerType === "touch") {
         return;
       }
       edgeAutoScrollTickScheduled = true;
@@ -1214,11 +1243,16 @@
         const deltaFromStartX = position.x - activeTouchGesture.startX;
         const deltaFromStartY = position.y - activeTouchGesture.startY;
         if (deltaFromStartX * deltaFromStartX + deltaFromStartY * deltaFromStartY < TOUCH_SCROLL_THRESHOLD * TOUCH_SCROLL_THRESHOLD) {
-          return false;
+          event.preventDefault();
+          return true;
         }
         activeTouchGesture.scrolling = true;
         cancelPressedPointerInteraction(position.x, position.y);
-        ui._ui_touch_scroll_begin(runtime.getHandleFromPoint(position.x, position.y), position.x, position.y);
+        ui._ui_touch_scroll_begin(
+          ui._ui_touch_scroll_target_at_point(activeTouchGesture.startX, activeTouchGesture.startY),
+          activeTouchGesture.startX,
+          activeTouchGesture.startY
+        );
       }
       const deltaX = activeTouchGesture.lastX - position.x;
       const deltaY = activeTouchGesture.lastY - position.y;
@@ -1266,6 +1300,7 @@
       if (type === UI_EVENT_POINTER_DOWN) {
         captureCanvasPointer(event.pointerId);
         primaryPointerDown = true;
+        activePrimaryPointerType = event.pointerType;
         if (event.pointerType === "touch") {
           activeTouchGesture = {
             pointerId: event.pointerId,
@@ -1286,6 +1321,7 @@
           if (scrolling) {
             interactionState.setCapturedPointerHandle(null);
             primaryPointerDown = false;
+            activePrimaryPointerType = null;
             pendingPointerMove = null;
             ui._ui_touch_scroll_end();
             releaseCanvasPointerCapture(event.pointerId);
@@ -1339,6 +1375,7 @@
       }
       if (type === UI_EVENT_POINTER_UP || type === UI_EVENT_POINTER_LEAVE) {
         primaryPointerDown = false;
+        activePrimaryPointerType = null;
         interactionState.setCapturedPointerHandle(null);
       }
       if (type === UI_EVENT_POINTER_UP || type === UI_EVENT_POINTER_LEAVE) {
