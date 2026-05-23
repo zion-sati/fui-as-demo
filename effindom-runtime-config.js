@@ -1,3 +1,7 @@
-window.__effindomRuntime = Object.assign({}, window.__effindomRuntime, {
-  manifestUrl: './effindom.v2.manifest.json',
-});
+(function () {
+  const script = document.currentScript;
+  const base = script && script.src ? script.src : window.location.href;
+  window.__effindomRuntime = Object.assign({}, window.__effindomRuntime, {
+    manifestUrl: new URL('./effindom.v2.manifest.json', base).toString(),
+  });
+})();
