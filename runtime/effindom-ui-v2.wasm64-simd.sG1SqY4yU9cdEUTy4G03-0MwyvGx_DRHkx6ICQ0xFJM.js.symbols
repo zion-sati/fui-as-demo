@@ -125,27 +125,27 @@
 124:std::__2::vector<effindom::v2::ui::TextClusterStop, std::__2::allocator<effindom::v2::ui::TextClusterStop>>::operator=[abi:ne210108](std::__2::vector<effindom::v2::ui::TextClusterStop, std::__2::allocator<effindom::v2::ui::TextClusterStop>>&&)
 125:icu_74::UnicodeString::doReplace(int, int, char16_t const*, int, int)
 126:expf
-127:__addtf3
-128:void std::__2::vector<float, std::__2::allocator<float>>::__assign_with_size[abi:ne210108]<float const*, float const*>(float const*, float const*, long)
-129:void AAT::Lookup<OT::HBGlyphID16>::collect_glyphs<hb_bit_set_t>(hb_bit_set_t&, unsigned int) const
-130:std::__2::vector<unsigned int, std::__2::allocator<unsigned int>>::reserve(unsigned long)
-131:std::__2::__throw_system_error(int, char const*)
-132:std::__2::__next_prime(unsigned long)
-133:hb_buffer_t::next_glyphs(unsigned int)
-134:facebook::yoga::Style::computeFlexStartPaddingAndBorder(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
-135:_uhash_create(int (*)(UElement), signed char (*)(UElement, UElement), signed char (*)(UElement, UElement), int, UErrorCode*)
-136:__floatsitf
-137:AAT::Lookup<OT::HBGlyphID16>::get_value(unsigned int, unsigned int) const
-138:ures_getByKeyWithFallback_74
-139:std::__2::vector<unsigned int, std::__2::allocator<unsigned int>>::__throw_out_of_range[abi:ne210108]()
-140:std::__2::vector<effindom::v2::ui::SceneInstruction, std::__2::allocator<effindom::v2::ui::SceneInstruction>>::push_back[abi:ne210108](effindom::v2::ui::SceneInstruction&&)
-141:icu_74::UVector::adoptElement(void*, UErrorCode&)
-142:icu_74::ResourceDataValue::~ResourceDataValue()_1506
-143:hb_buffer_t::sync_so_far()
-144:facebook::yoga::Style::computeFlexEndPaddingAndBorder(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
-145:effindom::v2::ui::UiRuntime::ResolvePrimaryLineBoxMetrics(effindom::v2::ui::UINode const&) const
-146:effindom::v2::ui::UiRuntime::RebuildTextLineStarts(effindom::v2::ui::UINode&) const
-147:effindom::v2::ui::UiRuntime::GetScrollViewportHeight(effindom::v2::ui::UINode const&) const
+127:effindom::v2::ui::UiRuntime::GetScrollViewportHeight(effindom::v2::ui::UINode const&) const
+128:__addtf3
+129:void std::__2::vector<float, std::__2::allocator<float>>::__assign_with_size[abi:ne210108]<float const*, float const*>(float const*, float const*, long)
+130:void AAT::Lookup<OT::HBGlyphID16>::collect_glyphs<hb_bit_set_t>(hb_bit_set_t&, unsigned int) const
+131:std::__2::vector<unsigned int, std::__2::allocator<unsigned int>>::reserve(unsigned long)
+132:std::__2::__throw_system_error(int, char const*)
+133:std::__2::__next_prime(unsigned long)
+134:hb_buffer_t::next_glyphs(unsigned int)
+135:facebook::yoga::Style::computeFlexStartPaddingAndBorder(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
+136:_uhash_create(int (*)(UElement), signed char (*)(UElement, UElement), signed char (*)(UElement, UElement), int, UErrorCode*)
+137:__floatsitf
+138:AAT::Lookup<OT::HBGlyphID16>::get_value(unsigned int, unsigned int) const
+139:ures_getByKeyWithFallback_74
+140:std::__2::vector<unsigned int, std::__2::allocator<unsigned int>>::__throw_out_of_range[abi:ne210108]()
+141:std::__2::vector<effindom::v2::ui::SceneInstruction, std::__2::allocator<effindom::v2::ui::SceneInstruction>>::push_back[abi:ne210108](effindom::v2::ui::SceneInstruction&&)
+142:icu_74::UVector::adoptElement(void*, UErrorCode&)
+143:icu_74::ResourceDataValue::~ResourceDataValue()_1506
+144:hb_buffer_t::sync_so_far()
+145:facebook::yoga::Style::computeFlexEndPaddingAndBorder(facebook::yoga::FlexDirection, facebook::yoga::Direction, float) const
+146:effindom::v2::ui::UiRuntime::ResolvePrimaryLineBoxMetrics(effindom::v2::ui::UINode const&) const
+147:effindom::v2::ui::UiRuntime::RebuildTextLineStarts(effindom::v2::ui::UINode&) const
 148:effindom::v2::ui::UiRuntime::GetLocalPositionFromIndex(effindom::v2::ui::UINode const&, unsigned int) const
 149:OT::hb_ot_apply_context_t::hb_ot_apply_context_t(unsigned int, hb_font_t*, hb_buffer_t*, hb_blob_t*)
 150:AAT::Lookup<OT::HBGlyphID16>::sanitize(hb_sanitize_context_t*) const
@@ -155,32 +155,32 @@
 154:icu_74::UVector::~UVector()_1661
 155:icu_74::RuleBasedBreakIterator::handleNext()
 156:hb_serialize_context_t::pop_pack(bool)
-157:effindom::v2::ui::UiRuntime::BuildTextClusterStopsImpl(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long) const
-158:effindom::v2::ui::UiRuntime::ApplyScrollOffset(unsigned long long, effindom::v2::ui::UINode&, float, float, bool)
-159:ures_getNextResource_74
-160:hb_ot_layout_lookup_would_substitute
-161:hb_face_t::load_upem() const
-162:hb_buffer_destroy
-163:facebook::yoga::Style::computePosition(facebook::yoga::PhysicalEdge, facebook::yoga::Direction) const
-164:effindom::v2::ui::UiRuntime::InvalidateTextLayoutCache(effindom::v2::ui::UINode&, bool)
-165:effindom::v2::ui::UiRuntime::ComputeScrollViewportBounds(effindom::v2::ui::UINode const&, float, float) const
-166:effindom::v2::ui::CachedLogicalLineShape::CachedLogicalLineShape(effindom::v2::ui::CachedLogicalLineShape const&)
-167:__sindf
-168:__cosdf
-169:(anonymous namespace)::init_resb_result(UResourceDataEntry*, unsigned int, char const*, int, UResourceDataEntry*, char const*, int, UResourceBundle*, UErrorCode*)
-170:ulocimp_getLanguage_74(char const*, char const**, UErrorCode&)
-171:std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>::push_back[abi:ne210108](unsigned long long const&)
-172:operator delete(void*)
-173:icu_74::ReorderingBuffer::appendBMP(char16_t, unsigned char, UErrorCode&)
-174:icu_74::CharString::appendInvariantChars(icu_74::UnicodeString const&, UErrorCode&)
-175:hb_sanitize_context_t::return_t OT::Paint::dispatch<hb_sanitize_context_t>(hb_sanitize_context_t*) const
-176:hb_lazy_loader_t<OT::GDEF_accelerator_t, hb_face_lazy_loader_t<OT::GDEF_accelerator_t, 24u>, hb_face_t, 24u, OT::GDEF_accelerator_t>::do_destroy(OT::GDEF_accelerator_t*)
-177:hb_buffer_t::unsafe_to_break(unsigned int, unsigned int)
-178:hb_blob_t* hb_data_wrapper_t<hb_face_t, 6u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::OS2, 6u, true>>() const
-179:effindom::v2::ui::UiRuntime::NotifyTextStateChangedImpl(unsigned long long, effindom::v2::ui::UINode&, std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const*)
-180:effindom::v2::ui::UiRuntime::GetStringIndexFromPoint(effindom::v2::ui::UINode const&, float, float) const
-181:effindom::v2::ui::UiRuntime::GetScrollViewportWidth(effindom::v2::ui::UINode const&) const
-182:effindom::v2::ui::UiRuntime::ComputeVisibleBounds(effindom::v2::ui::UINode const&) const
+157:effindom::v2::ui::UiRuntime::GetScrollViewportWidth(effindom::v2::ui::UINode const&) const
+158:effindom::v2::ui::UiRuntime::BuildTextClusterStopsImpl(std::__2::vector<effindom::v2::ui::GlyphPlacement, std::__2::allocator<effindom::v2::ui::GlyphPlacement>> const&, float, unsigned long) const
+159:effindom::v2::ui::UiRuntime::ApplyScrollOffset(unsigned long long, effindom::v2::ui::UINode&, float, float, bool)
+160:ures_getNextResource_74
+161:hb_ot_layout_lookup_would_substitute
+162:hb_face_t::load_upem() const
+163:hb_buffer_destroy
+164:facebook::yoga::Style::computePosition(facebook::yoga::PhysicalEdge, facebook::yoga::Direction) const
+165:effindom::v2::ui::UiRuntime::InvalidateTextLayoutCache(effindom::v2::ui::UINode&, bool)
+166:effindom::v2::ui::UiRuntime::ComputeVisibleBounds(effindom::v2::ui::UINode const&) const
+167:effindom::v2::ui::UiRuntime::ComputeScrollViewportBounds(effindom::v2::ui::UINode const&, float, float) const
+168:effindom::v2::ui::CachedLogicalLineShape::CachedLogicalLineShape(effindom::v2::ui::CachedLogicalLineShape const&)
+169:__sindf
+170:__cosdf
+171:(anonymous namespace)::init_resb_result(UResourceDataEntry*, unsigned int, char const*, int, UResourceDataEntry*, char const*, int, UResourceBundle*, UErrorCode*)
+172:ulocimp_getLanguage_74(char const*, char const**, UErrorCode&)
+173:std::__2::vector<unsigned long long, std::__2::allocator<unsigned long long>>::push_back[abi:ne210108](unsigned long long const&)
+174:operator delete(void*)
+175:icu_74::ReorderingBuffer::appendBMP(char16_t, unsigned char, UErrorCode&)
+176:icu_74::CharString::appendInvariantChars(icu_74::UnicodeString const&, UErrorCode&)
+177:hb_sanitize_context_t::return_t OT::Paint::dispatch<hb_sanitize_context_t>(hb_sanitize_context_t*) const
+178:hb_lazy_loader_t<OT::GDEF_accelerator_t, hb_face_lazy_loader_t<OT::GDEF_accelerator_t, 24u>, hb_face_t, 24u, OT::GDEF_accelerator_t>::do_destroy(OT::GDEF_accelerator_t*)
+179:hb_buffer_t::unsafe_to_break(unsigned int, unsigned int)
+180:hb_blob_t* hb_data_wrapper_t<hb_face_t, 6u>::call_create<hb_blob_t, hb_table_lazy_loader_t<OT::OS2, 6u, true>>() const
+181:effindom::v2::ui::UiRuntime::NotifyTextStateChangedImpl(unsigned long long, effindom::v2::ui::UINode&, std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char>> const*)
+182:effindom::v2::ui::UiRuntime::GetStringIndexFromPoint(effindom::v2::ui::UINode const&, float, float) const
 183:__extenddftf2
 184:OT::Layout::GSUB_impl::SubstLookup* hb_serialize_context_t::push<OT::Layout::GSUB_impl::SubstLookup>()
 185:OT::GSUB_accelerator_t* hb_data_wrapper_t<hb_face_t, 25u>::call_create<OT::GSUB_accelerator_t, hb_face_lazy_loader_t<OT::GSUB_accelerator_t, 25u>>() const
