@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "manifest_hash": "1lc0yEqcLtnpNINmbxsrYQr2wncr3NTc8GhrQRrOXII",
+  "manifest_hash": "Rhi6WqIfhs5KVZyWeQI0rXqM_5txMPmtskyyeKjwQF0",
   "architectures": {
     "wasm64-simd": {
       "core": {
@@ -12,8 +12,8 @@
       "ui": {
         "js": "./runtime/effindom-ui-v2.wasm64-simd.nOTdx6_U_9xMkPtD-nlaENVFxKAcShTy5rr--nLNab0.js",
         "js_integrity": "sha256-nOTdx6/U/9xMkPtD+nlaENVFxKAcShTy5rr++nLNab0=",
-        "wasm": "./runtime/effindom-ui-v2.wasm64-simd.rW3Rlfx3R6W30_I1FSvJBMoK7J1y1Atctx8YTBImeRI.wasm",
-        "wasm_integrity": "sha256-rW3Rlfx3R6W30/I1FSvJBMoK7J1y1Atctx8YTBImeRI="
+        "wasm": "./runtime/effindom-ui-v2.wasm64-simd.yz06_a0_a-OPAL19ve1U36NY6_4WxRgSTXSuf8nMUR4.wasm",
+        "wasm_integrity": "sha256-yz06/a0/a+OPAL19ve1U36NY6/4WxRgSTXSuf8nMUR4="
       }
     },
     "wasm64": {
@@ -26,8 +26,8 @@
       "ui": {
         "js": "./runtime/effindom-ui-v2.wasm64.nOTdx6_U_9xMkPtD-nlaENVFxKAcShTy5rr--nLNab0.js",
         "js_integrity": "sha256-nOTdx6/U/9xMkPtD+nlaENVFxKAcShTy5rr++nLNab0=",
-        "wasm": "./runtime/effindom-ui-v2.wasm64.7GvSqfVrOEH9OtzGlhXASA5-P_f1nfvgvI4sT20l38Y.wasm",
-        "wasm_integrity": "sha256-7GvSqfVrOEH9OtzGlhXASA5+P/f1nfvgvI4sT20l38Y="
+        "wasm": "./runtime/effindom-ui-v2.wasm64.wHYqI2vgZ_4rV-AXnR_llJIlIeVcHAm5WquCcbgRh30.wasm",
+        "wasm_integrity": "sha256-wHYqI2vgZ/4rV+AXnR/llJIlIeVcHAm5WquCcbgRh30="
       }
     },
     "wasm32-simd": {
@@ -40,8 +40,8 @@
       "ui": {
         "js": "./runtime/effindom-ui-v2.wasm32-simd.mZplS8zFDhOsmSZXBxieZvqh1UN_PBhZUewLHA3g9Vc.js",
         "js_integrity": "sha256-mZplS8zFDhOsmSZXBxieZvqh1UN/PBhZUewLHA3g9Vc=",
-        "wasm": "./runtime/effindom-ui-v2.wasm32-simd.-hDcAM31cC2zw6NCgoUVZbfdvCAOgLLn3KzC5hGVc9Q.wasm",
-        "wasm_integrity": "sha256-+hDcAM31cC2zw6NCgoUVZbfdvCAOgLLn3KzC5hGVc9Q="
+        "wasm": "./runtime/effindom-ui-v2.wasm32-simd.-Wu89hH4uf5Mkt7obzPLbGih_wcf_hCqla_4TuHpJuk.wasm",
+        "wasm_integrity": "sha256-+Wu89hH4uf5Mkt7obzPLbGih/wcf/hCqla/4TuHpJuk="
       }
     },
     "wasm32": {
@@ -54,8 +54,8 @@
       "ui": {
         "js": "./runtime/effindom-ui-v2.wasm32.mZplS8zFDhOsmSZXBxieZvqh1UN_PBhZUewLHA3g9Vc.js",
         "js_integrity": "sha256-mZplS8zFDhOsmSZXBxieZvqh1UN/PBhZUewLHA3g9Vc=",
-        "wasm": "./runtime/effindom-ui-v2.wasm32.aZLFYCgRCyZ2gGCAs4ULQ5M6Dw8wX4UOs41_51VFQWI.wasm",
-        "wasm_integrity": "sha256-aZLFYCgRCyZ2gGCAs4ULQ5M6Dw8wX4UOs41/51VFQWI="
+        "wasm": "./runtime/effindom-ui-v2.wasm32.RVP72BNEif4v2f6Bh0X-XcJlHuL544bb4Uvd9OmxBLU.wasm",
+        "wasm_integrity": "sha256-RVP72BNEif4v2f6Bh0X+XcJlHuL544bb4Uvd9OmxBLU="
       }
     }
   },
