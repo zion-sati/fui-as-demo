@@ -1,9 +1,0 @@
-{
-  "version": 1,
-  "entries": {
-    "largestPrimeCalculatorWorker": "./workers/advanced_controls_workers.wasm",
-    "smokeCancelableWorker": "./workers/smoke_workers.wasm",
-    "smokeEchoWorker": "./workers/smoke_workers.wasm",
-    "smokeFailWorker": "./workers/smoke_workers.wasm"
-  }
-}
