@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "entries": {
+    "smokeCancelableWorker": "./workers/smoke_workers.wasm",
+    "smokeEchoWorker": "./workers/smoke_workers.wasm",
+    "smokeFailWorker": "./workers/smoke_workers.wasm"
+  }
+}
