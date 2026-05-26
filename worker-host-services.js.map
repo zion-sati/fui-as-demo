@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../demo/src/worker-host-services.ts", "../demo/worker-host-services.ts"],
+  "sourcesContent": ["import { defineHostServices, hostService } from \"../../browser/src/host-services\";\n\nexport const demoWorkerHostServices = defineHostServices({\n  demoWorkerClock: {\n    wallClockSinceEpochMs: hostService({\n      args: [] as const,\n      returns: \"f64\",\n      implementation() {\n        return Date.now();\n      },\n    }),\n  },\n});\n", "import { demoWorkerHostServices } from \"./src/worker-host-services\";\n\ndeclare global {\n  var __fuiWorkerHostServicesModule: Record<string, unknown> | undefined;\n}\n\nglobalThis.__fuiWorkerHostServicesModule = {\n  ...(globalThis.__fuiWorkerHostServicesModule ?? {}),\n  demoWorkerHostServices,\n};\n"],
+  "mappings": "mBAEO,IAAMA,EAA4C,CACvD,gBAAiB,CACf,sBAAmC,CACjC,KAAM,CAAC,EACP,QAAS,MACT,gBAAiB,CACf,OAAO,KAAK,IAAI,CAClB,CACF,CACF,CACF,ECNA,WAAW,8BAAgC,CACzC,GAAI,WAAW,+BAAiC,CAAC,EACjD,uBAAAC,CACF",
+  "names": ["demoWorkerHostServices", "demoWorkerHostServices"]
+}
