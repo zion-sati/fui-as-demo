@@ -5,6 +5,8 @@ WebAssembly display server. No DOM. No CSS. No virtual DOM.
 
 **[→ View the demo](https://zion-sati.github.io/fui-as-demo/)**
 
+**[→ Demo source code](./fui-as-demo-source/)
+
 This is a static GitHub Pages deployment of the FUI-AS demo app. The built
 assets (WASM, JS, HTML) are served directly from the repo root.
 
