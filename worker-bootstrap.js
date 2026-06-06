@@ -1,2 +1,1156 @@
-"use strict";(()=>{var A=/^[A-Za-z_][A-Za-z0-9_]*$/;function N(e,r){if(!A.test(e))throw new Error(`${r} "${e}" must be a valid identifier.`)}function R(e){return e.length==0?e:`${e[0].toUpperCase()}${e.slice(1)}`}function D(e,r){return`${e}${R(r)}`}function T(e,r){if(!(e==="string"||e==="bool"||e==="i32"||e==="f64"||e==="void"))throw new Error(`${r} uses unsupported host-service type "${e}".`)}function x(e){if(e===void 0)return[];let r=[],o=new Set;for(let[t,n]of Object.entries(e)){N(t,"Host service");for(let[i,l]of Object.entries(n)){N(i,`Host service ${t} method`);let s=D(t,i);if(o.has(s))throw new Error(`Duplicate host-service import name "${s}".`);o.add(s);let u=[...l.args];u.forEach((w,d)=>T(w,`Host service ${t}.${i} arg ${String(d)}`)),T(l.returns,`Host service ${t}.${i} return`),r.push({serviceName:t,methodName:i,importName:s,args:u,returns:l.returns,implementation:l.implementation})}}return r.sort((t,n)=>t.importName.localeCompare(n.importName)),r}function I(e){return new Set(x(e).map(r=>r.importName))}function m(e,r){if(typeof e!="number"||Number.isNaN(e))throw new Error(`${r} must be a number.`);return e}function B(e,r){if(typeof e!="boolean")throw new Error(`${r} must be a boolean.`);return e}function U(e,r){if(typeof e!="string")throw new Error(`${r} must be a string.`);return e}function M(e,r){let o=m(e,r);if(!Number.isInteger(o)||o<-2147483648||o>2147483647)throw new Error(`${r} must be a signed 32-bit integer.`);return o}function q(e,r,o){let t=[],n=0;return e.args.forEach((i,l)=>{let s=`Host service ${e.serviceName}.${e.methodName} arg ${String(l)}`;if(i==="string"){let w=m(r[n],`${s} ptr`),d=m(r[n+1],`${s} len`);t.push(d<=0?"":o.readString(w,d)),n+=2;return}let u=r[n];if(i==="bool")t.push(m(u,s)!==0);else if(i==="i32")t.push(M(u,s));else if(i==="f64")t.push(m(u,s));else throw new Error(`${s} uses unsupported type ${i}.`);n+=1}),t}function W(e,r){let o={};for(let t of x(e))o[t.importName]=(...n)=>{let i=q(t,n,r),l=t.implementation(...i),s=`Host service ${t.serviceName}.${t.methodName} result`;if(t.returns!=="void"){if(t.returns==="string"){let u=0;t.args.forEach(b=>{u+=b==="string"?2:1});let w=m(n[u],`${s} ptr`),d=m(n[u+1],`${s} capacity`);return r.writeString(w,d,U(l,s),s)}if(t.returns==="bool")return B(l,s)?1:0;if(t.returns==="i32")return M(l,s);if(t.returns==="f64")return m(l,s);throw new Error(`${s} uses unsupported type ${t.returns}.`)}};return o}var p=globalThis,z=new TextDecoder,C=new TextEncoder,g=null,y=!1,_=!1,V=new Set(["fui_worker_input_length","fui_worker_copy_input","fui_worker_report_progress","fui_worker_complete_string","fui_worker_fail","fui_worker_is_cancelled","fui_worker_request_yield","fui_worker_request_yield_delay"]);function j(e){return e instanceof Error?e.message:String(e)}function F(e){if(e===void 0)return;p.importScripts(e.scriptUrl);let r=p.__fuiWorkerHostServicesModule;if(typeof r!="object"||r===null)throw new Error(`Worker host-services bundle ${e.scriptUrl} did not initialize __fuiWorkerHostServicesModule.`);let o=r[e.exportName];if(typeof o!="object"||o===null)throw new Error(`Worker host-services bundle ${e.scriptUrl} does not export "${e.exportName}".`);return o}function O(e,r){let o=I(r),t=WebAssembly.Module.imports(e);for(let n of t){if(n.kind!=="function")throw new Error(`Worker import ${n.module}.${n.name} is not allowed.`);if(!(n.module==="env"&&n.name==="abort")&&!(n.module==="fui_worker_host"&&V.has(n.name))&&!(n.module==="fui_host_service"&&o.has(n.name)))throw new Error(`Worker import ${n.module}.${n.name} is not allowed.`)}}function k(e,r,o){return e===null||o<=0?"":z.decode(new Uint8Array(e.buffer,r,o))}function K(e,r,o,t,n){if(e===null)throw new Error(`${n} requires worker memory.`);if(o<=0){if(t.length===0)return 0;throw new Error(`${n} cannot write into a zero-length worker host-service buffer.`)}let i=C.encode(t);if(i.length>o)throw new Error(`${n} exceeds the worker host-service result buffer.`);return i.length>0&&new Uint8Array(e.buffer,r,i.length).set(i),i.length}async function Z(e){let r=null,o=!1,t=!1,n=0,i=!1,l=new TextEncoder().encode(e.input),s=F(e.workerHostServices),u=null;g=e.workerId,y=_,_=!1;function w(){return g===e.workerId&&y}function d(){if(i||o||u===null)return;i=!0;let v=n>0?n:0;n=0,setTimeout(()=>{i=!1,!(o||u===null)&&b()},v)}function b(){if(!(u===null||o)&&(t=!1,u(),!o)){if(t){d();return}p.postMessage({type:"error",workerId:e.workerId,text:"Worker exited without calling Worker.complete(...), Worker.fail(...), or Worker.yield(...)."}),o=!0,g=null,y=!1}}try{let v=await fetch(e.wasmUrl,{cache:"no-store",credentials:"same-origin"});if(!v.ok)throw new Error(`Failed to load worker wasm from ${e.wasmUrl}.`);let E=await v.arrayBuffer(),H=await WebAssembly.compile(E);O(H,s);let S=(await WebAssembly.instantiate(H,{env:{abort(a,c,f,h){throw new Error(`Worker aborted at ${String(f??0)}:${String(h??0)}.`)}},fui_host_service:W(s,{readString:(a,c)=>k(r,a,c),writeString:(a,c,f,h)=>K(r,a,c,f,h)}),fui_worker_host:{fui_worker_input_length(){return l.length},fui_worker_copy_input(a,c){if(r===null||c<=0)return 0;let f=Math.min(c,l.length);return f<=0?0:(new Uint8Array(r.buffer,a,f).set(l.subarray(0,f)),f)},fui_worker_report_progress(a,c){o||p.postMessage({type:"progress",workerId:e.workerId,text:k(r,a,c)})},fui_worker_complete_string(a,c){o||(o=!0,g=null,y=!1,p.postMessage({type:"complete",workerId:e.workerId,text:k(r,a,c)}))},fui_worker_fail(a,c){o||(o=!0,g=null,y=!1,p.postMessage({type:"error",workerId:e.workerId,text:k(r,a,c)}))},fui_worker_is_cancelled(){return w()?1:0},fui_worker_request_yield(){t=!0,n=0},fui_worker_request_yield_delay(a){t=!0,n=Number.isFinite(a)&&a>0?Math.floor(a):0}}})).exports;if(!(S.memory instanceof WebAssembly.Memory))throw new Error("Worker module did not export memory.");r=S.memory;let $=S[e.entryName];if(typeof $!="function")throw new Error(`Worker export "${e.entryName}" is missing.`);u=$,b()}catch(v){g=null,y=!1,p.postMessage({type:"error",workerId:e.workerId,text:j(v)})}}p.onmessage=e=>{let r=e.data;if(r.type==="start"){Z(r);return}if(r.type==="cancel"){if(g===r.workerId){y=!0;return}_=!0}};})();
-//# sourceMappingURL=worker-bootstrap.js.map
+// node_modules/@effindomv2/fui-as/browser/src/host-services.ts
+var IDENTIFIER_RE = /^[A-Za-z_][A-Za-z0-9_]*$/;
+function assertIdentifier(value, context) {
+  if (!IDENTIFIER_RE.test(value)) {
+    throw new Error(`${context} "${value}" must be a valid identifier.`);
+  }
+}
+function capitalize(value) {
+  return value.length == 0 ? value : `${value[0].toUpperCase()}${value.slice(1)}`;
+}
+function buildImportName(serviceName, methodName) {
+  return `${serviceName}${capitalize(methodName)}`;
+}
+function validateServiceType(type, context) {
+  if (type === "string" || type === "bool" || type === "i32" || type === "u32" || type === "i64" || type === "u64" || type === "f64" || type === "bytes" || type === "i32_array" || type === "u32_array" || type === "i64_array" || type === "u64_array" || type === "f64_array" || type === "void") {
+    return;
+  }
+  throw new Error(`${context} uses unsupported host-service type "${type}".`);
+}
+function listHostServiceMethods(services) {
+  if (services === void 0) {
+    return [];
+  }
+  const methods = [];
+  const seenImports = /* @__PURE__ */ new Set();
+  for (const [serviceName, serviceMethods] of Object.entries(services)) {
+    assertIdentifier(serviceName, "Host service");
+    for (const [methodName, definition] of Object.entries(serviceMethods)) {
+      assertIdentifier(methodName, `Host service ${serviceName} method`);
+      const importName = definition.importName ?? buildImportName(serviceName, methodName);
+      assertIdentifier(importName, `Host service ${serviceName}.${methodName} import`);
+      if (seenImports.has(importName)) {
+        throw new Error(`Duplicate host-service import name "${importName}".`);
+      }
+      seenImports.add(importName);
+      const args = [...definition.args];
+      args.forEach((type, index) => validateServiceType(type, `Host service ${serviceName}.${methodName} arg ${String(index)}`));
+      validateServiceType(definition.returns, `Host service ${serviceName}.${methodName} return`);
+      methods.push({
+        serviceName,
+        methodName,
+        importName,
+        args,
+        returns: definition.returns,
+        implementation: definition.implementation
+      });
+    }
+  }
+  methods.sort((left, right) => left.importName.localeCompare(right.importName));
+  return methods;
+}
+function getHostServiceImportNames(services) {
+  return new Set(listHostServiceMethods(services).map((method) => method.importName));
+}
+function expectNumber(value, context) {
+  if (typeof value !== "number" || Number.isNaN(value)) {
+    throw new Error(`${context} must be a number.`);
+  }
+  return value;
+}
+function expectBoolean(value, context) {
+  if (typeof value !== "boolean") {
+    throw new Error(`${context} must be a boolean.`);
+  }
+  return value;
+}
+function expectString(value, context) {
+  if (typeof value !== "string") {
+    throw new Error(`${context} must be a string.`);
+  }
+  return value;
+}
+function expectBytes(value, context) {
+  if (!(value instanceof Uint8Array)) {
+    throw new Error(`${context} must be a Uint8Array.`);
+  }
+  return value;
+}
+function expectInt32Array(value, context) {
+  if (!(value instanceof Int32Array)) {
+    throw new Error(`${context} must be an Int32Array.`);
+  }
+  return value;
+}
+function expectFloat64Array(value, context) {
+  if (!(value instanceof Float64Array)) {
+    throw new Error(`${context} must be a Float64Array.`);
+  }
+  return value;
+}
+function expectBigInt64Array(value, context) {
+  if (!(value instanceof BigInt64Array)) {
+    throw new Error(`${context} must be a BigInt64Array.`);
+  }
+  return value;
+}
+function expectBigUint64Array(value, context) {
+  if (!(value instanceof BigUint64Array)) {
+    throw new Error(`${context} must be a BigUint64Array.`);
+  }
+  return value;
+}
+function expectUint32Array(value, context) {
+  if (!(value instanceof Uint32Array)) {
+    throw new Error(`${context} must be a Uint32Array.`);
+  }
+  return value;
+}
+function expectI32(value, context) {
+  const numberValue = expectNumber(value, context);
+  if (!Number.isInteger(numberValue) || numberValue < -2147483648 || numberValue > 2147483647) {
+    throw new Error(`${context} must be a signed 32-bit integer.`);
+  }
+  return numberValue;
+}
+function expectU32(value, context) {
+  const numberValue = expectNumber(value, context);
+  if (!Number.isInteger(numberValue) || numberValue < 0 || numberValue > 4294967295) {
+    throw new Error(`${context} must be an unsigned 32-bit integer.`);
+  }
+  return numberValue;
+}
+function expectI64(value, context) {
+  if (typeof value !== "bigint") {
+    throw new Error(`${context} must be a bigint.`);
+  }
+  if (value < -9223372036854775808n || value > 9223372036854775807n) {
+    throw new Error(`${context} must be a signed 64-bit integer.`);
+  }
+  return value;
+}
+function expectU64(value, context) {
+  if (typeof value !== "bigint") {
+    throw new Error(`${context} must be a bigint.`);
+  }
+  if (value < 0n || value > 18446744073709551615n) {
+    throw new Error(`${context} must be an unsigned 64-bit integer.`);
+  }
+  return value;
+}
+function expectLength(value, context) {
+  const length = expectNumber(value, context);
+  if (!Number.isInteger(length) || length < 0) {
+    throw new Error(`${context} must be a non-negative integer.`);
+  }
+  return length;
+}
+function bytesToI32Array(bytes, context) {
+  if ((bytes.byteLength & 3) !== 0) {
+    throw new Error(`${context} payload length must be divisible by 4.`);
+  }
+  const values = new Int32Array(bytes.byteLength >>> 2);
+  new Uint8Array(values.buffer).set(bytes);
+  return values;
+}
+function bytesToU32Array(bytes, context) {
+  if ((bytes.byteLength & 3) !== 0) {
+    throw new Error(`${context} payload length must be divisible by 4.`);
+  }
+  const values = new Uint32Array(bytes.byteLength >>> 2);
+  new Uint8Array(values.buffer).set(bytes);
+  return values;
+}
+function bytesToF64Array(bytes, context) {
+  if ((bytes.byteLength & 7) !== 0) {
+    throw new Error(`${context} payload length must be divisible by 8.`);
+  }
+  const values = new Float64Array(bytes.byteLength >>> 3);
+  new Uint8Array(values.buffer).set(bytes);
+  return values;
+}
+function bytesToI64Array(bytes, context) {
+  if ((bytes.byteLength & 7) !== 0) {
+    throw new Error(`${context} payload length must be divisible by 8.`);
+  }
+  const values = new BigInt64Array(bytes.byteLength >>> 3);
+  new Uint8Array(values.buffer).set(bytes);
+  return values;
+}
+function bytesToU64Array(bytes, context) {
+  if ((bytes.byteLength & 7) !== 0) {
+    throw new Error(`${context} payload length must be divisible by 8.`);
+  }
+  const values = new BigUint64Array(bytes.byteLength >>> 3);
+  new Uint8Array(values.buffer).set(bytes);
+  return values;
+}
+function typedArrayBytes(value) {
+  return new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
+}
+function consumedRawArgCount(method) {
+  let count = 0;
+  method.args.forEach((type) => {
+    count += type === "string" || type === "bytes" || type === "i32_array" || type === "u32_array" || type === "i64_array" || type === "u64_array" || type === "f64_array" ? 2 : 1;
+  });
+  return count;
+}
+function decodeHostServiceArgs(method, rawArgs, io) {
+  const decodedArgs = [];
+  let index = 0;
+  method.args.forEach((type, argIndex) => {
+    const context = `Host service ${method.serviceName}.${method.methodName} arg ${String(argIndex)}`;
+    if (type === "string") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectNumber(rawArgs[index + 1], `${context} len`);
+      decodedArgs.push(len <= 0 ? "" : io.readString(ptr, len));
+      index += 2;
+      return;
+    }
+    if (type === "bytes") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectLength(rawArgs[index + 1], `${context} len`);
+      decodedArgs.push(len <= 0 ? new Uint8Array(0) : io.readBytes(ptr, len));
+      index += 2;
+      return;
+    }
+    if (type === "i32_array") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectLength(rawArgs[index + 1], `${context} len`);
+      const payload = len <= 0 ? new Uint8Array(0) : io.readBytes(ptr, len << 2);
+      decodedArgs.push(bytesToI32Array(payload, context));
+      index += 2;
+      return;
+    }
+    if (type === "u32_array") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectLength(rawArgs[index + 1], `${context} len`);
+      const payload = len <= 0 ? new Uint8Array(0) : io.readBytes(ptr, len << 2);
+      decodedArgs.push(bytesToU32Array(payload, context));
+      index += 2;
+      return;
+    }
+    if (type === "f64_array") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectLength(rawArgs[index + 1], `${context} len`);
+      const payload = len <= 0 ? new Uint8Array(0) : io.readBytes(ptr, len << 3);
+      decodedArgs.push(bytesToF64Array(payload, context));
+      index += 2;
+      return;
+    }
+    if (type === "i64_array") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectLength(rawArgs[index + 1], `${context} len`);
+      const payload = len <= 0 ? new Uint8Array(0) : io.readBytes(ptr, len << 3);
+      decodedArgs.push(bytesToI64Array(payload, context));
+      index += 2;
+      return;
+    }
+    if (type === "u64_array") {
+      const ptr = expectNumber(rawArgs[index], `${context} ptr`);
+      const len = expectLength(rawArgs[index + 1], `${context} len`);
+      const payload = len <= 0 ? new Uint8Array(0) : io.readBytes(ptr, len << 3);
+      decodedArgs.push(bytesToU64Array(payload, context));
+      index += 2;
+      return;
+    }
+    const rawValue = rawArgs[index];
+    if (type === "bool") {
+      decodedArgs.push(expectNumber(rawValue, context) !== 0);
+    } else if (type === "i32") {
+      decodedArgs.push(expectI32(rawValue, context));
+    } else if (type === "u32") {
+      decodedArgs.push(expectU32(rawValue, context));
+    } else if (type === "i64") {
+      decodedArgs.push(expectI64(rawValue, context));
+    } else if (type === "u64") {
+      decodedArgs.push(expectU64(rawValue, context));
+    } else if (type === "f64") {
+      decodedArgs.push(expectNumber(rawValue, context));
+    } else {
+      throw new Error(`${context} uses unsupported type ${type}.`);
+    }
+    index += 1;
+  });
+  return decodedArgs;
+}
+function createHostServiceImportModule(services, io) {
+  const module = {};
+  for (const method of listHostServiceMethods(services)) {
+    module[method.importName] = (...rawArgs) => {
+      const decodedArgs = decodeHostServiceArgs(method, rawArgs, io);
+      const result = method.implementation(...decodedArgs);
+      const resultContext = `Host service ${method.serviceName}.${method.methodName} result`;
+      if (method.returns === "void") {
+        return;
+      }
+      if (method.returns === "string") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeString(ptr, capacity, expectString(result, resultContext), resultContext);
+      }
+      if (method.returns === "bytes") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeBytes(ptr, capacity, expectBytes(result, resultContext), resultContext);
+      }
+      if (method.returns === "i32_array") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeBytes(ptr, capacity, typedArrayBytes(expectInt32Array(result, resultContext)), resultContext);
+      }
+      if (method.returns === "u32_array") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeBytes(ptr, capacity, typedArrayBytes(expectUint32Array(result, resultContext)), resultContext);
+      }
+      if (method.returns === "f64_array") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeBytes(ptr, capacity, typedArrayBytes(expectFloat64Array(result, resultContext)), resultContext);
+      }
+      if (method.returns === "i64_array") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeBytes(ptr, capacity, typedArrayBytes(expectBigInt64Array(result, resultContext)), resultContext);
+      }
+      if (method.returns === "u64_array") {
+        const outputIndex = consumedRawArgCount(method);
+        const ptr = expectNumber(rawArgs[outputIndex], `${resultContext} ptr`);
+        const capacity = expectNumber(rawArgs[outputIndex + 1], `${resultContext} capacity`);
+        return io.writeBytes(ptr, capacity, typedArrayBytes(expectBigUint64Array(result, resultContext)), resultContext);
+      }
+      if (method.returns === "bool") {
+        return expectBoolean(result, resultContext) ? 1 : 0;
+      }
+      if (method.returns === "i32") {
+        return expectI32(result, resultContext);
+      }
+      if (method.returns === "u32") {
+        return expectU32(result, resultContext);
+      }
+      if (method.returns === "i64") {
+        return expectI64(result, resultContext);
+      }
+      if (method.returns === "u64") {
+        return expectU64(result, resultContext);
+      }
+      if (method.returns === "f64") {
+        return expectNumber(result, resultContext);
+      }
+      throw new Error(`${resultContext} uses unsupported type ${method.returns}.`);
+    };
+  }
+  return module;
+}
+
+// node_modules/@effindomv2/fui-as/browser/src/worker-bootstrap.ts
+var workerScope = globalThis;
+var decoder = new TextDecoder();
+var encoder = new TextEncoder();
+var activeWorkerId = null;
+var activeCancellationRequested = false;
+var pendingCancellationRequested = false;
+var activeFile = null;
+var allowedWorkerHostImports = /* @__PURE__ */ new Set([
+  "fui_fetch_start",
+  "fui_fetch_cancel",
+  "fui_file_read_chunk",
+  "fui_file_worker_write_chunk",
+  "fui_worker_input_length",
+  "fui_worker_copy_input",
+  "fui_worker_report_progress",
+  "fui_worker_complete_string",
+  "fui_worker_fail",
+  "fui_worker_is_cancelled",
+  "fui_worker_request_yield",
+  "fui_worker_request_yield_delay"
+]);
+function describeError(error) {
+  return error instanceof Error ? error.message : String(error);
+}
+function loadWorkerHostServices(config) {
+  if (config === void 0) {
+    return void 0;
+  }
+  workerScope.importScripts(config.scriptUrl);
+  const bundle = workerScope.__fuiWorkerHostServicesModule;
+  if (typeof bundle !== "object" || bundle === null) {
+    throw new Error(`Worker host-services bundle ${config.scriptUrl} did not initialize __fuiWorkerHostServicesModule.`);
+  }
+  const exported = bundle[config.exportName];
+  if (typeof exported !== "object" || exported === null) {
+    throw new Error(`Worker host-services bundle ${config.scriptUrl} does not export "${config.exportName}".`);
+  }
+  return exported;
+}
+function validateWorkerImports(module, hostServices) {
+  const allowedHostServiceImports = getHostServiceImportNames(hostServices);
+  const imports = WebAssembly.Module.imports(module);
+  for (const imported of imports) {
+    if (imported.kind !== "function") {
+      throw new Error(`Worker import ${imported.module}.${imported.name} is not allowed.`);
+    }
+    if (imported.module === "env" && imported.name === "abort") {
+      continue;
+    }
+    if (imported.module === "fui_worker_host" && allowedWorkerHostImports.has(imported.name)) {
+      continue;
+    }
+    if (imported.module === "fui_fetch_host" && allowedWorkerHostImports.has(imported.name)) {
+      continue;
+    }
+    if (imported.module === "fui_host_service" && allowedHostServiceImports.has(imported.name)) {
+      continue;
+    }
+    throw new Error(`Worker import ${imported.module}.${imported.name} is not allowed.`);
+  }
+}
+function readUtf8(memory, ptr, len) {
+  if (memory === null || len <= 0) {
+    return "";
+  }
+  return decoder.decode(new Uint8Array(memory.buffer, ptr, len));
+}
+function writeUtf8(memory, ptr, capacity, text, context) {
+  if (memory === null) {
+    throw new Error(`${context} requires worker memory.`);
+  }
+  if (capacity <= 0) {
+    if (text.length === 0) {
+      return 0;
+    }
+    throw new Error(`${context} cannot write into a zero-length worker host-service buffer.`);
+  }
+  const encoded = encoder.encode(text);
+  if (encoded.length > capacity) {
+    throw new Error(`${context} exceeds the worker host-service result buffer.`);
+  }
+  if (encoded.length > 0) {
+    new Uint8Array(memory.buffer, ptr, encoded.length).set(encoded);
+  }
+  return encoded.length;
+}
+function readBytes(memory, ptr, len) {
+  if (memory === null || len <= 0) {
+    return new Uint8Array(0);
+  }
+  const bytes = new Uint8Array(len);
+  bytes.set(new Uint8Array(memory.buffer, ptr, len));
+  return bytes;
+}
+function writeBytes(memory, ptr, capacity, bytes, context) {
+  if (memory === null) {
+    throw new Error(`${context} requires worker memory.`);
+  }
+  if (capacity < 0) {
+    throw new Error(`${context} has invalid worker host-service buffer capacity.`);
+  }
+  if (bytes.length > capacity) {
+    throw new Error(`${context} exceeds the worker host-service result buffer.`);
+  }
+  if (bytes.length > 0) {
+    new Uint8Array(memory.buffer, ptr, bytes.length).set(bytes);
+  }
+  return bytes.length;
+}
+function encodeTextPartsPayload(values) {
+  const encodedValues = values.map((value) => encoder.encode(value));
+  let totalBytes = 4;
+  for (const encoded of encodedValues) {
+    totalBytes += 4 + encoded.length;
+  }
+  const bytes = new Uint8Array(totalBytes);
+  const dataView = new DataView(bytes.buffer);
+  let byteOffset = 0;
+  dataView.setUint32(byteOffset, values.length >>> 0, true);
+  byteOffset += 4;
+  for (const encoded of encodedValues) {
+    dataView.setUint32(byteOffset, encoded.length >>> 0, true);
+    byteOffset += 4;
+    if (encoded.length > 0) {
+      bytes.set(encoded, byteOffset);
+      byteOffset += encoded.length;
+    }
+  }
+  return bytes;
+}
+async function startWorker(message) {
+  let memory = null;
+  let terminalSent = false;
+  let yieldRequested = false;
+  let requestedYieldDelayMs = 0;
+  let resumeScheduled = false;
+  let callbackBufferPtr = 0;
+  let callbackBufferSize = 0;
+  let wasmExports = null;
+  const activeFetchRequests = /* @__PURE__ */ new Map();
+  const inputBytes = new TextEncoder().encode(message.input);
+  const hostServices = loadWorkerHostServices(message.workerHostServices);
+  let entry = null;
+  activeWorkerId = message.workerId;
+  activeCancellationRequested = pendingCancellationRequested;
+  pendingCancellationRequested = false;
+  function readCancelFlag() {
+    return activeWorkerId === message.workerId && activeCancellationRequested;
+  }
+  function cancelAllFetchRequests() {
+    for (const controller of activeFetchRequests.values()) {
+      controller.abort();
+    }
+    activeFetchRequests.clear();
+  }
+  function writeCallbackBytes(bytes, context) {
+    if (callbackBufferSize <= 0) {
+      throw new Error(`${context} requires the worker callback buffer.`);
+    }
+    if (bytes.length > callbackBufferSize) {
+      throw new Error(`${context} exceeds the worker callback buffer.`);
+    }
+    if (memory === null) {
+      throw new Error(`${context} requires worker memory.`);
+    }
+    if (bytes.length > 0) {
+      new Uint8Array(memory.buffer, callbackBufferPtr, bytes.length).set(bytes);
+    }
+    return {
+      ptr: bytes.length > 0 ? callbackBufferPtr : 0,
+      len: bytes.length
+    };
+  }
+  function emitFetchComplete(requestId, ok, status, statusText, url, exports) {
+    const callback = exports.__fui_on_fetch_complete;
+    if (typeof callback !== "function") {
+      throw new Error("Worker module is missing __fui_on_fetch_complete.");
+    }
+    const payload = writeCallbackBytes(encodeTextPartsPayload([statusText, url]), "Worker fetch completion payload");
+    callback(
+      requestId,
+      ok,
+      status,
+      payload.ptr,
+      payload.len
+    );
+  }
+  function emitFetchError(requestId, message2, exports) {
+    const callback = exports.__fui_on_fetch_error;
+    if (typeof callback !== "function") {
+      throw new Error("Worker module is missing __fui_on_fetch_error.");
+    }
+    const payload = writeCallbackBytes(encoder.encode(message2), "Worker fetch failure payload");
+    callback(
+      requestId,
+      payload.ptr,
+      payload.len
+    );
+  }
+  function scheduleResume() {
+    if (resumeScheduled || terminalSent || entry === null) {
+      return;
+    }
+    resumeScheduled = true;
+    const delayMs = requestedYieldDelayMs > 0 ? requestedYieldDelayMs : 0;
+    requestedYieldDelayMs = 0;
+    setTimeout(() => {
+      resumeScheduled = false;
+      if (terminalSent || entry === null) {
+        return;
+      }
+      runEntry();
+    }, delayMs);
+  }
+  function runEntry() {
+    if (entry === null || terminalSent) {
+      return;
+    }
+    yieldRequested = false;
+    entry();
+    if (terminalSent) {
+      return;
+    }
+    if (yieldRequested) {
+      scheduleResume();
+      return;
+    }
+    workerScope.postMessage({
+      type: "error",
+      workerId: message.workerId,
+      text: "Worker exited without calling Worker.complete(...), Worker.fail(...), or Worker.yield(...)."
+    });
+    terminalSent = true;
+    cancelAllFetchRequests();
+    activeWorkerId = null;
+    activeCancellationRequested = false;
+  }
+  try {
+    const response = await fetch(message.wasmUrl, {
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to load worker wasm from ${message.wasmUrl}.`);
+    }
+    const bytes = await response.arrayBuffer();
+    const module = await WebAssembly.compile(bytes);
+    validateWorkerImports(module, hostServices);
+    const instance = await WebAssembly.instantiate(module, {
+      env: {
+        abort(_message, _fileName, line, column) {
+          throw new Error(`Worker aborted at ${String(line ?? 0)}:${String(column ?? 0)}.`);
+        }
+      },
+      fui_host_service: createHostServiceImportModule(hostServices, {
+        readString: (ptr, len) => readUtf8(memory, ptr, len),
+        writeString: (ptr, capacity, text, context) => writeUtf8(memory, ptr, capacity, text, context),
+        readBytes: (ptr, len) => readBytes(memory, ptr, len),
+        writeBytes: (ptr, capacity, bytes2, context) => writeBytes(memory, ptr, capacity, bytes2, context)
+      }),
+      fui_worker_host: {
+        fui_worker_input_length() {
+          return inputBytes.length;
+        },
+        fui_worker_copy_input(ptr, capacity) {
+          if (memory === null || capacity <= 0) {
+            return 0;
+          }
+          const copyLength = Math.min(capacity, inputBytes.length);
+          if (copyLength <= 0) {
+            return 0;
+          }
+          new Uint8Array(memory.buffer, ptr, copyLength).set(inputBytes.subarray(0, copyLength));
+          return copyLength;
+        },
+        fui_worker_report_progress(ptr, len) {
+          if (terminalSent) {
+            return;
+          }
+          workerScope.postMessage({
+            type: "progress",
+            workerId: message.workerId,
+            text: readUtf8(memory, ptr, len)
+          });
+        },
+        fui_worker_complete_string(ptr, len) {
+          if (terminalSent) {
+            return;
+          }
+          terminalSent = true;
+          cancelAllFetchRequests();
+          activeWorkerId = null;
+          activeCancellationRequested = false;
+          workerScope.postMessage({
+            type: "complete",
+            workerId: message.workerId,
+            text: readUtf8(memory, ptr, len)
+          });
+        },
+        fui_worker_fail(ptr, len) {
+          if (terminalSent) {
+            return;
+          }
+          terminalSent = true;
+          cancelAllFetchRequests();
+          activeWorkerId = null;
+          activeCancellationRequested = false;
+          workerScope.postMessage({
+            type: "error",
+            workerId: message.workerId,
+            text: readUtf8(memory, ptr, len)
+          });
+        },
+        fui_worker_is_cancelled() {
+          return readCancelFlag() ? 1 : 0;
+        },
+        fui_worker_request_yield() {
+          yieldRequested = true;
+          requestedYieldDelayMs = 0;
+        },
+        fui_worker_request_yield_delay(delayMs) {
+          yieldRequested = true;
+          requestedYieldDelayMs = Number.isFinite(delayMs) && delayMs > 0 ? Math.floor(delayMs) : 0;
+        },
+        fui_file_read_chunk(offsetLow, offsetHigh, length) {
+          if (activeFile === null) {
+            return 0;
+          }
+          const offset = Number(BigInt(offsetLow >>> 0) | BigInt(offsetHigh >>> 0) << 32n);
+          const safeLength = Math.max(0, length | 0);
+          if (offset >= activeFile.size || safeLength <= 0) {
+            return 0;
+          }
+          const blob = activeFile.slice(offset, Math.min(offset + safeLength, activeFile.size));
+          const reader = new FileReaderSync();
+          const buffer = reader.readAsArrayBuffer(blob);
+          const bytes2 = new Uint8Array(buffer);
+          const written = bytes2.length;
+          if (written <= 0) {
+            return 0;
+          }
+          if (memory === null || callbackBufferSize <= 0) {
+            return 0;
+          }
+          if (written > callbackBufferSize) {
+            throw new Error("File chunk exceeds the worker callback buffer.");
+          }
+          new Uint8Array(memory.buffer, callbackBufferPtr, written).set(bytes2);
+          return written;
+        },
+        fui_file_worker_write_chunk(ptr, len) {
+          if (memory === null || len <= 0) {
+            return;
+          }
+          const bytes2 = new Uint8Array(len);
+          bytes2.set(new Uint8Array(memory.buffer, ptr, len));
+          const buffer = bytes2.buffer.slice(0, bytes2.byteLength);
+          workerScope.postMessage({
+            type: "file-process-chunk",
+            workerId: message.workerId,
+            bytes: buffer
+          }, [buffer]);
+        }
+      },
+      fui_fetch_host: {
+        fui_fetch_start(requestId, methodPtr, methodLen, urlPtr, urlLen, headersPtr, headersLen, bodyPtr, bodyLen) {
+          const controller = new AbortController();
+          const method = readUtf8(memory, methodPtr, methodLen);
+          const url = readUtf8(memory, urlPtr, urlLen);
+          const headerBytes = memory === null || headersLen <= 0 ? new Uint8Array(0) : new Uint8Array(memory.buffer.slice(headersPtr, headersPtr + headersLen));
+          if (headerBytes.byteLength < 4 && headersLen > 0) {
+            throw new Error("Worker fetch header payload was truncated.");
+          }
+          const headers = new Headers();
+          if (headerBytes.byteLength >= 4) {
+            const dataView = new DataView(headerBytes.buffer, headerBytes.byteOffset, headerBytes.byteLength);
+            let byteOffset = 0;
+            const count = dataView.getUint32(byteOffset, true);
+            byteOffset += 4;
+            const values = [];
+            for (let index = 0; index < count; index += 1) {
+              if (byteOffset + 4 > headerBytes.byteLength) {
+                throw new Error("Worker fetch header length was truncated.");
+              }
+              const partLen = dataView.getUint32(byteOffset, true);
+              byteOffset += 4;
+              if (byteOffset + partLen > headerBytes.byteLength) {
+                throw new Error("Worker fetch header value was truncated.");
+              }
+              values.push(partLen > 0 ? decoder.decode(headerBytes.subarray(byteOffset, byteOffset + partLen)) : "");
+              byteOffset += partLen;
+            }
+            if ((values.length & 1) != 0) {
+              throw new Error("Worker fetch headers were malformed.");
+            }
+            for (let index = 0; index < values.length; index += 2) {
+              headers.append(values[index] ?? "", values[index + 1] ?? "");
+            }
+          }
+          const body = memory === null || bodyLen <= 0 ? void 0 : memory.buffer.slice(bodyPtr, bodyPtr + bodyLen);
+          activeFetchRequests.set(requestId, controller);
+          void fetch(url, {
+            method,
+            headers,
+            body,
+            signal: controller.signal
+          }).then((response2) => {
+            const active = activeFetchRequests.get(requestId);
+            if (active === void 0 || active !== controller || terminalSent) {
+              return;
+            }
+            activeFetchRequests.delete(requestId);
+            if (wasmExports === null) {
+              throw new Error("Worker fetch completed before wasm exports were ready.");
+            }
+            emitFetchComplete(requestId, response2.ok, response2.status, response2.statusText, response2.url, wasmExports);
+          }).catch((error) => {
+            const active = activeFetchRequests.get(requestId);
+            if (active === void 0 || active !== controller) {
+              return;
+            }
+            activeFetchRequests.delete(requestId);
+            if (controller.signal.aborted || terminalSent) {
+              return;
+            }
+            if (wasmExports === null) {
+              throw new Error("Worker fetch failed before wasm exports were ready.");
+            }
+            emitFetchError(requestId, describeError(error), wasmExports);
+          });
+        },
+        fui_fetch_cancel(requestId) {
+          const controller = activeFetchRequests.get(requestId);
+          if (controller === void 0) {
+            return;
+          }
+          activeFetchRequests.delete(requestId);
+          controller.abort();
+        }
+      }
+    });
+    const exports = instance.exports;
+    wasmExports = exports;
+    if (!(exports.memory instanceof WebAssembly.Memory)) {
+      throw new Error("Worker module did not export memory.");
+    }
+    memory = exports.memory;
+    if (typeof exports.__fui_worker_text_buffer !== "function" || typeof exports.__fui_worker_text_buffer_size !== "function") {
+      throw new Error("Worker module did not export the fetch callback buffer.");
+    }
+    callbackBufferPtr = exports.__fui_worker_text_buffer();
+    callbackBufferSize = exports.__fui_worker_text_buffer_size();
+    const exportedEntry = exports[message.entryName];
+    if (typeof exportedEntry !== "function") {
+      throw new Error(`Worker export "${message.entryName}" is missing.`);
+    }
+    entry = exportedEntry;
+    runEntry();
+  } catch (error) {
+    cancelAllFetchRequests();
+    activeWorkerId = null;
+    activeCancellationRequested = false;
+    workerScope.postMessage({
+      type: "error",
+      workerId: message.workerId,
+      text: describeError(error)
+    });
+  }
+}
+async function startFileProcessWorker(message) {
+  let memory = null;
+  let terminalSent = false;
+  let callbackBufferPtr = 0;
+  let callbackBufferSize = 0;
+  let wasmExports = null;
+  const activeFetchRequests = /* @__PURE__ */ new Map();
+  let entry = null;
+  activeWorkerId = message.workerId;
+  activeCancellationRequested = pendingCancellationRequested;
+  activeFile = message.file;
+  pendingCancellationRequested = false;
+  function readCancelFlag() {
+    return activeWorkerId === message.workerId && activeCancellationRequested;
+  }
+  function cancelAllFetchRequests() {
+    for (const controller of activeFetchRequests.values()) {
+      controller.abort();
+    }
+    activeFetchRequests.clear();
+  }
+  function writeCallbackBytes(bytes, context) {
+    if (callbackBufferSize <= 0) {
+      throw new Error(`${context} requires the worker callback buffer.`);
+    }
+    if (bytes.length > callbackBufferSize) {
+      throw new Error(`${context} exceeds the worker callback buffer.`);
+    }
+    if (memory === null) {
+      throw new Error(`${context} requires worker memory.`);
+    }
+    if (bytes.length > 0) {
+      new Uint8Array(memory.buffer, callbackBufferPtr, bytes.length).set(bytes);
+    }
+    return {
+      ptr: bytes.length > 0 ? callbackBufferPtr : 0,
+      len: bytes.length
+    };
+  }
+  function emitFetchComplete(requestId, ok, status, statusText, url, exports) {
+    const callback = exports.__fui_on_fetch_complete;
+    if (typeof callback !== "function") {
+      throw new Error("Worker module is missing __fui_on_fetch_complete.");
+    }
+    const payload = writeCallbackBytes(encodeTextPartsPayload([statusText, url]), "Worker fetch completion payload");
+    callback(
+      requestId,
+      ok,
+      status,
+      payload.ptr,
+      payload.len
+    );
+  }
+  function emitFetchError(requestId, message2, exports) {
+    const callback = exports.__fui_on_fetch_error;
+    if (typeof callback !== "function") {
+      throw new Error("Worker module is missing __fui_on_fetch_error.");
+    }
+    const payload = writeCallbackBytes(encoder.encode(message2), "Worker fetch failure payload");
+    callback(
+      requestId,
+      payload.ptr,
+      payload.len
+    );
+  }
+  function runEntry() {
+    if (entry === null || wasmExports === null) {
+      return;
+    }
+    try {
+      entry();
+    } catch (error) {
+      if (terminalSent) {
+        return;
+      }
+      terminalSent = true;
+      cancelAllFetchRequests();
+      activeWorkerId = null;
+      activeCancellationRequested = false;
+      activeFile = null;
+      workerScope.postMessage({
+        type: "error",
+        workerId: message.workerId,
+        text: describeError(error)
+      });
+      return;
+    }
+    if (terminalSent) {
+      return;
+    }
+  }
+  function cleanupTerminal() {
+    terminalSent = true;
+    cancelAllFetchRequests();
+    activeWorkerId = null;
+    activeCancellationRequested = false;
+  }
+  try {
+    const response = await fetch(message.wasmUrl, {
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to load worker wasm from ${message.wasmUrl}.`);
+    }
+    const bytes = await response.arrayBuffer();
+    const module = await WebAssembly.compile(bytes);
+    const hostServices = loadWorkerHostServices(message.workerHostServices);
+    validateWorkerImports(module, hostServices);
+    const instance = await WebAssembly.instantiate(module, {
+      env: {
+        abort(_message, _fileName, line, column) {
+          throw new Error(`Worker aborted at ${String(line ?? 0)}:${String(column ?? 0)}.`);
+        }
+      },
+      fui_host_service: createHostServiceImportModule(hostServices, {
+        readString: (ptr, len) => readUtf8(memory, ptr, len),
+        writeString: (ptr, capacity, text, context) => writeUtf8(memory, ptr, capacity, text, context),
+        readBytes: (ptr, len) => readBytes(memory, ptr, len),
+        writeBytes: (ptr, capacity, bytes2, context) => writeBytes(memory, ptr, capacity, bytes2, context)
+      }),
+      fui_worker_host: {
+        fui_worker_input_length() {
+          return 0;
+        },
+        fui_worker_copy_input(_ptr, _capacity) {
+          return 0;
+        },
+        fui_worker_report_progress(ptr, len) {
+          if (terminalSent) {
+            return;
+          }
+          workerScope.postMessage({
+            type: "progress",
+            workerId: message.workerId,
+            text: readUtf8(memory, ptr, len)
+          });
+        },
+        fui_worker_complete_string(ptr, len) {
+          if (terminalSent) {
+            return;
+          }
+          cleanupTerminal();
+          activeFile = null;
+          workerScope.postMessage({
+            type: "complete",
+            workerId: message.workerId,
+            text: readUtf8(memory, ptr, len)
+          });
+        },
+        fui_worker_fail(ptr, len) {
+          if (terminalSent) {
+            return;
+          }
+          cleanupTerminal();
+          activeFile = null;
+          workerScope.postMessage({
+            type: "error",
+            workerId: message.workerId,
+            text: readUtf8(memory, ptr, len)
+          });
+        },
+        fui_worker_is_cancelled() {
+          return readCancelFlag() ? 1 : 0;
+        },
+        fui_worker_request_yield() {
+        },
+        fui_worker_request_yield_delay(_delayMs) {
+        },
+        fui_file_read_chunk(offsetLow, offsetHigh, length) {
+          if (activeFile === null) {
+            return 0;
+          }
+          const offset = Number(BigInt(offsetLow >>> 0) | BigInt(offsetHigh >>> 0) << 32n);
+          const safeLength = Math.max(0, length | 0);
+          if (offset >= activeFile.size || safeLength <= 0) {
+            return 0;
+          }
+          const blob = activeFile.slice(offset, Math.min(offset + safeLength, activeFile.size));
+          const reader = new FileReaderSync();
+          const buffer = reader.readAsArrayBuffer(blob);
+          const readBytes2 = new Uint8Array(buffer);
+          const written = readBytes2.length;
+          if (written <= 0) {
+            return 0;
+          }
+          if (memory === null || callbackBufferSize <= 0) {
+            return 0;
+          }
+          if (written > callbackBufferSize) {
+            throw new Error("File chunk exceeds the worker callback buffer.");
+          }
+          new Uint8Array(memory.buffer, callbackBufferPtr, written).set(readBytes2);
+          return written;
+        },
+        fui_file_worker_write_chunk(ptr, len) {
+          if (memory === null || len <= 0) {
+            return;
+          }
+          const chunkBytes = new Uint8Array(len);
+          chunkBytes.set(new Uint8Array(memory.buffer, ptr, len));
+          const buffer = chunkBytes.buffer.slice(0, chunkBytes.byteLength);
+          workerScope.postMessage({
+            type: "file-process-chunk",
+            workerId: message.workerId,
+            bytes: buffer
+          }, [buffer]);
+        }
+      },
+      fui_fetch_host: {
+        fui_fetch_start(requestId, methodPtr, methodLen, urlPtr, urlLen, headersPtr, headersLen, bodyPtr, bodyLen) {
+          const controller = new AbortController();
+          const method = readUtf8(memory, methodPtr, methodLen);
+          const url = readUtf8(memory, urlPtr, urlLen);
+          const headerBytes = memory === null || headersLen <= 0 ? new Uint8Array(0) : new Uint8Array(memory.buffer.slice(headersPtr, headersPtr + headersLen));
+          if (headerBytes.byteLength < 4 && headersLen > 0) {
+            throw new Error("Worker fetch header payload was truncated.");
+          }
+          const headers = new Headers();
+          if (headerBytes.byteLength >= 4) {
+            const dataView = new DataView(headerBytes.buffer, headerBytes.byteOffset, headerBytes.byteLength);
+            let byteOffset = 0;
+            const count = dataView.getUint32(byteOffset, true);
+            byteOffset += 4;
+            const values = [];
+            for (let index = 0; index < count; index += 1) {
+              if (byteOffset + 4 > headerBytes.byteLength) {
+                throw new Error("Worker fetch header length was truncated.");
+              }
+              const partLen = dataView.getUint32(byteOffset, true);
+              byteOffset += 4;
+              if (byteOffset + partLen > headerBytes.byteLength) {
+                throw new Error("Worker fetch header value was truncated.");
+              }
+              values.push(partLen > 0 ? decoder.decode(headerBytes.subarray(byteOffset, byteOffset + partLen)) : "");
+              byteOffset += partLen;
+            }
+            if ((values.length & 1) != 0) {
+              throw new Error("Worker fetch headers were malformed.");
+            }
+            for (let index = 0; index < values.length; index += 2) {
+              headers.append(values[index] ?? "", values[index + 1] ?? "");
+            }
+          }
+          const bodyBytes = memory === null || bodyLen <= 0 ? new Uint8Array(0) : new Uint8Array(memory.buffer, bodyPtr, bodyLen);
+          const body = bodyBytes.length > 0 ? bodyBytes : void 0;
+          activeFetchRequests.set(requestId, controller);
+          void fetch(url, {
+            method,
+            headers,
+            body,
+            signal: controller.signal
+          }).then((response2) => {
+            const active = activeFetchRequests.get(requestId);
+            if (active === void 0 || active !== controller || terminalSent) {
+              return;
+            }
+            activeFetchRequests.delete(requestId);
+            if (wasmExports === null) {
+              throw new Error("Worker fetch completed before wasm exports were ready.");
+            }
+            emitFetchComplete(requestId, response2.ok, response2.status, response2.statusText, response2.url, wasmExports);
+          }).catch((error) => {
+            const active = activeFetchRequests.get(requestId);
+            if (active === void 0 || active !== controller) {
+              return;
+            }
+            activeFetchRequests.delete(requestId);
+            if (controller.signal.aborted || terminalSent) {
+              return;
+            }
+            if (wasmExports === null) {
+              throw new Error("Worker fetch failed before wasm exports were ready.");
+            }
+            emitFetchError(requestId, describeError(error), wasmExports);
+          });
+        },
+        fui_fetch_cancel(requestId) {
+          const controller = activeFetchRequests.get(requestId);
+          if (controller === void 0) {
+            return;
+          }
+          activeFetchRequests.delete(requestId);
+          controller.abort();
+        }
+      }
+    });
+    const exports = instance.exports;
+    wasmExports = exports;
+    if (!(exports.memory instanceof WebAssembly.Memory)) {
+      throw new Error("Worker module did not export memory.");
+    }
+    memory = exports.memory;
+    if (typeof exports.__fui_worker_text_buffer !== "function" || typeof exports.__fui_worker_text_buffer_size !== "function") {
+      throw new Error("Worker module did not export the fetch callback buffer.");
+    }
+    callbackBufferPtr = exports.__fui_worker_text_buffer();
+    callbackBufferSize = exports.__fui_worker_text_buffer_size();
+    const exportedEntry = exports[message.entryName];
+    if (typeof exportedEntry !== "function") {
+      throw new Error(`Worker export "${message.entryName}" is missing.`);
+    }
+    entry = exportedEntry;
+    runEntry();
+  } catch (error) {
+    cancelAllFetchRequests();
+    activeWorkerId = null;
+    activeCancellationRequested = false;
+    activeFile = null;
+    workerScope.postMessage({
+      type: "error",
+      workerId: message.workerId,
+      text: describeError(error)
+    });
+  }
+}
+workerScope.onmessage = (event) => {
+  const message = event.data;
+  if (message.type === "start") {
+    void startWorker(message);
+    return;
+  }
+  if (message.type === "start-file-process") {
+    void startFileProcessWorker(message);
+    return;
+  }
+  if (message.type === "cancel") {
+    if (activeWorkerId === message.workerId) {
+      activeCancellationRequested = true;
+      return;
+    }
+    pendingCancellationRequested = true;
+  }
+};
