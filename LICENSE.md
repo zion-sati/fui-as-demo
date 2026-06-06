@@ -1,26 +1,21 @@
-# EffinDom Licensing
+MIT License
 
-This repository uses **package-scoped licensing**.
+Copyright (c) EffinDom contributors
 
-## Package license map
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-| Package | License |
-|---|---|
-| `@effindomv2/runtime` | MIT |
-| `@effindomv2/fui-as` | GNU AGPL v3.0 (AGPL-3.0-only) or commercial terms |
-| `@effindomv2/fui-rs` | GNU AGPL v3.0 (AGPL-3.0-only) or commercial terms |
-| `@effindomv2/create-fui-as-app` | MIT |
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-## License texts
-
-- MIT: `LICENSES/MIT.md`
-- AGPL 3.0: `v2/fui-as/LICENSES/AGPL-3.0-only.md`
-- FUI-AS commercial terms: `v2/fui-as/COMMERCIAL.md`
-- AGPL 3.0: `LICENSES/AGPL-3.0-only.md`
-
-For package-level notices, see:
-
-- `v2/browser-bridge/LICENSE.md`
-- `v2/fui-as/LICENSE.md`
-- `v2/fui-rs/LICENSE.md`
-- `v2/create-fui-as-app/LICENSE.md`
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
