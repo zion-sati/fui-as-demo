@@ -421,29 +421,6 @@ async function instantiate(module, imports = {}) {
         selected = selected != 0;
         __module1.ui_set_semantic_selected(handle, hasSelected, selected);
       },
-      ui_set_flex_direction(handle, direction) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_flex_direction(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        direction = direction >>> 0;
-        __module1.ui_set_flex_direction(handle, direction);
-      },
-      ui_set_justify_content(handle, justify) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_justify_content(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        justify = justify >>> 0;
-        __module1.ui_set_justify_content(handle, justify);
-      },
-      ui_set_align_items(handle, align) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_align_items(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        align = align >>> 0;
-        __module1.ui_set_align_items(handle, align);
-      },
-      ui_set_margin(handle, left, top, right, bottom) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_margin(u64, f32, f32, f32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_margin(handle, left, top, right, bottom);
-      },
       ui_set_show_scrollbars(handle, showScrollbars) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_show_scrollbars(u64, bool) => void
         handle = BigInt.asUintN(64, handle);
@@ -454,6 +431,18 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_scroll_offset(u64, f32, f32) => void
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_scroll_offset(handle, offsetX, offsetY);
+      },
+      ui_set_flex_direction(handle, direction) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_flex_direction(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        direction = direction >>> 0;
+        __module1.ui_set_flex_direction(handle, direction);
+      },
+      ui_set_align_items(handle, align) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_align_items(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        align = align >>> 0;
+        __module1.ui_set_align_items(handle, align);
       },
       ui_set_clip_to_bounds(handle, clip) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_clip_to_bounds(u64, bool) => void
@@ -468,11 +457,40 @@ async function instantiate(module, imports = {}) {
         len = len >>> 0;
         __module1.ui_set_node_id(handle, ptr, len);
       },
+      ui_set_justify_content(handle, justify) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_justify_content(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        justify = justify >>> 0;
+        __module1.ui_set_justify_content(handle, justify);
+      },
+      ui_set_margin(handle, left, top, right, bottom) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_margin(u64, f32, f32, f32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_margin(handle, left, top, right, bottom);
+      },
       ui_set_text_align(handle, align) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_text_align(u64, u32) => void
         handle = BigInt.asUintN(64, handle);
         align = align >>> 0;
         __module1.ui_set_text_align(handle, align);
+      },
+      ui_set_min_width(handle, value, unit) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_width(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit = unit >>> 0;
+        __module1.ui_set_min_width(handle, value, unit);
+      },
+      ui_set_min_height(handle, value, unit) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_height(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit = unit >>> 0;
+        __module1.ui_set_min_height(handle, value, unit);
+      },
+      ui_set_scroll_proxy_target(handle, scrollHandle) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_scroll_proxy_target(u64, u64) => void
+        handle = BigInt.asUintN(64, handle);
+        scrollHandle = BigInt.asUintN(64, scrollHandle);
+        __module1.ui_set_scroll_proxy_target(handle, scrollHandle);
       },
       ui_set_text_style_runs(handle, runCount, runsWordsPtr) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_text_style_runs(u64, u32, usize) => void
@@ -520,12 +538,6 @@ async function instantiate(module, imports = {}) {
         horizontal = horizontal != 0;
         vertical = vertical != 0;
         __module1.ui_set_text_overflow_fade(handle, horizontal, vertical);
-      },
-      ui_set_scroll_proxy_target(handle, scrollHandle) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_scroll_proxy_target(u64, u64) => void
-        handle = BigInt.asUintN(64, handle);
-        scrollHandle = BigInt.asUintN(64, scrollHandle);
-        __module1.ui_set_scroll_proxy_target(handle, scrollHandle);
       },
       ui_set_text_obscured(handle, obscured) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_text_obscured(u64, bool) => void
@@ -586,23 +598,11 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_fill_height_percent(handle, percent);
       },
-      ui_set_min_width(handle, value, unit) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_width(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit = unit >>> 0;
-        __module1.ui_set_min_width(handle, value, unit);
-      },
       ui_set_max_width(handle, value, unit) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_max_width(u64, f32, u32) => void
         handle = BigInt.asUintN(64, handle);
         unit = unit >>> 0;
         __module1.ui_set_max_width(handle, value, unit);
-      },
-      ui_set_min_height(handle, value, unit) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_height(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit = unit >>> 0;
-        __module1.ui_set_min_height(handle, value, unit);
       },
       ui_set_max_height(handle, value, unit) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_max_height(u64, f32, u32) => void

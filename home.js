@@ -539,6 +539,18 @@ async function instantiate(module, imports = {}) {
         len = len >>> 0;
         __module1.ui_set_node_id(handle, ptr, len);
       },
+      ui_set_min_width(handle, value, unit) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_width(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit = unit >>> 0;
+        __module1.ui_set_min_width(handle, value, unit);
+      },
+      ui_set_min_height(handle, value, unit) {
+        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_height(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit = unit >>> 0;
+        __module1.ui_set_min_height(handle, value, unit);
+      },
       ui_set_image_nine(handle, textureId, insetLeft, insetTop, insetRight, insetBottom) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_image_nine(u64, u32, f32, f32, f32, f32) => void
         handle = BigInt.asUintN(64, handle);
@@ -606,23 +618,11 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_fill_height_percent(handle, percent);
       },
-      ui_set_min_width(handle, value, unit) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_width(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit = unit >>> 0;
-        __module1.ui_set_min_width(handle, value, unit);
-      },
       ui_set_max_width(handle, value, unit) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_max_width(u64, f32, u32) => void
         handle = BigInt.asUintN(64, handle);
         unit = unit >>> 0;
         __module1.ui_set_max_width(handle, value, unit);
-      },
-      ui_set_min_height(handle, value, unit) {
-        // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_min_height(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit = unit >>> 0;
-        __module1.ui_set_min_height(handle, value, unit);
       },
       ui_set_max_height(handle, value, unit) {
         // ~lib/@effindomv2/fui-as/src/core/ffi/ui_set_max_height(u64, f32, u32) => void
