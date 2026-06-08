@@ -225,6 +225,7 @@ export class ReorderSection {
     .fillWidth()
     .flexDirection(FlexDirection.Column);
   readonly scrollBox: ScrollBox = new ScrollBox(new ScrollState())
+    .scrollbarGutter(8.0)
     .scrollEnabledX(false)
     .scrollEnabledY(true)
     .verticalScrollbarVisibility(ScrollBarVisibility.Always)
