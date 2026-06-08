@@ -18,8 +18,5 @@
       "sourceMap": false,
       "textFile": "public/app.wat"
     }
-  },
-  "options": {
-    "runtime": "minimal"
   }
 }
