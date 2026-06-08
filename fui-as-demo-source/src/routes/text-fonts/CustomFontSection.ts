@@ -1,4 +1,4 @@
-import { FontFamily, FontFace, FontStack, FontWeight, RichText, Unit, rgb } from "../../fui/Fui";
+import { FontFamily, FontFace, FontStack, FontWeight } from "../../fui/Fui";
 import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
 
 export class CustomFontSection {

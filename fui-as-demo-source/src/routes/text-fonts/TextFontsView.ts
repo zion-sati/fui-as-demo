@@ -1,4 +1,4 @@
-import { Column, Disposable, FlexBox, FontFace, FontFamily, FontStack, FontWeight, Grid, GridUnit, RichText, Row, ScrollBarVisibility, SelectionArea, SemanticCheckedState, TextAlign, TextVerticalAlign, Theme, Unit, Visibility, activeTheme, bindTheme, disposeAll, DropdownItem, rgb, span } from "../../fui/Fui";
+import { Column, Disposable, Grid, GridUnit, Row, ScrollBarVisibility, SelectionArea, SemanticCheckedState, TextAlign, TextVerticalAlign, Theme, Unit, Visibility, activeTheme, bindTheme, disposeAll, DropdownItem } from "../../fui/Fui";
 import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
 import { DemoCheckbox } from "../shared/design-system/DemoCheckbox";
 import { DemoRadioGroup } from "../shared/design-system/DemoRadioGroup";
@@ -134,13 +134,22 @@ export class TextFontsView {
   );
 
   constructor(model: TextFontsModel) {
-    const content = Column(
-      createNavBar("Text & Fonts - FUI-AS Demo \u{1FAF6}", "text-fonts"),
-      VerticalSpacer(PAGE_SECTION_GAP_PX),
-      this.createMainPanel(model),
+    const content = new DemoScrollBox("mainScrollBox").child(
+      Column(
+        createNavBar("Text & Fonts - FUI-AS Demo \u{1FAF6}", "text-fonts"),
+        VerticalSpacer(PAGE_SECTION_GAP_PX),
+        this.createMainPanel(model),
+      )
+        .fillSize()
+        .minWidth(800.0, Unit.Pixel)
+        .minHeight(600.0, Unit.Pixel)
+        .padding(24.0, 24.0, 24.0, 24.0)
     )
-      .fillSize()
-      .padding(24.0, 24.0, 24.0, 24.0);
+      .scrollEnabledX(true)
+      .scrollEnabledY(true)
+      .horizontalScrollbarVisibility(ScrollBarVisibility.Auto)
+      .verticalScrollbarVisibility(ScrollBarVisibility.Auto)
+      .fillSize();
 
     this.root = new SelectionArea()
       .fillSize()

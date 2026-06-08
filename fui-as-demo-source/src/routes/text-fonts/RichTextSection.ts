@@ -1,4 +1,4 @@
-import { FontFace, FontFamily, FontWeight, RichText, Theme, Unit, rgb, span } from "../../fui/Fui";
+import { FontFace, FontFamily, FontWeight, RichText, Theme, rgb, span } from "../../fui/Fui";
 import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
 
 export class RichTextSection {

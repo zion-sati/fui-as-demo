@@ -441,19 +441,28 @@ export class HomeView {
   }
 
   private createContentLayout(model: HomeModel): FlexBox {
-    return Column(
-      createNavBar("Home Page - FUI-AS Demo ✌🏼", "home"),
-      VerticalSpacer(PAGE_SECTION_GAP_PX),
-      Row(
-        this.createVirtualListPanel(),
-        HorizontalSpacer(24.0),
-        this.createMainPanel(model),
+    return new DemoScrollBox("mainScrollBox").child(
+      Column(
+        createNavBar("Home Page - FUI-AS Demo ✌🏼", "home"),
+        VerticalSpacer(PAGE_SECTION_GAP_PX),
+        Row(
+          this.createVirtualListPanel(),
+          HorizontalSpacer(24.0),
+          this.createMainPanel(model),
+        )
+          .alignItems(AlignItems.Stretch)
+          .fillHeight(),
       )
-        .alignItems(AlignItems.Stretch)
-        .fillHeight(),
+        .minWidth(800.0, Unit.Pixel)
+        .minHeight(600.0, Unit.Pixel)
+        .fillSize()
+        .padding(24.0, 24.0, 24.0, 24.0) as FlexBox
     )
-      .fillSize()
-      .padding(24.0, 24.0, 24.0, 24.0) as FlexBox;
+      .scrollEnabledX(true)
+      .scrollEnabledY(true)
+      .horizontalScrollbarVisibility(ScrollBarVisibility.Auto)
+      .verticalScrollbarVisibility(ScrollBarVisibility.Auto)
+      .fillSize();
   }
 
   private static ensureListItemTemplate(container: FlexBox): void {

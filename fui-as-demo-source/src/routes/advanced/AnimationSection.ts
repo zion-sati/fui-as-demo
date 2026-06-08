@@ -1,12 +1,10 @@
 import {
-  AlignItems,
   AnimationTiming,
   BorderStyle,
   Column,
   Easings,
   FlexBox,
   NodeTransitions,
-  Row,
   ScrollBarVisibility,
   ScrollBox,
   ScrollState,
@@ -16,7 +14,7 @@ import {
 } from "../../fui/Fui";
 import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
 import { DemoButton, DemoButtonTone } from "../shared/design-system/DemoButton";
-import { HorizontalSpacer, VerticalSpacer } from "../shared/design-system/Spacers";
+import { VerticalSpacer } from "../shared/design-system/Spacers";
 import { applyRowBackground } from "../shared/design-system/DemoRowBackground";
 
 const ANIMATION_SCROLL_ROW_HEIGHT_PX: f32 = 80.0;
@@ -89,6 +87,7 @@ function buildAnimationScrollBox(rows: Array<FlexBox>): ScrollBox {
     content.child(rows[index]);
   }
   const box = new ScrollBox(new ScrollState())
+    .scrollbarGutter(8.0)
     .scrollEnabledX(false)
     .scrollEnabledY(true)
     .verticalScrollbarVisibility(ScrollBarVisibility.Always)

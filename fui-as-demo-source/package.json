@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@devcycle/assemblyscript-json": "^2.0.0",
-    "@effindomv2/fui-as": "^0.1.32",
-    "@effindomv2/runtime": "0.1.15"
+    "@effindomv2/fui-as": "^0.1.35",
+    "@effindomv2/runtime": "0.1.17"
   },
   "devDependencies": {
     "assemblyscript": "0.28.17",

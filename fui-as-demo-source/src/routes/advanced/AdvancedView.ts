@@ -20,137 +20,17 @@ import { FetchSection } from "./FetchSection";
 import { ReorderSection } from "./ReorderSection";
 
 const ANIMATION_SCROLL_ROW_HEIGHT_PX: f32 = 80.0;
-const ANIMATION_SCROLL_ROW_COUNT: i32 = 18;
 const ANIMATION_SCROLL_VIEWPORT_HEIGHT_PX: f32 = 280.0;
-const ACTION_ROW_BUTTON_HEIGHT_PX: f32 = 60.0;
-
-
-
-function createStatusText(): DemoText {
-  return new DemoText("", DemoTextStyle.Caption) as DemoText;
-}
-
-function createSupportingStatusText(): DemoText {
-  return new DemoText("", DemoTextStyle.BodySecondary) as DemoText;
-}
-
-function parseLeadingPercent(text: string): f32 {
-  let value: i32 = 0;
-  let sawDigit: bool = false;
-  for (let i: i32 = 0; i < text.length; i += 1) {
-    const code = text.charCodeAt(i);
-    if (code >= 48 && code <= 57) {
-      sawDigit = true;
-      value = (value * 10) + (code - 48);
-      continue;
-    }
-    if (sawDigit) {
-      break;
-    }
-  }
-  if (!sawDigit) {
-    return 0.0;
-  }
-  if (value < 0) {
-    return 0.0;
-  }
-  if (value > 100) {
-    return 100.0;
-  }
-  return <f32>value;
-}
-
-// Animation preview card
-function buildAnimationPreviewCard(
-  titleText: DemoText,
-  bodyText: DemoText,
-  theme: Theme,
-): FlexBox {
-  return new FlexBox()
-    .fillWidth()
-    .height(144.0, Unit.Pixel)
-    .padding(20.0, 18.0, 20.0, 18.0)
-    .cornerRadius(20.0)
-    .border(1.0, theme.colors.border, BorderStyle.Solid)
-    .bgColor(theme.colors.surface)
-    .child(
-      Column(
-        titleText,
-        VerticalSpacer(8.0),
-        bodyText,
-      ).fillWidth(),
-    )
-    .transitions(
-      new NodeTransitions()
-        .bgColor(new AnimationTiming(1000.0, Easings.cubicOut))
-        .opacity(new AnimationTiming(500.0, Easings.cubicOut)),
-    ) as FlexBox;
-}
-
-// Build scroll box content rows
-function makeAnimationScrollRows(): Array<FlexBox> {
-  const rows = new Array<FlexBox>();
-  for (let index: i32 = 0; index < ANIMATION_SCROLL_ROW_COUNT; index += 1) {
-    const label = "Animation sample row " + (index + 1).toString();
-    const title = new DemoText(label, DemoTextStyle.Body) as DemoText;
-    const detail = new DemoText(
-      index == ANIMATION_SCROLL_ROW_COUNT - 1
-        ? "The final target proves retained smooth scrolling can drive to the far end of the viewport."
-        : "Retained content stays pooled and composable while the viewport animates independently.",
-      DemoTextStyle.BodySecondary,
-    ) as DemoText;
-    const rowCard = new FlexBox()
-      .fillWidth()
-      .height(ANIMATION_SCROLL_ROW_HEIGHT_PX, Unit.Pixel)
-      .padding(16.0, 12.0, 16.0, 12.0)
-      .cornerRadius(14.0)
-      .child(
-        Column(
-          title,
-          VerticalSpacer(4.0),
-          detail,
-        ).fillWidth(),
-      ) as FlexBox;
-    rows.push(rowCard);
-  }
-  return rows;
-}
-
-function buildAnimationScrollBox(): ScrollBox {
-  const rows = makeAnimationScrollRows();
-  const content = new FlexBox().fillWidth() as FlexBox;
-  for (let index = 0; index < rows.length; index += 1) {
-    content.child(rows[index]);
-  }
-  return new ScrollBox(new ScrollState())
-    .scrollEnabledX(false)
-    .scrollEnabledY(true)
-    .verticalScrollbarVisibility(ScrollBarVisibility.Always)
-    .horizontalScrollbarVisibility(ScrollBarVisibility.Never)
-    .scrollContentSize(-1.0, ANIMATION_SCROLL_LOGICAL_CONTENT_HEIGHT_PX)
-    .fillWidth()
-    .height(ANIMATION_SCROLL_VIEWPORT_HEIGHT_PX, Unit.Pixel)
-    .child(content) as ScrollBox;
-}
 
 export class AdvancedView {
   private readonly root!: SelectionArea;
   private readonly themeBindings: Array<Disposable> = new Array<Disposable>();
   private themeBindingDisposed: bool = false;
 
-  // -- Transitions (animation) demo --
   readonly animation: AnimationSection = new AnimationSection();
-
-  // Worker demo
   readonly worker: WorkerSection = new WorkerSection();
-
-  // -- Fetch demo --
   readonly fetch: FetchSection = new FetchSection();
-
-  // -- External file drop demo --
   readonly drop: ExternalDropSection = new ExternalDropSection();
-
-  // -- Drag-drop reorder demo --
   readonly reorder: ReorderSection = new ReorderSection();
 
   constructor(model: AdvancedModel) {
@@ -182,14 +62,6 @@ export class AdvancedView {
     this.disposeThemeBindings();
   }
 
-  private cancelFileCopy(): void {
-    const req = this.activeCopyRequest;
-    this.activeCopyRequest = null;
-    if (req != null) {
-      req.dispose();
-    }
-  }
-
   private applyTheme(theme: Theme): void {
     this.root.bgColor(theme.colors.background);
     this.syncAnimationTheme(theme);
@@ -205,7 +77,7 @@ export class AdvancedView {
     this.animation.setAnimationPreviewState(emphasized, theme);
   }
 
-  private attachAnimationBindings(): void {
+  attachAnimationBindings(): void {
     this.animation.previewCalmButton.onClickWith(this, (view): void => {
       view.setAnimationPreviewState(false, activeTheme.value);
       view.animation.previewStatusText.text("Preview: calm");
@@ -238,10 +110,6 @@ export class AdvancedView {
       view.animation.scrollStatusText.text("Scrolling to logical tail...");
     });
   }
-
-
-
-
 
   private createMainPanel(model: AdvancedModel): Panel {
     return new Panel()
@@ -381,7 +249,7 @@ export class AdvancedView {
     this.themeBindings.push(disposable);
   }
 
-  private disposeThemeBindings(): void {
+  disposeThemeBindings(): void {
     if (this.themeBindingDisposed) {
       return;
     }
