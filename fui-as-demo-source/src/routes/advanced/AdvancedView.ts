@@ -34,13 +34,22 @@ export class AdvancedView {
   readonly reorder: ReorderSection = new ReorderSection();
 
   constructor(model: AdvancedModel) {
-    const content = Column(
-      createNavBar("Advanced - FUI-AS Demo", "advanced"),
-      VerticalSpacer(PAGE_SECTION_GAP_PX),
-      this.createMainPanel(model),
+    const content = new DemoScrollBox("mainScrollBox").child(
+      Column(
+        createNavBar("Advanced - FUI-AS Demo", "advanced"),
+        VerticalSpacer(PAGE_SECTION_GAP_PX),
+        this.createMainPanel(model),
+      )
+        .minWidth(800.0, Unit.Pixel)
+        .minHeight(600.0, Unit.Pixel)
+        .fillSize()
+        .padding(24.0, 24.0, 24.0, 24.0)
     )
-      .fillSize()
-      .padding(24.0, 24.0, 24.0, 24.0);
+      .scrollEnabledX(true)
+      .scrollEnabledY(true)
+      .horizontalScrollbarVisibility(ScrollBarVisibility.Auto)
+      .verticalScrollbarVisibility(ScrollBarVisibility.Auto)
+      .fillSize();
 
     this.root = new SelectionArea()
       .fillSize()
