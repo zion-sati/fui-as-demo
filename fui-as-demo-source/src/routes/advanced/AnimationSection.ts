@@ -31,7 +31,7 @@ function buildAnimationPreviewCard(
 ): FlexBox {
   return new FlexBox()
     .fillWidth()
-    .height(98.0, Unit.Pixel)
+    .height(128.0, Unit.Pixel)
     .padding(18.0, 18.0, 18.0, 18.0)
     .cornerRadius(20.0)
     .border(1.0, theme.colors.border, BorderStyle.Solid)
