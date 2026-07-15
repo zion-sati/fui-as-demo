@@ -38,14 +38,14 @@ export class HomeController extends ManagedApplicationController {
     this.view.foundationsScopedButton.onClickWith(this, (controller) => {
       controller.view.recordFoundationsScopedAction();
     });
-    this.view.foundationsScopedButton.onFocusChangedWith(this, (controller, focused) => {
-      controller.view.setFoundationsScopedFocused(focused);
+    this.view.foundationsScopedButton.onFocusChangedWith(this, (controller, event) => {
+      controller.view.setFoundationsScopedFocused(event.focused);
     });
-    this.view.foundationsKeyTargetBox.onFocusChangedWith(this, (controller, focused) => {
-      controller.view.setFoundationsKeyTargetFocused(focused);
+    this.view.foundationsKeyTargetBox.onFocusChangedWith(this, (controller, event) => {
+      controller.view.setFoundationsKeyTargetFocused(event.focused);
     });
-    this.view.foundationsKeyTargetBox.onKeyDownWith(this, (controller, key, _mods) => {
-      controller.view.recordFoundationsKey(key);
+    this.view.foundationsKeyTargetBox.onKeyDownWith(this, (controller, event) => {
+      controller.view.recordFoundationsKey(event.key);
     });
     onAppClockTick(this.clockTickHandler);
   }

@@ -1,4 +1,4 @@
-import { Disposable, Theme, activeTheme, bindTheme, disposeAll, AlignItems, BorderStyle, FlexDirection } from "@effindomv2/fui-as/src/Fui";
+import { AlignItems, Disposable, FlexDirection, Theme, activeTheme, bindTheme, disposeAll } from "@effindomv2/fui-as/src/Fui";
 import { FlexBox } from "@effindomv2/fui-as/src/nodes";
 
 export class Panel extends FlexBox {
@@ -20,7 +20,7 @@ export class Panel extends FlexBox {
   }
 
   private applyTheme(theme: Theme): void {
-    this.border(1.0, theme.colors.border, BorderStyle.Solid)
+    this.border(1.0, theme.colors.border)
       .bgColor(theme.colors.surface)
       .dropShadow(theme.colors.panelShadow, 0.0, 2.0, 7.0);
   }

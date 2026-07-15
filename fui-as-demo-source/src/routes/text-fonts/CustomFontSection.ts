@@ -1,5 +1,11 @@
-import { FontFamily, FontFace, FontStack, FontWeight } from "../../fui/Fui";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
+import {
+  FontFamily,
+  FontFace,
+  FontStack,
+  FontWeight } from "../../fui/Fui";
+import { DemoText,
+  DemoTextStyle,
+} from "../shared/design-system";
 
 export class CustomFontSection {
   readonly emojiFace: FontFace;

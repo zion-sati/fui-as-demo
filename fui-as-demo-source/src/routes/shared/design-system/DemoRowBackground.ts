@@ -1,4 +1,4 @@
-import { BorderStyle, FlexBox, Theme } from "../../../fui/Fui";
+import { FlexBox, Theme } from "../../../fui/Fui";
 import { changeColorAlpha } from "../ColorUtils";
 
 /**
@@ -13,5 +13,5 @@ export function applyRowBackground(row: FlexBox, index: i32, theme: Theme): Flex
   const accent = theme.colors.accent;
   return row
     .bgColor(changeColorAlpha(accent, alpha))
-    .border(1.0, theme.colors.border, BorderStyle.Solid);
+    .border(1.0, theme.colors.border);
 }

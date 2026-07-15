@@ -1,7 +1,7 @@
-import { FlexBox, JustifyContent, Row, TextVerticalAlign, Unit } from "../../../fui/Fui";
+import { FlexBox, FlexWrap, JustifyContent, Row, TextVerticalAlign, Unit } from "../../../fui/Fui";
 import { DemoText, DemoTextStyle } from "./DemoText";
 import { NavPill } from "./NavPill";
-import { advancedRoute, homeRoute, textFontsRoute } from "../../../routes";
+import { advancedRoute, homeRoute, immediateDrawingRoute, textFontsRoute } from "../../../routes";
 
 function navSpacer(): FlexBox {
   return new FlexBox().width(10.0, Unit.Pixel).height(1.0, Unit.Pixel);
@@ -11,10 +11,13 @@ export function createNavBar(title: string, activeSlug: string): FlexBox {
   const homePill = new NavPill(homeRoute(), "Home").active(activeSlug == "home");
   const textFontsPill = new NavPill(textFontsRoute(), "Text & Fonts").active(activeSlug == "text-fonts");
   const advancedPill = new NavPill(advancedRoute(), "Advanced").active(activeSlug == "advanced");
-  return Row(
+  const immediateDrawingPill = new NavPill(immediateDrawingRoute(), "Immediate Drawing").active(activeSlug == "immediate-drawing");
+  const titleText = new DemoText(title, DemoTextStyle.Heading1)
+    .verticalAlign(TextVerticalAlign.Center)
+    .fillWidthPercent(50);
 
-    new DemoText(title, DemoTextStyle.Heading1)
-      .verticalAlign(TextVerticalAlign.Center),
+  return Row(
+    titleText,
 
     Row(
       homePill,
@@ -22,7 +25,9 @@ export function createNavBar(title: string, activeSlug: string): FlexBox {
       textFontsPill,
       navSpacer(),
       advancedPill,
-    ).justifyContent(JustifyContent.End).fillWidth()
+      navSpacer(),
+      immediateDrawingPill,
+    ).justifyContent(JustifyContent.End).fillWidthPercent(50).flexWrap(FlexWrap.Wrap),
 
-  ).fillWidth();
+  ).fillWidth().flexWrap(FlexWrap.Wrap);
 }

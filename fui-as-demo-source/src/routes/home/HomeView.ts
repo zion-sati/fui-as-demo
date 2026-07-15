@@ -1,7 +1,6 @@
 import {
   AlignItems,
   Bitmap,
-  BorderStyle,
   Checkbox,
   Column,
   Dialog,
@@ -27,18 +26,19 @@ import {
   activeTheme,
   bindTheme,
   disposeAll,
-} from "../../fui/Fui";
-import { createNavBar } from "../shared/design-system/NavBar";
-import { DemoCheckbox } from "../shared/design-system/DemoCheckbox";
-import { DemoDialog } from "../shared/design-system/DemoDialog";
-import { DemoDropdown } from "../shared/design-system/DemoDropdown";
-import { DemoRadioButton } from "../shared/design-system/DemoRadioButton";
-import { DemoRadioGroup } from "../shared/design-system/DemoRadioGroup";
-import { DemoScrollBox } from "../shared/design-system/DemoScrollBox";
-import { DemoSlider } from "../shared/design-system/DemoSlider";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
-import { DemoVirtualList } from "../shared/design-system/DemoVirtualList";
+  } from "../../fui/Fui";
 import {
+  createNavBar,
+  DemoCheckbox,
+  DemoDialog,
+  DemoDropdown,
+  DemoRadioButton,
+  DemoRadioGroup,
+  DemoScrollBox,
+  DemoSlider,
+  DemoText,
+  DemoTextStyle,
+  DemoVirtualList,
   HEADING_TO_BODY_GAP_PX,
   HEADING_TO_BODY_TIGHT_GAP_PX,
   HorizontalSpacer,
@@ -48,11 +48,11 @@ import {
   PANEL_SECTION_GAP_PX,
   TITLE_TO_SUPPORTING_GAP_PX,
   VerticalSpacer,
-} from "../shared/design-system/Spacers";
-import { Panel } from "../shared/design-system/Panel";
+  Panel,
+  applyRowBackground,
+  PrimaryButton,
+} from "../shared/design-system";
 import { changeColorAlpha } from "../shared/ColorUtils";
-import { applyRowBackground } from "../shared/design-system/DemoRowBackground";
-import { PrimaryButton } from "../shared/design-system/PrimaryButton";
 import { HomeModel } from "./HomeModel";
 
 export class HomeView {
@@ -553,7 +553,7 @@ export class HomeView {
       : theme.colors.surface;
     this.foundationsKeyTargetBox
       .bgColor(background)
-      .border(1.0, borderColor, BorderStyle.Solid);
+      .border(1.0, borderColor);
     this.refreshFoundationsKeyTargetText();
   }
 

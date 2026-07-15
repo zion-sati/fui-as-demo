@@ -1,5 +1,4 @@
-import { DemoButton } from "../shared/design-system/DemoButton";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
+import { DemoButton, DemoText, DemoTextStyle } from "../shared/design-system";
 import { ProgressBar, Unit, Worker } from "../../fui/Fui";
 
 function parseLeadingPercent(text: string): f32 {
@@ -28,7 +27,7 @@ export class WorkerSection {
   readonly statusText: DemoText = new DemoText("", DemoTextStyle.Caption) as DemoText;
   readonly detailText: DemoText = new DemoText("", DemoTextStyle.BodySecondary) as DemoText;
   readonly hintText: DemoText = new DemoText(
-    "This sample connects the Worker API to a retained ProgressBar. Start runs a 5-second prime search with once-per-second yields; cancel waits for the next yield and then reports cooperative cancellation.",
+    "This sample connects the Worker API to a retained ProgressBar. Start runs a 5-second prime search with frequent cooperative yields; cancel waits for the next yield and then reports cancellation.",
     DemoTextStyle.BodySecondary,
   ) as DemoText;
 
@@ -56,20 +55,21 @@ export class WorkerSection {
     this.statusText.text("Worker: computing primes...");
     this.detailText.text("");
 
-    const worker = Worker.start("largestPrimeCalculatorWorker")
-      .onProgress(this, (section, message: string): void => {
-        const pct = parseLeadingPercent(message);
+    const worker = new Worker("../advanced-workers.wasm", "largestPrimeCalculatorWorker")
+      .onProgress(this, (section, event): void => {
+        const pct = parseLeadingPercent(event.message);
         section.progressBar.value(pct);
         section.detailText.text("Prime search progress: " + pct.toString() + "%.");
       })
-      .onComplete(this, (section, result: string): void => {
+      .onComplete(this, (section, event): void => {
         section.workerInstance = null;
         section.progressBar.value(100.0);
         section.statusText.text("Worker: completed");
-        section.detailText.text("Largest prime after 5s: " + result);
+        section.detailText.text("Largest prime after 5s: " + event.result);
       })
-      .onError(this, (section, message: string): void => {
+      .onError(this, (section, event): void => {
         section.workerInstance = null;
+        const message = event.message;
         if (message.indexOf("cancelled:") == 0) {
           const cancelledPct = parseLeadingPercent(message);
           section.progressBar.value(cancelledPct);
@@ -83,7 +83,7 @@ export class WorkerSection {
         }
       });
     this.workerInstance = worker;
-    worker.sendString("advanced-demo");
+    worker.start("advanced-demo");
   }
 
   private cancelWorker(): void {

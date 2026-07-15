@@ -1,126 +1,3 @@
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-history.ts
-var managedHistoryInitialized = false;
-var managedHistoryEntries = [];
-var managedHistoryIndex = 0;
-function normalizeManagedHistoryState(rawState, currentUrl) {
-  const rawRecord = typeof rawState === "object" && rawState !== null ? rawState : null;
-  const href = typeof rawRecord?.href === "string" && rawRecord.href.length > 0 ? rawRecord.href : currentUrl.href;
-  const snapshotId = typeof rawRecord?.uiSnapshotId === "string" && rawRecord.uiSnapshotId.length > 0 ? rawRecord.uiSnapshotId : void 0;
-  return snapshotId === void 0 ? { href } : { href, uiSnapshotId: snapshotId };
-}
-function readManagedHistoryState(currentUrl = new URL(window.location.href)) {
-  return normalizeManagedHistoryState(window.history.state, currentUrl);
-}
-function writeManagedHistoryState(state, mode) {
-  if (mode === "push") {
-    window.history.pushState(state, "", state.href);
-    return;
-  }
-  window.history.replaceState(state, "", state.href);
-}
-function setCurrentManagedHistorySnapshotId(snapshotId, currentUrl = new URL(window.location.href)) {
-  const state = snapshotId === void 0 ? { href: currentUrl.href } : { href: currentUrl.href, uiSnapshotId: snapshotId };
-  writeManagedHistoryState(state, "replace");
-  return state;
-}
-function ensureManagedHistoryInitialized() {
-  const currentUrl = new URL(window.location.href);
-  if (managedHistoryInitialized) {
-    const normalizedState2 = readManagedHistoryState(currentUrl);
-    writeManagedHistoryState(
-      normalizedState2.href === currentUrl.href ? normalizedState2 : normalizedState2.uiSnapshotId === void 0 ? { href: currentUrl.href } : { href: currentUrl.href, uiSnapshotId: normalizedState2.uiSnapshotId },
-      "replace"
-    );
-    return;
-  }
-  managedHistoryEntries = [currentUrl.href];
-  managedHistoryIndex = 0;
-  managedHistoryInitialized = true;
-  const normalizedState = readManagedHistoryState(currentUrl);
-  writeManagedHistoryState(
-    normalizedState.href === currentUrl.href ? normalizedState : normalizedState.uiSnapshotId === void 0 ? { href: currentUrl.href } : { href: currentUrl.href, uiSnapshotId: normalizedState.uiSnapshotId },
-    "replace"
-  );
-}
-function pushManagedHistoryEntry(target) {
-  ensureManagedHistoryInitialized();
-  managedHistoryEntries = managedHistoryEntries.slice(0, managedHistoryIndex + 1);
-  managedHistoryEntries.push(target.href);
-  managedHistoryIndex = managedHistoryEntries.length - 1;
-  writeManagedHistoryState({ href: target.href }, "push");
-}
-function replaceManagedHistoryEntry(target) {
-  ensureManagedHistoryInitialized();
-  managedHistoryEntries[managedHistoryIndex] = target.href;
-  writeManagedHistoryState({ href: target.href }, "replace");
-}
-function syncManagedHistoryPop(target) {
-  ensureManagedHistoryInitialized();
-  if (managedHistoryIndex > 0 && managedHistoryEntries[managedHistoryIndex - 1] === target.href) {
-    managedHistoryIndex -= 1;
-    return;
-  }
-  if (managedHistoryIndex + 1 < managedHistoryEntries.length && managedHistoryEntries[managedHistoryIndex + 1] === target.href) {
-    managedHistoryIndex += 1;
-    return;
-  }
-  const existingIndex = managedHistoryEntries.lastIndexOf(target.href);
-  if (existingIndex >= 0) {
-    managedHistoryIndex = existingIndex;
-    return;
-  }
-  managedHistoryEntries = [target.href];
-  managedHistoryIndex = 0;
-}
-function canManagedNavigateBack() {
-  ensureManagedHistoryInitialized();
-  return managedHistoryIndex > 0;
-}
-function canManagedNavigateForward() {
-  ensureManagedHistoryInitialized();
-  return managedHistoryIndex + 1 < managedHistoryEntries.length;
-}
-function getBrowserNavigationApi() {
-  const windowWithNavigation = window;
-  return windowWithNavigation.navigation ?? null;
-}
-function canBrowserNavigateBack() {
-  const navigationApi = getBrowserNavigationApi();
-  if (navigationApi?.canGoBack !== void 0) {
-    return navigationApi.canGoBack;
-  }
-  return canManagedNavigateBack();
-}
-function canBrowserNavigateForward() {
-  const navigationApi = getBrowserNavigationApi();
-  if (navigationApi?.canGoForward !== void 0) {
-    return navigationApi.canGoForward;
-  }
-  return canManagedNavigateForward();
-}
-function navigateBrowserBack() {
-  if (!canBrowserNavigateBack()) {
-    return;
-  }
-  const navigationApi = getBrowserNavigationApi();
-  if (navigationApi?.back !== void 0) {
-    void navigationApi.back();
-    return;
-  }
-  window.history.back();
-}
-function navigateBrowserForward() {
-  if (!canBrowserNavigateForward()) {
-    return;
-  }
-  const navigationApi = getBrowserNavigationApi();
-  if (navigationApi?.forward !== void 0) {
-    void navigationApi.forward();
-    return;
-  }
-  window.history.forward();
-}
-
 // node_modules/@assemblyscript/loader/index.js
 var ID_OFFSET = -8;
 var SIZE_OFFSET = -4;
@@ -478,7 +355,7 @@ function demangle(exports, extendedExports = {}) {
   return extendedExports;
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/host-events.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/host-events.ts
 var IDENTIFIER_RE = /^[A-Za-z_][A-Za-z0-9_]*$/;
 function hostEvent(definition) {
   return definition;
@@ -492,7 +369,7 @@ function assertIdentifier(value, context) {
   }
 }
 function capitalize(value) {
-  return value.length == 0 ? value : `${value[0].toUpperCase()}${value.slice(1)}`;
+  return value.length === 0 ? value : `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`;
 }
 function buildEventName(serviceName, methodName) {
   return `${serviceName}${capitalize(methodName)}`;
@@ -522,7 +399,9 @@ function listHostEventMethods(events) {
       }
       seenEvents.add(eventName);
       const args = [...definition.args];
-      args.forEach((type, index) => validateEventType(type, `Host event ${serviceName}.${methodName} arg ${String(index)}`));
+      args.forEach((type, index) => {
+        validateEventType(type, `Host event ${serviceName}.${methodName} arg ${String(index)}`);
+      });
       methods.push({
         serviceName,
         methodName,
@@ -537,7 +416,7 @@ function listHostEventMethods(events) {
   return methods;
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/host-services.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/host-services.ts
 var IDENTIFIER_RE2 = /^[A-Za-z_][A-Za-z0-9_]*$/;
 function hostService(definition) {
   return definition;
@@ -551,7 +430,7 @@ function assertIdentifier2(value, context) {
   }
 }
 function capitalize2(value) {
-  return value.length == 0 ? value : `${value[0].toUpperCase()}${value.slice(1)}`;
+  return value.length === 0 ? value : `${value.slice(0, 1).toUpperCase()}${value.slice(1)}`;
 }
 function buildImportName(serviceName, methodName) {
   return `${serviceName}${capitalize2(methodName)}`;
@@ -579,7 +458,9 @@ function listHostServiceMethods(services) {
       }
       seenImports.add(importName);
       const args = [...definition.args];
-      args.forEach((type, index) => validateServiceType(type, `Host service ${serviceName}.${methodName} arg ${String(index)}`));
+      args.forEach((type, index) => {
+        validateServiceType(type, `Host service ${serviceName}.${methodName} arg ${String(index)}`);
+      });
       validateServiceType(definition.returns, `Host service ${serviceName}.${methodName} return`);
       methods.push({
         serviceName,
@@ -827,7 +708,7 @@ function createHostServiceImportModule(services, io) {
       const result = method.implementation(...decodedArgs);
       const resultContext = `Host service ${method.serviceName}.${method.methodName} result`;
       if (method.returns === "void") {
-        return;
+        return void 0;
       }
       if (method.returns === "string") {
         const outputIndex = consumedRawArgCount(method);
@@ -886,42 +767,19 @@ function createHostServiceImportModule(services, io) {
       if (method.returns === "u64") {
         return expectU64(result, resultContext);
       }
-      if (method.returns === "f64") {
-        return expectNumber(result, resultContext);
-      }
-      throw new Error(`${resultContext} uses unsupported type ${method.returns}.`);
+      return expectNumber(result, resultContext);
     };
   }
   return module;
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/worker-manager.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/worker-manager.ts
 function describeError(error) {
   return error instanceof Error ? error.message : String(error);
 }
-function validateManifest(value) {
-  if (typeof value !== "object" || value === null) {
-    throw new Error("Malformed worker manifest: expected an object.");
-  }
-  const candidate = value;
-  if (candidate.version !== 1) {
-    throw new Error("Malformed worker manifest: expected version 1.");
-  }
-  if (typeof candidate.entries !== "object" || candidate.entries === null) {
-    throw new Error("Malformed worker manifest: expected an entries object.");
-  }
-  for (const [entryName, entryUrl] of Object.entries(candidate.entries)) {
-    if (typeof entryName !== "string" || entryName.length === 0 || typeof entryUrl !== "string" || entryUrl.length === 0) {
-      throw new Error("Malformed worker manifest: each entry must map a non-empty name to a non-empty URL.");
-    }
-  }
-  return candidate;
-}
 function createWorkerManager(options) {
   const workerBootstrapUrl = new URL("./worker-bootstrap.js", options.scriptBaseUrl).toString();
-  const workerManifestUrl = new URL("./worker-manifest.json", options.scriptBaseUrl).toString();
   const records = /* @__PURE__ */ new Map();
-  let manifestPromise = null;
   function emitToSession(workerId, kind, text) {
     const session = options.getCurrentSession();
     if (session === null) {
@@ -976,37 +834,13 @@ function createWorkerManager(options) {
     emitToSession(workerId, "error", message.text);
     finishWorker(workerId);
   }
-  function loadManifest() {
-    if (manifestPromise !== null) {
-      return manifestPromise;
-    }
-    manifestPromise = fetch(workerManifestUrl, {
-      cache: "no-store",
-      credentials: "same-origin"
-    }).then(async (response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to load worker manifest from ${workerManifestUrl}.`);
-      }
-      return validateManifest(await response.json());
-    });
-    return manifestPromise;
-  }
-  async function startWorkerAsync(workerId, entryName, input) {
+  function startWorker(workerId, wasmPath, entryName, input) {
     const record = records.get(workerId);
     if (record === void 0) {
       return;
     }
     try {
-      const manifest = await loadManifest();
-      if (records.get(workerId) !== record) {
-        return;
-      }
-      const workerModuleUrl = manifest.entries[entryName];
-      if (typeof workerModuleUrl !== "string" || workerModuleUrl.length === 0) {
-        emitToSession(workerId, "error", `Unknown worker entry "${entryName}".`);
-        finishWorker(workerId);
-        return;
-      }
+      const workerModuleUrl = new URL(wasmPath, options.scriptBaseUrl).toString();
       const worker = new Worker(workerBootstrapUrl);
       if (records.get(workerId) !== record) {
         worker.terminate();
@@ -1021,16 +855,24 @@ function createWorkerManager(options) {
         if (active === void 0) {
           return;
         }
-        emitToSession(workerId, "error", event.message.length > 0 ? event.message : "Worker bootstrap crashed.");
+        const message2 = typeof event.message === "string" && event.message.length > 0 ? event.message : "Worker bootstrap crashed.";
+        emitToSession(workerId, "error", message2);
         finishWorker(workerId);
       });
-      const message = {
+      const workerHostServices = options.getCurrentWorkerHostServices();
+      const message = workerHostServices === void 0 ? {
         type: "start",
         workerId,
-        wasmUrl: new URL(workerModuleUrl, workerManifestUrl).toString(),
+        wasmUrl: workerModuleUrl,
+        entryName,
+        input
+      } : {
+        type: "start",
+        workerId,
+        wasmUrl: workerModuleUrl,
         entryName,
         input,
-        workerHostServices: options.getCurrentWorkerHostServices()
+        workerHostServices
       };
       worker.postMessage(message);
       if (record.cancelled) {
@@ -1045,7 +887,7 @@ function createWorkerManager(options) {
     }
   }
   return {
-    startString(workerId, entryName, input) {
+    startString(workerId, wasmPath, entryName, input) {
       if (records.has(workerId)) {
         emitToSession(workerId, "error", "Worker already started.");
         return;
@@ -1054,7 +896,7 @@ function createWorkerManager(options) {
         worker: null,
         cancelled: false
       });
-      void startWorkerAsync(workerId, entryName, input);
+      startWorker(workerId, wasmPath, entryName, input);
     },
     cancel(workerId) {
       const record = records.get(workerId);
@@ -1076,6 +918,23 @@ function createWorkerManager(options) {
       records.clear();
     }
   };
+}
+
+// node_modules/@effindomv2/runtime/src/managed-harness/abi-version.ts
+var EXPECTED_EFFINDOM_CORE_ABI_VERSION = 2;
+var EXPECTED_EFFINDOM_UI_ABI_VERSION = 1;
+function readAbiVersion(getter) {
+  return typeof getter === "function" ? getter() : 0;
+}
+function assertCompatibleAbi(runtime) {
+  const actualCoreVersion = readAbiVersion(runtime.core._ed_get_abi_version?.bind(runtime.core));
+  const actualUiVersion = readAbiVersion(runtime.ui._ui_get_abi_version?.bind(runtime.ui));
+  if (actualCoreVersion === EXPECTED_EFFINDOM_CORE_ABI_VERSION && actualUiVersion === EXPECTED_EFFINDOM_UI_ABI_VERSION) {
+    return;
+  }
+  throw new Error(
+    `EffinDom ABI mismatch: fui-as expects core ABI ${String(EXPECTED_EFFINDOM_CORE_ABI_VERSION)} and ui ABI ${String(EXPECTED_EFFINDOM_UI_ABI_VERSION)}, but loaded core ABI ${String(actualCoreVersion)} and ui ABI ${String(actualUiVersion)}. Rebuild/publish @effindomv2/runtime and @effindomv2/fui-as together.`
+  );
 }
 
 // node_modules/@effindomv2/runtime/src/bridge/utils/encoding.ts
@@ -1186,29 +1045,69 @@ function getPointerPosition(canvas, event) {
 
 // node_modules/@effindomv2/runtime/src/bridge/utils/heap.ts
 var textEncoder = new TextEncoder();
-function writeBytesToHeap(module, bytes) {
-  const ptr = normalizePointerForWasm(module, bytes.byteLength === 0 ? 0 : module._malloc(bytes.byteLength));
+function withHeapAllocation(module, byteLength, callback) {
+  const ptr = normalizePointerForWasm(module, byteLength === 0 ? 0 : module._malloc(byteLength));
   const offset = pointerToHeapOffset(ptr);
   module.refreshHeapViews?.();
+  if (byteLength > 0 && offset === 0) {
+    throw new Error("WASM heap malloc failed.");
+  }
+  try {
+    return callback({ ptr, offset, len: byteLength });
+  } finally {
+    if (offset !== 0) {
+      module._free(ptr);
+    }
+  }
+}
+function copyBytesToHeap(module, ptr, bytes) {
+  const offset = pointerToHeapOffset(normalizePointerForWasm(module, ptr));
+  module.refreshHeapViews?.();
   if (bytes.byteLength > 0 && offset === 0) {
-    throw new Error("WASM bytes malloc failed.");
+    throw new Error("WASM heap copy destination is null.");
   }
   if (bytes.byteLength > 0) {
-    module.HEAPU8.set(bytes, offset);
+    new Uint8Array(module.HEAPU8.buffer, offset, bytes.byteLength).set(bytes);
   }
+  return offset;
+}
+function copyBytesFromHeap(module, ptr, byteLength) {
+  if (byteLength <= 0) {
+    return new Uint8Array(0);
+  }
+  const offset = pointerToHeapOffset(normalizePointerForWasm(module, ptr));
+  module.refreshHeapViews?.();
+  if (offset === 0) {
+    throw new Error("WASM heap copy source is null.");
+  }
+  return new Uint8Array(new Uint8Array(module.HEAPU8.buffer, offset, byteLength));
+}
+function withHeapBytes(module, bytes, callback) {
+  return withHeapAllocation(module, bytes.byteLength, (allocation) => {
+    copyBytesToHeap(module, allocation.ptr, bytes);
+    return callback(allocation);
+  });
+}
+function writeBytesToHeap(module, bytes) {
+  const allocation = allocateHeapBytes(module, bytes);
   return {
-    ptr,
-    offset,
+    ptr: allocation.ptr,
+    offset: allocation.offset,
     len: bytes.byteLength,
     dispose: () => {
-      if (offset !== 0) {
-        module._free(ptr);
+      if (allocation.offset !== 0) {
+        module._free(allocation.ptr);
       }
     }
   };
 }
+function allocateHeapBytes(module, bytes) {
+  const ptr = normalizePointerForWasm(module, bytes.byteLength === 0 ? 0 : module._malloc(bytes.byteLength));
+  const offset = bytes.byteLength === 0 ? 0 : copyBytesToHeap(module, ptr, bytes);
+  return { ptr, offset, len: bytes.byteLength };
+}
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/interop.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/interop.ts
 function toBigIntHandle(handle) {
   return handleToBigInt(handle);
 }
@@ -1231,8 +1130,16 @@ function currentInteractionTimeMs() {
   return BigInt(Math.floor(performance.now()));
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/host-imports.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/host-imports.ts
 function createHostImportModule(deps) {
+  function isPasswordTextInput(handle) {
+    const metadata = deps.getRuntime().getTextInputMetadata(toBigIntHandle(handle).toString());
+    return metadata?.kind === "password";
+  }
+  function isActivePasswordTextInput() {
+    const activeHandle = deps.getRuntime().getActiveTextHandle();
+    return activeHandle !== null && deps.getRuntime().getTextInputMetadata(activeHandle.toString())?.kind === "password";
+  }
   function safeNotify(label, notify) {
     try {
       notify();
@@ -1260,6 +1167,9 @@ function createHostImportModule(deps) {
       const rect = sizeSource.getBoundingClientRect();
       return sizeSource.clientHeight > 0 ? sizeSource.clientHeight : rect.height > 0 ? rect.height : runtime.canvas.height;
     },
+    get_device_pixel_ratio() {
+      return window.devicePixelRatio > 0 ? window.devicePixelRatio : 1;
+    },
     fui_set_pointer_capture(handle) {
       deps.getRuntime().setCapturedPointerHandle(toBigIntHandle(handle));
     },
@@ -1286,12 +1196,22 @@ function createHostImportModule(deps) {
       window.__effindomCallbacks?.onClipboardWrite?.({ plainText: text });
     },
     fui_has_text_selection_snapshot(handle) {
+      if (isPasswordTextInput(handle)) {
+        return 0;
+      }
       return deps.textBridge.resolveFrozenOrLiveTextSelection(handle) !== null ? 1 : 0;
     },
     fui_freeze_text_selection_snapshot(handle) {
+      if (isPasswordTextInput(handle)) {
+        deps.textBridge.clearFrozenTextSelectionSnapshot();
+        return;
+      }
       deps.textBridge.freezeTextSelectionSnapshot(handle);
     },
     fui_copy_text_selection_snapshot(handle) {
+      if (isPasswordTextInput(handle)) {
+        return 0;
+      }
       const snapshot = deps.textBridge.resolveFrozenOrLiveTextSelection(handle);
       if (snapshot === null) {
         return 0;
@@ -1302,6 +1222,9 @@ function createHostImportModule(deps) {
       return 1;
     },
     fui_cut_focused_text_selection() {
+      if (isActivePasswordTextInput()) {
+        return 0;
+      }
       const editor = deps.textBridge.getHiddenTextEditor();
       if (editor === null) {
         return 0;
@@ -1322,6 +1245,10 @@ function createHostImportModule(deps) {
       return 1;
     },
     fui_cut_text_selection_snapshot(handle) {
+      if (isPasswordTextInput(handle)) {
+        deps.textBridge.clearFrozenTextSelectionSnapshot();
+        return 0;
+      }
       const runtime = deps.getRuntime();
       const snapshot = deps.textBridge.resolveFrozenOrLiveTextSelection(handle);
       if (snapshot === null) {
@@ -1356,6 +1283,9 @@ function createHostImportModule(deps) {
       return 1;
     },
     fui_cut_text_range_snapshot(handle, start, end) {
+      if (isPasswordTextInput(handle)) {
+        return 0;
+      }
       const textSnapshot = deps.textBridge.resolveFrozenOrLiveTextSelection(handle);
       const handleKey = toBigIntHandle(handle).toString();
       const text = textSnapshot?.handleKey === handleKey ? textSnapshot.text : deps.textBridge.getLatestText(handle);
@@ -1414,6 +1344,13 @@ function createHostImportModule(deps) {
           editor.focus({ preventScroll: true });
         }
       }, 0);
+    },
+    fui_register_text_input_metadata(handle, isPassword, hintPtr, hintLen) {
+      const hostAutofillHint = hintLen > 0 ? deps.readAppUtf8(hintPtr, hintLen) : null;
+      deps.getRuntime().setTextInputMetadata(toBigIntHandle(handle).toString(), {
+        kind: isPassword ? "password" : hostAutofillHint === "email" ? "email" : "text",
+        hostAutofillHint
+      });
     },
     fui_load_svg(svgId, ptr, len) {
       const runtime = deps.getRuntime();
@@ -1491,8 +1428,13 @@ function createHostImportModule(deps) {
     fui_now_ms() {
       return performance.now();
     },
-    fui_worker_start_string(workerId, entryPtr, entryLen, inputPtr, inputLen) {
-      deps.workerManager.startString(workerId, deps.readAppUtf8(entryPtr, entryLen), deps.readAppUtf8(inputPtr, inputLen));
+    fui_worker_start_string(workerId, wasmPathPtr, wasmPathLen, entryPtr, entryLen, inputPtr, inputLen) {
+      deps.workerManager.startString(
+        workerId,
+        deps.readAppUtf8(wasmPathPtr, wasmPathLen),
+        deps.readAppUtf8(entryPtr, entryLen),
+        deps.readAppUtf8(inputPtr, inputLen)
+      );
     },
     fui_worker_cancel(workerId) {
       deps.workerManager.cancel(workerId);
@@ -1607,7 +1549,7 @@ function createHostImportModule(deps) {
   };
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-harness-bitmap-host.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness-bitmap-host.ts
 function createManagedHarnessBitmapHost(dependencies) {
   const customBitmapTextures = /* @__PURE__ */ new Map();
   const customBitmapReplayRuntimes = /* @__PURE__ */ new WeakSet();
@@ -1664,10 +1606,33 @@ function createManagedHarnessBitmapHost(dependencies) {
         const record = {
           width,
           height,
-          bytes: dependencies.readAppBytes(ptr, len)
+          bytes: dependencies.readAppBytes(pointerToHeapOffset(ptr), len)
         };
         customBitmapTextures.set(textureId, record);
         uploadCustomBitmap(dependencies.getRuntime(), textureId, record);
+        dependencies.notifyBitmapChanged();
+      },
+      fui_bitmap_commit_dirty(textureId, ptr, len, fullW, fullH, subX, subY, subW, subH) {
+        if (!Number.isInteger(textureId) || textureId <= 0) return;
+        if (subW <= 0 || subH <= 0) return;
+        const expectedLen = subW * subH * 4;
+        if (len !== expectedLen) return;
+        const runtime = dependencies.getRuntime();
+        const heap = writeBytesToHeap(runtime.core, dependencies.readAppBytes(pointerToHeapOffset(ptr), len));
+        try {
+          runtime.core._ed_register_texture_sub_rgba(
+            textureId,
+            heap.ptr,
+            subX,
+            subY,
+            subW,
+            subH,
+            fullW,
+            fullH
+          );
+        } finally {
+          heap.dispose();
+        }
         dependencies.notifyBitmapChanged();
       },
       fui_bitmap_release(textureId) {
@@ -1677,31 +1642,187 @@ function createManagedHarnessBitmapHost(dependencies) {
         customBitmapTextures.delete(textureId);
         dependencies.getRuntime().core._ed_unregister_texture(textureId);
         dependencies.notifyBitmapChanged();
+      },
+      fui_render_node_to_rgba(handle, width, height, outPtr, outCapacity, scale, x, y) {
+        const runtime = dependencies.getRuntime();
+        const core = runtime.core;
+        const byteCount = width * height * 4;
+        if (outCapacity < byteCount) return 0;
+        return withHeapAllocation(core, byteCount, (allocation) => {
+          const written = core._ed_render_node_to_rgba(
+            toBigIntHandle(handle),
+            width,
+            height,
+            allocation.ptr,
+            byteCount,
+            scale,
+            x,
+            y
+          );
+          if (written === 0) {
+            return 0;
+          }
+          const bytes = copyBytesFromHeap(core, allocation.ptr, byteCount);
+          dependencies.writeAppBytes(pointerToHeapOffset(outPtr), byteCount, bytes, "bitmap-text-render");
+          return written;
+        });
       }
     }
   };
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-harness-file-types.ts
-var EXTERNAL_DRAG_EVENT_ENTER = 1;
-var EXTERNAL_DRAG_EVENT_OVER = 2;
-var EXTERNAL_DRAG_EVENT_LEAVE = 3;
-var EXTERNAL_DRAG_EVENT_DROP = 4;
-var EXTERNAL_DROP_ITEM_KIND_FILE = 1;
-var FILE_STATUS_SUCCESS = 1;
-var FILE_STATUS_CANCELLED = 2;
-var FILE_STATUS_ERROR = 3;
-var FILE_SAVE_MODE_DOWNLOAD = 1;
-var FILE_SAVE_MODE_NATIVE_PICKER = 2;
-var FILE_CAPABILITY_OPEN = 1 << 0;
-var FILE_CAPABILITY_READ = 1 << 1;
-var FILE_CAPABILITY_SAVE = 1 << 2;
-var FILE_CAPABILITY_CHUNKED_READ = 1 << 3;
-var FILE_CAPABILITY_CHUNKED_WRITE = 1 << 4;
-var FILE_CAPABILITY_NATIVE_SAVE_PICKER = 1 << 5;
-var FILE_CAPABILITY_PROCESS_WORKER_SAVE = 1 << 6;
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness-canvas-host.ts
+function createManagedHarnessCanvasHost(deps) {
+  const surfaces = /* @__PURE__ */ new Map();
+  const canvasPointersByToken = /* @__PURE__ */ new Map();
+  const canvasTokensByPointer = /* @__PURE__ */ new Map();
+  const offscreenCanvasTokens = /* @__PURE__ */ new Map();
+  let nextCanvasToken = 805306368;
+  const core = () => deps.getRuntime().core;
+  const ptr = (p) => {
+    const token = pointerToHeapOffset(p);
+    const canvasPtr = canvasPointersByToken.get(token);
+    if (canvasPtr !== void 0) {
+      return canvasPtr;
+    }
+    return normalizePointerForWasm(core(), p);
+  };
+  const pointerKey = (p) => normalizePointerForWasm(core(), p).toString();
+  const tokenForCanvasPointer = (canvasPtr) => {
+    const normalizedCanvasPtr = normalizePointerForWasm(core(), canvasPtr);
+    const key = pointerKey(normalizedCanvasPtr);
+    const existingToken = canvasTokensByPointer.get(key);
+    if (existingToken !== void 0) {
+      return existingToken;
+    }
+    const token = nextCanvasToken++;
+    canvasTokensByPointer.set(key, token);
+    canvasPointersByToken.set(token, normalizedCanvasPtr);
+    return token;
+  };
+  const I = {};
+  I.fui_canvas_save = (p) => {
+    core()._ed_canvas_save(ptr(p));
+  };
+  I.fui_canvas_restore = (p) => {
+    core()._ed_canvas_restore(ptr(p));
+  };
+  I.fui_canvas_translate = (p, x, y) => {
+    core()._ed_canvas_translate(ptr(p), x, y);
+  };
+  I.fui_canvas_scale = (p, sx, sy) => {
+    core()._ed_canvas_scale(ptr(p), sx, sy);
+  };
+  I.fui_canvas_rotate = (p, d) => {
+    core()._ed_canvas_rotate(ptr(p), d);
+  };
+  I.fui_canvas_clip_rect = (p, x, y, w, h) => {
+    core()._ed_canvas_clip_rect(ptr(p), x, y, w, h);
+  };
+  I.fui_canvas_clip_round_rect = (p, x, y, w, h, tl, tr, br, bl) => {
+    core()._ed_canvas_clip_round_rect(ptr(p), x, y, w, h, tl, tr, br, bl);
+  };
+  I.fui_canvas_draw_rect = (p, x, y, w, h, fc, sc, sw) => {
+    core()._ed_canvas_draw_rect(ptr(p), x, y, w, h, fc, sc, sw);
+  };
+  I.fui_canvas_draw_circle = (p, cx, cy, r, fc, sc, sw) => {
+    core()._ed_canvas_draw_circle(ptr(p), cx, cy, r, fc, sc, sw);
+  };
+  I.fui_canvas_draw_line = (p, x1, y1, x2, y2, c, sw) => {
+    core()._ed_canvas_draw_line(ptr(p), x1, y1, x2, y2, c, sw);
+  };
+  I.fui_canvas_draw_round_rect = (p, x, y, w, h, rx, ry, fc, sc, sw) => {
+    core()._ed_canvas_draw_round_rect(ptr(p), x, y, w, h, rx, ry, fc, sc, sw);
+  };
+  I.fui_canvas_draw_path = (p, pid, fc, sc, sw) => {
+    core()._ed_canvas_draw_path(ptr(p), pid, fc, sc, sw);
+  };
+  I.fui_canvas_draw_text_node = (p, lo, hi, x, y) => {
+    core()._ed_canvas_draw_text_node(ptr(p), lo >>> 0, hi >>> 0, x, y);
+  };
+  I.fui_canvas_draw_image = (p, tid, x, y, w, h, sk, ma) => {
+    core()._ed_canvas_draw_image(ptr(p), tid, x, y, w, h, sk, ma);
+  };
+  I.fui_canvas_draw_svg = (p, sid, x, y, w, h) => {
+    core()._ed_canvas_draw_svg(ptr(p), sid, x, y, w, h);
+  };
+  I.fui_canvas_draw_batch = (p, wordsPtr, wordCount) => {
+    if (wordCount <= 0) {
+      return;
+    }
+    const wordByteLength = wordCount * 4;
+    const words = deps.readAppBytes(pointerToHeapOffset(wordsPtr), wordByteLength);
+    const c = core();
+    withHeapBytes(c, words, (heap) => {
+      c._ed_canvas_draw_batch(ptr(p), heap.ptr, wordCount);
+    });
+  };
+  I.fui_path_create = () => core()._ed_path_create();
+  I.fui_path_destroy = (id) => {
+    core()._ed_path_destroy(id);
+  };
+  I.fui_path_move_to = (id, x, y) => {
+    core()._ed_path_move_to(id, x, y);
+  };
+  I.fui_path_line_to = (id, x, y) => {
+    core()._ed_path_line_to(id, x, y);
+  };
+  I.fui_path_quad_to = (id, cx, cy, x, y) => {
+    core()._ed_path_quad_to(id, cx, cy, x, y);
+  };
+  I.fui_path_cubic_to = (id, cx1, cy1, cx2, cy2, x, y) => {
+    core()._ed_path_cubic_to(id, cx1, cy1, cx2, cy2, x, y);
+  };
+  I.fui_path_close = (id) => {
+    core()._ed_path_close(id);
+  };
+  I.fui_path_add_rect = (id, x, y, w, h) => {
+    core()._ed_path_add_rect(id, x, y, w, h);
+  };
+  I.fui_path_add_circle = (id, cx, cy, r) => {
+    core()._ed_path_add_circle(id, cx, cy, r);
+  };
+  I.fui_canvas_create_offscreen = (w, h) => {
+    const id = core()._ed_canvas_create_offscreen(w, h);
+    if (id !== 0) surfaces.set(id, id);
+    return id;
+  };
+  I.fui_canvas_get_offscreen_ptr = (id) => {
+    const existingToken = offscreenCanvasTokens.get(id);
+    if (existingToken !== void 0) {
+      return existingToken;
+    }
+    const token = tokenForCanvasPointer(core()._ed_canvas_get_offscreen_canvas(id));
+    offscreenCanvasTokens.set(id, token);
+    return token;
+  };
+  I.fui_canvas_read_offscreen_pixels = (id, outPtr, w, h) => {
+    const bytesLen = w * h * 4;
+    const c = core();
+    withHeapAllocation(c, bytesLen, (heap) => {
+      c._ed_canvas_read_offscreen_pixels(id, heap.ptr);
+      deps.writeAppBytes(pointerToHeapOffset(outPtr), bytesLen, copyBytesFromHeap(c, heap.ptr, bytesLen), "canvas-read");
+    });
+  };
+  I.fui_canvas_destroy_offscreen = (id) => {
+    surfaces.delete(id);
+    const token = offscreenCanvasTokens.get(id);
+    if (token !== void 0) {
+      offscreenCanvasTokens.delete(id);
+      canvasPointersByToken.delete(token);
+      for (const [key, value] of canvasTokensByPointer.entries()) {
+        if (value === token) {
+          canvasTokensByPointer.delete(key);
+          break;
+        }
+      }
+    }
+    core()._ed_canvas_destroy_offscreen(id);
+  };
+  return { imports: I, tokenForCanvasPointer };
+}
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-harness-file-payloads.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness-fetch-host.ts
 var encoder = new TextEncoder();
 function encodeLengthPrefixedText(value) {
   return encoder.encode(value);
@@ -1719,20 +1840,172 @@ function writeLengthPrefixedText(memory, basePtr, byteOffset, encoded) {
   }
   return nextOffset;
 }
+function writeTextPartsPayload(session, values, context) {
+  const encodedValues = new Array(values.length);
+  let totalBytes = 4;
+  for (let index = 0; index < values.length; index += 1) {
+    const encoded = encodeLengthPrefixedText(values[index] ?? "");
+    encodedValues[index] = encoded;
+    totalBytes += measureLengthPrefixedText(encoded);
+  }
+  if (totalBytes > session.textBufferSize) {
+    throw new Error(`${context} exceeds the shared AssemblyScript text buffer.`);
+  }
+  const dataView = new DataView(session.memory.buffer, session.textBufferPtr, totalBytes);
+  let byteOffset = 0;
+  dataView.setUint32(byteOffset, values.length >>> 0, true);
+  byteOffset += 4;
+  for (const encoded of encodedValues) {
+    byteOffset = writeLengthPrefixedText(session.memory, session.textBufferPtr, byteOffset, encoded);
+  }
+  return totalBytes;
+}
+function copyBytesToArrayBuffer(bytes) {
+  const copied = new Uint8Array(bytes.byteLength);
+  copied.set(bytes);
+  return copied.buffer;
+}
+function createManagedHarnessFetchHost(dependencies) {
+  const activeFetchRequests = /* @__PURE__ */ new Map();
+  function emitFetchComplete(session, requestId, ok, status, statusText, url) {
+    if (session === null) {
+      return;
+    }
+    const payloadLength = writeTextPartsPayload(
+      session,
+      [statusText, url],
+      "Fetch completion payload"
+    );
+    session.exports.__fui_on_fetch_complete(
+      requestId,
+      ok,
+      status,
+      payloadLength > 0 ? session.textBufferPtr : 0,
+      payloadLength
+    );
+  }
+  function emitFetchError(session, requestId, message) {
+    if (session === null) {
+      return;
+    }
+    const payloadLength = dependencies.writeTextCallbackPayload(session, message, "Fetch failure payload");
+    session.exports.__fui_on_fetch_error(
+      requestId,
+      payloadLength > 0 ? session.textBufferPtr : 0,
+      payloadLength
+    );
+  }
+  function cancelAllForSession(session) {
+    for (const [requestId, record] of activeFetchRequests.entries()) {
+      if (session !== null && record.session !== session) {
+        continue;
+      }
+      activeFetchRequests.delete(requestId);
+      record.controller.abort();
+    }
+  }
+  return {
+    cancelAllForSession,
+    imports: {
+      fui_fetch_start(requestId, methodPtr, methodLen, urlPtr, urlLen, headersPtr, headersLen, bodyPtr, bodyLen) {
+        const session = dependencies.getCurrentSession();
+        if (session === null) {
+          return;
+        }
+        const method = dependencies.readAppUtf8(methodPtr, methodLen);
+        const url = dependencies.readAppUtf8(urlPtr, urlLen);
+        const headerParts = dependencies.readAppTextParts(headersPtr, headersLen);
+        if ((headerParts.length & 1) != 0) {
+          emitFetchError(session, requestId, "Fetch request headers were malformed.");
+          return;
+        }
+        const controller = new AbortController();
+        const headers = new Headers();
+        for (let index = 0; index < headerParts.length; index += 2) {
+          headers.append(headerParts[index] ?? "", headerParts[index + 1] ?? "");
+        }
+        const bodyBytes = dependencies.readAppBytes(bodyPtr, bodyLen);
+        activeFetchRequests.set(requestId, {
+          requestId,
+          session,
+          controller
+        });
+        const init = {
+          method,
+          headers,
+          signal: controller.signal
+        };
+        if (bodyBytes.length > 0) {
+          init.body = copyBytesToArrayBuffer(bodyBytes);
+        }
+        void fetch(url, init).then((response) => {
+          const active = activeFetchRequests.get(requestId);
+          if (active?.session !== session) {
+            return;
+          }
+          activeFetchRequests.delete(requestId);
+          if (dependencies.getCurrentSession() !== session) {
+            return;
+          }
+          emitFetchComplete(
+            session,
+            requestId,
+            response.ok,
+            response.status,
+            response.statusText,
+            response.url
+          );
+        }).catch((error) => {
+          const active = activeFetchRequests.get(requestId);
+          if (active === void 0) {
+            return;
+          }
+          activeFetchRequests.delete(requestId);
+          if (controller.signal.aborted || dependencies.getCurrentSession() !== session) {
+            return;
+          }
+          emitFetchError(session, requestId, dependencies.describeHarnessError(error));
+        });
+      },
+      fui_fetch_cancel(requestId) {
+        const record = activeFetchRequests.get(requestId);
+        if (record === void 0) {
+          return;
+        }
+        activeFetchRequests.delete(requestId);
+        record.controller.abort();
+      }
+    }
+  };
+}
+
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness-file-payloads.ts
+var encoder2 = new TextEncoder();
+function encodeLengthPrefixedText2(value) {
+  return encoder2.encode(value);
+}
+function measureLengthPrefixedText2(encoded) {
+  return 4 + encoded.length;
+}
+function writeLengthPrefixedText2(memory, basePtr, byteOffset, encoded) {
+  const view = new DataView(memory.buffer, basePtr, byteOffset + 4 + encoded.length);
+  view.setUint32(byteOffset, encoded.length >>> 0, true);
+  let nextOffset = byteOffset + 4;
+  if (encoded.length > 0) {
+    new Uint8Array(memory.buffer, basePtr + nextOffset, encoded.length).set(encoded);
+    nextOffset += encoded.length;
+  }
+  return nextOffset;
+}
 function writeFileListPayload(session, files) {
   let totalBytes = 4;
-  const encodedIds = new Array(files.length);
-  const encodedNames = new Array(files.length);
-  const encodedMimeTypes = new Array(files.length);
-  for (let index = 0; index < files.length; index += 1) {
-    const entry = files[index];
-    const encodedId = encodeLengthPrefixedText(entry?.id ?? "");
-    const encodedName = encodeLengthPrefixedText(entry?.file.name ?? "");
-    const encodedMimeType = encodeLengthPrefixedText(entry?.file.type ?? "");
-    encodedIds[index] = encodedId;
-    encodedNames[index] = encodedName;
-    encodedMimeTypes[index] = encodedMimeType;
-    totalBytes += measureLengthPrefixedText(encodedId) + 8 + 8 + measureLengthPrefixedText(encodedName) + measureLengthPrefixedText(encodedMimeType);
+  const encodedEntries = new Array();
+  for (const entry of files) {
+    const encodedId = encodeLengthPrefixedText2(entry.id);
+    const encodedName = encodeLengthPrefixedText2(entry.file.name);
+    const encodedMimeType = encodeLengthPrefixedText2(entry.file.type);
+    encodedEntries.push({ entry, encodedId, encodedName, encodedMimeType });
+    totalBytes += measureLengthPrefixedText2(encodedId) + 8 + 8 + measureLengthPrefixedText2(encodedName) + measureLengthPrefixedText2(encodedMimeType);
   }
   if (totalBytes > session.textBufferSize) {
     throw new Error("File picker payload exceeds the shared AssemblyScript text buffer.");
@@ -1741,25 +2014,21 @@ function writeFileListPayload(session, files) {
   let byteOffset = 0;
   dataView.setUint32(byteOffset, files.length >>> 0, true);
   byteOffset += 4;
-  for (let index = 0; index < files.length; index += 1) {
-    const entry = files[index];
-    const encodedId = encodedIds[index] ?? new Uint8Array();
-    const encodedName = encodedNames[index] ?? new Uint8Array();
-    const encodedMimeType = encodedMimeTypes[index] ?? new Uint8Array();
-    byteOffset = writeLengthPrefixedText(session.memory, session.textBufferPtr, byteOffset, encodedId);
-    dataView.setBigUint64(byteOffset, BigInt(entry?.file.size ?? 0), true);
+  for (const { entry, encodedId, encodedName, encodedMimeType } of encodedEntries) {
+    byteOffset = writeLengthPrefixedText2(session.memory, session.textBufferPtr, byteOffset, encodedId);
+    dataView.setBigUint64(byteOffset, BigInt(entry.file.size), true);
     byteOffset += 8;
-    dataView.setBigUint64(byteOffset, BigInt(Math.max(0, Math.trunc(entry?.file.lastModified ?? 0))), true);
+    dataView.setBigUint64(byteOffset, BigInt(Math.max(0, Math.trunc(entry.file.lastModified))), true);
     byteOffset += 8;
-    byteOffset = writeLengthPrefixedText(session.memory, session.textBufferPtr, byteOffset, encodedName);
-    byteOffset = writeLengthPrefixedText(session.memory, session.textBufferPtr, byteOffset, encodedMimeType);
+    byteOffset = writeLengthPrefixedText2(session.memory, session.textBufferPtr, byteOffset, encodedName);
+    byteOffset = writeLengthPrefixedText2(session.memory, session.textBufferPtr, byteOffset, encodedMimeType);
   }
   return totalBytes;
 }
 function writeWriterPayload(session, mode, first, second = null) {
-  const encodedFirst = encodeLengthPrefixedText(first);
-  const encodedSecond = second === null ? null : encodeLengthPrefixedText(second);
-  const totalBytes = 4 + measureLengthPrefixedText(encodedFirst) + (encodedSecond === null ? 0 : measureLengthPrefixedText(encodedSecond));
+  const encodedFirst = encodeLengthPrefixedText2(first);
+  const encodedSecond = second === null ? null : encodeLengthPrefixedText2(second);
+  const totalBytes = 4 + measureLengthPrefixedText2(encodedFirst) + (encodedSecond === null ? 0 : measureLengthPrefixedText2(encodedSecond));
   if (totalBytes > session.textBufferSize) {
     throw new Error("File bridge metadata exceeds the shared AssemblyScript text buffer.");
   }
@@ -1767,25 +2036,20 @@ function writeWriterPayload(session, mode, first, second = null) {
   let byteOffset = 0;
   dataView.setUint32(byteOffset, mode >>> 0, true);
   byteOffset += 4;
-  byteOffset = writeLengthPrefixedText(session.memory, session.textBufferPtr, byteOffset, encodedFirst);
+  byteOffset = writeLengthPrefixedText2(session.memory, session.textBufferPtr, byteOffset, encodedFirst);
   if (encodedSecond !== null) {
-    byteOffset = writeLengthPrefixedText(session.memory, session.textBufferPtr, byteOffset, encodedSecond);
+    writeLengthPrefixedText2(session.memory, session.textBufferPtr, byteOffset, encodedSecond);
   }
   return totalBytes;
 }
 function writeExternalDropPayload(session, items) {
   let totalBytes = 4;
-  const encodedIds = new Array(items.length);
-  const encodedNames = new Array(items.length);
-  const encodedMimeTypes = new Array(items.length);
-  for (let index = 0; index < items.length; index += 1) {
-    const item = items[index];
-    const encodedId = encoder.encode(item?.id ?? "");
-    const encodedName = encoder.encode(item?.name ?? "");
-    const encodedMimeType = encoder.encode(item?.mimeType ?? "");
-    encodedIds[index] = encodedId;
-    encodedNames[index] = encodedName;
-    encodedMimeTypes[index] = encodedMimeType;
+  const encodedItems = new Array();
+  for (const item of items) {
+    const encodedId = encoder2.encode(item.id);
+    const encodedName = encoder2.encode(item.name);
+    const encodedMimeType = encoder2.encode(item.mimeType ?? "");
+    encodedItems.push({ item, encodedId, encodedName, encodedMimeType });
     totalBytes += 4 + 8 + 4 + encodedId.length + 4 + encodedName.length + 4 + encodedMimeType.length;
   }
   if (totalBytes > session.textBufferSize) {
@@ -1795,14 +2059,10 @@ function writeExternalDropPayload(session, items) {
   let byteOffset = 0;
   dataView.setUint32(byteOffset, items.length >>> 0, true);
   byteOffset += 4;
-  for (let index = 0; index < items.length; index += 1) {
-    const item = items[index];
-    const encodedId = encodedIds[index] ?? new Uint8Array();
-    const encodedName = encodedNames[index] ?? new Uint8Array();
-    const encodedMimeType = encodedMimeTypes[index] ?? new Uint8Array();
-    dataView.setUint32(byteOffset, (item?.kind ?? EXTERNAL_DROP_ITEM_KIND_FILE) >>> 0, true);
+  for (const { item, encodedId, encodedName, encodedMimeType } of encodedItems) {
+    dataView.setUint32(byteOffset, item.kind >>> 0, true);
     byteOffset += 4;
-    dataView.setFloat64(byteOffset, item?.sizeBytes ?? 0, true);
+    dataView.setFloat64(byteOffset, item.sizeBytes, true);
     byteOffset += 8;
     dataView.setUint32(byteOffset, encodedId.length >>> 0, true);
     byteOffset += 4;
@@ -1826,9 +2086,43 @@ function writeExternalDropPayload(session, items) {
   return totalBytes;
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-harness-file-host.ts
-var encoder2 = new TextEncoder();
-function copyBytesToArrayBuffer(bytes) {
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness-file-types.ts
+var EXTERNAL_DRAG_EVENT_ENTER = 1;
+var EXTERNAL_DRAG_EVENT_OVER = 2;
+var EXTERNAL_DRAG_EVENT_LEAVE = 3;
+var EXTERNAL_DRAG_EVENT_DROP = 4;
+var EXTERNAL_DROP_ITEM_KIND_FILE = 1;
+var FILE_STATUS_SUCCESS = 1;
+var FILE_STATUS_CANCELLED = 2;
+var FILE_STATUS_ERROR = 3;
+var FILE_SAVE_MODE_DOWNLOAD = 1;
+var FILE_SAVE_MODE_NATIVE_PICKER = 2;
+var FILE_CAPABILITY_OPEN = 1 << 0;
+var FILE_CAPABILITY_READ = 1 << 1;
+var FILE_CAPABILITY_SAVE = 1 << 2;
+var FILE_CAPABILITY_CHUNKED_READ = 1 << 3;
+var FILE_CAPABILITY_CHUNKED_WRITE = 1 << 4;
+var FILE_CAPABILITY_NATIVE_SAVE_PICKER = 1 << 5;
+var FILE_CAPABILITY_PROCESS_WORKER_SAVE = 1 << 6;
+
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness-file-host.ts
+var encoder3 = new TextEncoder();
+function isRecord(value) {
+  return value !== null && typeof value === "object";
+}
+function parseFileProcessWorkerMessage(value) {
+  if (!isRecord(value) || typeof value.type !== "string") {
+    return null;
+  }
+  if (value.type === "file-process-chunk" && (value.bytes instanceof Uint8Array || value.bytes instanceof ArrayBuffer)) {
+    return { type: value.type, bytes: value.bytes };
+  }
+  if ((value.type === "progress" || value.type === "complete" || value.type === "error") && typeof value.text === "string") {
+    return { type: value.type, text: value.text };
+  }
+  return null;
+}
+function copyBytesToArrayBuffer2(bytes) {
   const copied = new Uint8Array(bytes.byteLength);
   copied.set(bytes);
   return copied.buffer;
@@ -1891,7 +2185,7 @@ function createManagedHarnessFileHost(dependencies) {
     if (session === null) {
       return;
     }
-    let payloadLength = 0;
+    let payloadLength;
     if (status === FILE_STATUS_SUCCESS) {
       payloadLength = bytes?.length ?? 0;
       if (payloadLength > session.textBufferSize) {
@@ -1981,25 +2275,6 @@ function createManagedHarnessFileHost(dependencies) {
       payloadLength
     );
   }
-  function emitFileWorkerProcessChunk(session, requestId, offsetBytes, fileSizeBytes, bytes) {
-    if (session === null) {
-      return;
-    }
-    const payloadLength = bytes.length;
-    if (payloadLength > session.textBufferSize) {
-      throw new Error("File worker process chunk exceeds the shared AssemblyScript text buffer.");
-    }
-    if (payloadLength > 0) {
-      new Uint8Array(session.memory.buffer, session.textBufferPtr, payloadLength).set(bytes);
-    }
-    session.exports.__fui_on_file_worker_process_chunk(
-      requestId,
-      offsetBytes,
-      fileSizeBytes,
-      payloadLength > 0 ? session.textBufferPtr : 0,
-      payloadLength
-    );
-  }
   function emitFileWorkerProcessComplete(session, requestId, processedBytes, outputFileName, workerResult = null) {
     if (session === null) {
       return;
@@ -2034,26 +2309,28 @@ function createManagedHarnessFileHost(dependencies) {
     activeFileProcessingRequests.delete(requestId);
   }
   function failFileProcessingRequest(record, status, message) {
+    record.failed = true;
     cleanupFileProcessingRequest(record.requestId);
     if (dependencies.getCurrentSession() === record.session) {
       emitFileWorkerProcessError(record.session, record.requestId, status, message);
     }
   }
-  async function startFileProcessing(requestId, session, sourceFile, suggestedName, chunkBytes, saveToPickedFile, workerHostServices) {
+  function isActiveFileProcessingRecord(record) {
+    return activeFileProcessingRequests.get(record.requestId) === record && dependencies.getCurrentSession() === record.session && !record.cancelled && !record.failed;
+  }
+  function trackFileProcessingWrite(record, write) {
+    record.pendingWrites.push(write);
+    void write.finally(() => {
+      const index = record.pendingWrites.indexOf(write);
+      if (index >= 0) {
+        void record.pendingWrites.splice(index, 1);
+      }
+    }).catch(() => {
+    });
+  }
+  async function startFileProcessing(requestId, session, workerWasmPath, workerEntryName, sourceFile, suggestedName, chunkBytes, saveToPickedFile, workerHostServices) {
     const workerId = requestId;
-    const manifestUrl = new URL("./worker-manifest.json", dependencies.workerBootstrapUrl).toString();
-    const manifestResponse = await fetch(manifestUrl);
-    if (!manifestResponse.ok) {
-      emitFileWorkerProcessError(session, requestId, FILE_STATUS_ERROR, "Failed to load worker manifest.");
-      return;
-    }
-    const manifest = await manifestResponse.json();
-    const wasmUrl = manifest.entries?.["fileProcessorWorker"];
-    if (typeof wasmUrl !== "string" || wasmUrl.length === 0) {
-      emitFileWorkerProcessError(session, requestId, FILE_STATUS_ERROR, 'Missing "fileProcessorWorker" entry in worker manifest.');
-      return;
-    }
-    const resolvedWasmUrl = new URL(wasmUrl, manifestUrl).toString();
+    const resolvedWasmUrl = new URL(workerWasmPath, dependencies.workerBootstrapUrl).toString();
     const startProcessor = (targetFileName, stream) => {
       const worker = new Worker(dependencies.workerBootstrapUrl);
       const record = {
@@ -2065,16 +2342,27 @@ function createManagedHarnessFileHost(dependencies) {
         stream,
         saveToPickedFile,
         cancelled: false,
+        failed: false,
         worker,
+        pendingWrites: [],
         processedBytes: 0
       };
       activeFileProcessingRequests.set(requestId, record);
       worker.addEventListener("message", (event) => {
-        const msg = event.data;
+        const msg = parseFileProcessWorkerMessage(event.data);
+        if (msg === null) {
+          return;
+        }
         if (msg.type === "file-process-chunk" && stream !== null) {
-          void stream.write(msg.bytes).catch((error) => {
-            failFileProcessingRequest(record, FILE_STATUS_ERROR, dependencies.describeHarnessError(error));
+          const sourceBytes = msg.bytes instanceof Uint8Array ? msg.bytes : new Uint8Array(msg.bytes);
+          const bytes = new Uint8Array(sourceBytes.byteLength);
+          bytes.set(sourceBytes);
+          const write = stream.write(bytes).catch((error) => {
+            if (isActiveFileProcessingRecord(record)) {
+              failFileProcessingRequest(record, FILE_STATUS_ERROR, dependencies.describeHarnessError(error));
+            }
           });
+          trackFileProcessingWrite(record, write);
         } else if (msg.type === "progress") {
           if (dependencies.getCurrentSession() === record.session) {
             const parts = msg.text.split(" ");
@@ -2089,10 +2377,15 @@ function createManagedHarnessFileHost(dependencies) {
             );
           }
         } else if (msg.type === "complete") {
-          if (dependencies.getCurrentSession() === record.session) {
+          void Promise.all(record.pendingWrites).then(async () => {
+            if (!isActiveFileProcessingRecord(record)) {
+              return;
+            }
             if (stream !== null) {
-              void stream.close().catch(() => {
-              });
+              await stream.close();
+            }
+            if (!isActiveFileProcessingRecord(record)) {
+              return;
             }
             const hashText = msg.text;
             emitFileWorkerProcessComplete(
@@ -2102,8 +2395,12 @@ function createManagedHarnessFileHost(dependencies) {
               record.targetFileName,
               hashText
             );
-          }
-          cleanupFileProcessingRequest(record.requestId);
+            cleanupFileProcessingRequest(record.requestId);
+          }).catch((error) => {
+            if (isActiveFileProcessingRecord(record)) {
+              failFileProcessingRequest(record, FILE_STATUS_ERROR, dependencies.describeHarnessError(error));
+            }
+          });
         } else if (msg.type === "error") {
           failFileProcessingRequest(record, FILE_STATUS_ERROR, msg.text);
         }
@@ -2116,7 +2413,7 @@ function createManagedHarnessFileHost(dependencies) {
         workerId,
         file: sourceFile,
         wasmUrl: resolvedWasmUrl,
-        entryName: "fileProcessorWorker",
+        entryName: workerEntryName,
         chunkSize: Math.max(1, Math.floor(chunkBytes)),
         workerHostServices
       });
@@ -2134,7 +2431,7 @@ function createManagedHarnessFileHost(dependencies) {
       emitFileWorkerProcessError(session, requestId, FILE_STATUS_ERROR, "Worker file processing requires the native save picker.");
       return;
     }
-    void savePicker({ suggestedName }).then(
+    await savePicker({ suggestedName }).then(
       (handle) => handle.createWritable().then((writableStream) => {
         if (dependencies.getCurrentSession() !== session || cancelledFileProcessingRequestIds.has(requestId)) {
           void abortWritableStream(writableStream).catch(() => {
@@ -2191,11 +2488,11 @@ function createManagedHarnessFileHost(dependencies) {
     if (dataTransfer === null) {
       return [];
     }
-    const files = Array.from(dataTransfer.files ?? []);
+    const files = Array.from(dataTransfer.files);
     if (files.length > 0) {
       return files.map((file) => snapshotStoredBrowserFile(file, "external-drop"));
     }
-    const itemEntries = Array.from(dataTransfer.items ?? []);
+    const itemEntries = Array.from(dataTransfer.items);
     const fileEntries = itemEntries.filter((item) => item.kind === "file");
     if (fileEntries.length > 0) {
       return fileEntries.map((item, index) => ({
@@ -2206,7 +2503,7 @@ function createManagedHarnessFileHost(dependencies) {
         sizeBytes: 0
       }));
     }
-    const dragTypes = Array.from(dataTransfer.types ?? []);
+    const dragTypes = Array.from(dataTransfer.types);
     if (dragTypes.includes("Files")) {
       return [{
         id: `external-drop-${String(nextExternalDropItemId++)}`,
@@ -2302,7 +2599,7 @@ function createManagedHarnessFileHost(dependencies) {
           return;
         }
         const accept = dependencies.readAppUtf8(acceptPtr, acceptLen);
-        const host = document.body ?? document.documentElement;
+        const host = document.body;
         const input = document.createElement("input");
         input.type = "file";
         input.multiple = multiple;
@@ -2321,31 +2618,23 @@ function createManagedHarnessFileHost(dependencies) {
             return;
           }
           finished = true;
-          window.removeEventListener("focus", handleFocus, true);
           input.remove();
           if (dependencies.getCurrentSession() !== session) {
             return;
           }
           emitFilePickResult(session, requestId, status, files, message);
         };
-        const handleFocus = () => {
-          window.setTimeout(() => {
-            if (finished) {
-              return;
-            }
-            const selected = Array.from(input.files ?? []).map((file) => storeBrowserFile(file, "picked-file"));
-            if (selected.length > 0) {
-              complete(FILE_STATUS_SUCCESS, selected);
-              return;
-            }
-            complete(FILE_STATUS_CANCELLED, [], "File picker cancelled.");
-          }, 0);
-        };
         input.addEventListener("change", () => {
           const selected = Array.from(input.files ?? []).map((file) => storeBrowserFile(file, "picked-file"));
-          complete(FILE_STATUS_SUCCESS, selected);
+          if (selected.length > 0) {
+            complete(FILE_STATUS_SUCCESS, selected);
+            return;
+          }
+          complete(FILE_STATUS_CANCELLED, [], "File picker cancelled.");
         }, { once: true });
-        window.addEventListener("focus", handleFocus, true);
+        input.addEventListener("cancel", () => {
+          complete(FILE_STATUS_CANCELLED, [], "File picker cancelled.");
+        }, { once: true });
         input.click();
       },
       fui_file_read_chunk(requestId, fileIdPtr, fileIdLen, offsetBytes, maxBytes) {
@@ -2404,19 +2693,19 @@ function createManagedHarnessFileHost(dependencies) {
         );
         const mimeType = dependencies.readAppUtf8(mimeTypePtr, mimeTypeLen);
         const text = dependencies.readAppUtf8(textPtr, textLen);
-        const encoded = encoder2.encode(text);
+        const encoded = encoder3.encode(text);
         const finishDownload = () => {
-          const blob = new Blob([encoded], {
-            type: mimeType.length > 0 ? mimeType : void 0
-          });
+          const blob = mimeType.length > 0 ? new Blob([encoded], { type: mimeType }) : new Blob([encoded]);
           const url = URL.createObjectURL(blob);
           const anchor = document.createElement("a");
           anchor.href = url;
           anchor.download = suggestedName;
-          document.body?.appendChild(anchor);
+          document.body.appendChild(anchor);
           anchor.click();
           anchor.remove();
-          window.setTimeout(() => URL.revokeObjectURL(url), 0);
+          window.setTimeout(() => {
+            URL.revokeObjectURL(url);
+          }, 0);
           if (dependencies.getCurrentSession() === session) {
             emitFileSaveResult(session, requestId, FILE_STATUS_SUCCESS, BigInt(encoded.length), suggestedName, FILE_SAVE_MODE_DOWNLOAD);
           }
@@ -2465,19 +2754,19 @@ function createManagedHarnessFileHost(dependencies) {
         );
         const mimeType = dependencies.readAppUtf8(mimeTypePtr, mimeTypeLen);
         const bytes = dependencies.readAppBytes(bytesPtr, bytesLen);
-        const copiedBytes = copyBytesToArrayBuffer(bytes);
+        const copiedBytes = copyBytesToArrayBuffer2(bytes);
         const finishDownload = () => {
-          const blob = new Blob([copiedBytes], {
-            type: mimeType.length > 0 ? mimeType : void 0
-          });
+          const blob = mimeType.length > 0 ? new Blob([copiedBytes], { type: mimeType }) : new Blob([copiedBytes]);
           const url = URL.createObjectURL(blob);
           const anchor = document.createElement("a");
           anchor.href = url;
           anchor.download = suggestedName;
-          document.body?.appendChild(anchor);
+          document.body.appendChild(anchor);
           anchor.click();
           anchor.remove();
-          window.setTimeout(() => URL.revokeObjectURL(url), 0);
+          window.setTimeout(() => {
+            URL.revokeObjectURL(url);
+          }, 0);
           if (dependencies.getCurrentSession() === session) {
             emitFileSaveResult(session, requestId, FILE_STATUS_SUCCESS, BigInt(bytes.length), suggestedName, FILE_SAVE_MODE_DOWNLOAD);
           }
@@ -2576,7 +2865,7 @@ function createManagedHarnessFileHost(dependencies) {
           return;
         }
         const text = dependencies.readAppUtf8(textPtr, textLen);
-        const encodedLength = encoder2.encode(text).length;
+        const encodedLength = encoder3.encode(text).length;
         void record.stream.write(text).then(() => {
           record.writtenBytes += encodedLength;
           if (dependencies.getCurrentSession() === session) {
@@ -2606,7 +2895,7 @@ function createManagedHarnessFileHost(dependencies) {
           return;
         }
         const bytes = dependencies.readAppBytes(bytesPtr, bytesLen);
-        const copiedBytes = copyBytesToArrayBuffer(bytes);
+        const copiedBytes = copyBytesToArrayBuffer2(bytes);
         void record.stream.write(copiedBytes).then(() => {
           record.writtenBytes += bytes.length;
           if (dependencies.getCurrentSession() === session) {
@@ -2661,11 +2950,13 @@ function createManagedHarnessFileHost(dependencies) {
           }
         });
       },
-      fui_file_process_worker_start(requestId, fileIdPtr, fileIdLen, suggestedNamePtr, suggestedNameLen, chunkBytes, saveToPickedFile) {
+      fui_file_process_worker_start(requestId, workerWasmPathPtr, workerWasmPathLen, workerEntryPtr, workerEntryLen, fileIdPtr, fileIdLen, suggestedNamePtr, suggestedNameLen, chunkBytes, saveToPickedFile) {
         const session = dependencies.getCurrentSession();
         if (session === null) {
           return;
         }
+        const workerWasmPath = dependencies.readAppUtf8(workerWasmPathPtr, workerWasmPathLen);
+        const workerEntryName = dependencies.readAppUtf8(workerEntryPtr, workerEntryLen);
         const fileId = dependencies.readAppUtf8(fileIdPtr, fileIdLen);
         const sourceFile = storedBrowserFiles.get(fileId);
         if (sourceFile === void 0) {
@@ -2674,7 +2965,7 @@ function createManagedHarnessFileHost(dependencies) {
         }
         const suggestedName = resolveSuggestedName(dependencies.readAppUtf8(suggestedNamePtr, suggestedNameLen), "");
         const workerHostServices = dependencies.getCurrentWorkerHostServices();
-        void startFileProcessing(requestId, session, sourceFile, suggestedName, chunkBytes, saveToPickedFile, workerHostServices);
+        void startFileProcessing(requestId, session, workerWasmPath, workerEntryName, sourceFile, suggestedName, chunkBytes, saveToPickedFile, workerHostServices);
       },
       fui_file_process_worker_cancel(requestId) {
         cancelFileProcessingRequest(requestId);
@@ -2683,161 +2974,130 @@ function createManagedHarnessFileHost(dependencies) {
   };
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-harness-fetch-host.ts
-var encoder3 = new TextEncoder();
-function encodeLengthPrefixedText2(value) {
-  return encoder3.encode(value);
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-history.ts
+var managedHistoryInitialized = false;
+var managedHistoryEntries = [];
+var managedHistoryIndex = 0;
+function normalizeManagedHistoryState(rawState, currentUrl) {
+  const rawRecord = typeof rawState === "object" && rawState !== null ? rawState : null;
+  const href = typeof rawRecord?.href === "string" && rawRecord.href.length > 0 ? rawRecord.href : currentUrl.href;
+  const snapshotId = typeof rawRecord?.uiSnapshotId === "string" && rawRecord.uiSnapshotId.length > 0 ? rawRecord.uiSnapshotId : void 0;
+  return snapshotId === void 0 ? { href } : { href, uiSnapshotId: snapshotId };
 }
-function measureLengthPrefixedText2(encoded) {
-  return 4 + encoded.length;
+function readManagedHistoryState(currentUrl = new URL(window.location.href)) {
+  return normalizeManagedHistoryState(window.history.state, currentUrl);
 }
-function writeLengthPrefixedText2(memory, basePtr, byteOffset, encoded) {
-  const view = new DataView(memory.buffer, basePtr, byteOffset + 4 + encoded.length);
-  view.setUint32(byteOffset, encoded.length >>> 0, true);
-  let nextOffset = byteOffset + 4;
-  if (encoded.length > 0) {
-    new Uint8Array(memory.buffer, basePtr + nextOffset, encoded.length).set(encoded);
-    nextOffset += encoded.length;
+function writeManagedHistoryState(state, mode) {
+  if (mode === "push") {
+    window.history.pushState(state, "", state.href);
+    return;
   }
-  return nextOffset;
+  window.history.replaceState(state, "", state.href);
 }
-function writeTextPartsPayload(session, values, context) {
-  const encodedValues = new Array(values.length);
-  let totalBytes = 4;
-  for (let index = 0; index < values.length; index += 1) {
-    const encoded = encodeLengthPrefixedText2(values[index] ?? "");
-    encodedValues[index] = encoded;
-    totalBytes += measureLengthPrefixedText2(encoded);
-  }
-  if (totalBytes > session.textBufferSize) {
-    throw new Error(`${context} exceeds the shared AssemblyScript text buffer.`);
-  }
-  const dataView = new DataView(session.memory.buffer, session.textBufferPtr, totalBytes);
-  let byteOffset = 0;
-  dataView.setUint32(byteOffset, values.length >>> 0, true);
-  byteOffset += 4;
-  for (let index = 0; index < encodedValues.length; index += 1) {
-    byteOffset = writeLengthPrefixedText2(session.memory, session.textBufferPtr, byteOffset, encodedValues[index] ?? new Uint8Array());
-  }
-  return totalBytes;
+function setCurrentManagedHistorySnapshotId(snapshotId, currentUrl = new URL(window.location.href)) {
+  const state = snapshotId === void 0 ? { href: currentUrl.href } : { href: currentUrl.href, uiSnapshotId: snapshotId };
+  writeManagedHistoryState(state, "replace");
+  return state;
 }
-function copyBytesToArrayBuffer2(bytes) {
-  const copied = new Uint8Array(bytes.byteLength);
-  copied.set(bytes);
-  return copied.buffer;
-}
-function createManagedHarnessFetchHost(dependencies) {
-  const activeFetchRequests = /* @__PURE__ */ new Map();
-  function emitFetchComplete(session, requestId, ok, status, statusText, url) {
-    if (session === null) {
-      return;
-    }
-    const payloadLength = writeTextPartsPayload(
-      session,
-      [statusText, url],
-      "Fetch completion payload"
+function ensureManagedHistoryInitialized() {
+  const currentUrl = new URL(window.location.href);
+  if (managedHistoryInitialized) {
+    const normalizedState2 = readManagedHistoryState(currentUrl);
+    writeManagedHistoryState(
+      normalizedState2.href === currentUrl.href ? normalizedState2 : normalizedState2.uiSnapshotId === void 0 ? { href: currentUrl.href } : { href: currentUrl.href, uiSnapshotId: normalizedState2.uiSnapshotId },
+      "replace"
     );
-    session.exports.__fui_on_fetch_complete(
-      requestId,
-      ok,
-      status,
-      payloadLength > 0 ? session.textBufferPtr : 0,
-      payloadLength
-    );
+    return;
   }
-  function emitFetchError(session, requestId, message) {
-    if (session === null) {
-      return;
-    }
-    const payloadLength = dependencies.writeTextCallbackPayload(session, message, "Fetch failure payload");
-    session.exports.__fui_on_fetch_error(
-      requestId,
-      payloadLength > 0 ? session.textBufferPtr : 0,
-      payloadLength
-    );
+  managedHistoryEntries = [currentUrl.href];
+  managedHistoryIndex = 0;
+  managedHistoryInitialized = true;
+  const normalizedState = readManagedHistoryState(currentUrl);
+  writeManagedHistoryState(
+    normalizedState.href === currentUrl.href ? normalizedState : normalizedState.uiSnapshotId === void 0 ? { href: currentUrl.href } : { href: currentUrl.href, uiSnapshotId: normalizedState.uiSnapshotId },
+    "replace"
+  );
+}
+function pushManagedHistoryEntry(target) {
+  ensureManagedHistoryInitialized();
+  managedHistoryEntries = managedHistoryEntries.slice(0, managedHistoryIndex + 1);
+  managedHistoryEntries.push(target.href);
+  managedHistoryIndex = managedHistoryEntries.length - 1;
+  writeManagedHistoryState({ href: target.href }, "push");
+}
+function replaceManagedHistoryEntry(target) {
+  ensureManagedHistoryInitialized();
+  managedHistoryEntries[managedHistoryIndex] = target.href;
+  writeManagedHistoryState({ href: target.href }, "replace");
+}
+function syncManagedHistoryPop(target) {
+  ensureManagedHistoryInitialized();
+  if (managedHistoryIndex > 0 && managedHistoryEntries[managedHistoryIndex - 1] === target.href) {
+    managedHistoryIndex -= 1;
+    return;
   }
-  function cancelAllForSession(session) {
-    for (const [requestId, record] of activeFetchRequests.entries()) {
-      if (session !== null && record.session !== session) {
-        continue;
-      }
-      activeFetchRequests.delete(requestId);
-      record.controller.abort();
-    }
+  if (managedHistoryIndex + 1 < managedHistoryEntries.length && managedHistoryEntries[managedHistoryIndex + 1] === target.href) {
+    managedHistoryIndex += 1;
+    return;
   }
-  return {
-    cancelAllForSession,
-    imports: {
-      fui_fetch_start(requestId, methodPtr, methodLen, urlPtr, urlLen, headersPtr, headersLen, bodyPtr, bodyLen) {
-        const session = dependencies.getCurrentSession();
-        if (session === null) {
-          return;
-        }
-        const method = dependencies.readAppUtf8(methodPtr, methodLen);
-        const url = dependencies.readAppUtf8(urlPtr, urlLen);
-        const headerParts = dependencies.readAppTextParts(headersPtr, headersLen);
-        if ((headerParts.length & 1) != 0) {
-          emitFetchError(session, requestId, "Fetch request headers were malformed.");
-          return;
-        }
-        const controller = new AbortController();
-        const headers = new Headers();
-        for (let index = 0; index < headerParts.length; index += 2) {
-          headers.append(headerParts[index] ?? "", headerParts[index + 1] ?? "");
-        }
-        const bodyBytes = dependencies.readAppBytes(bodyPtr, bodyLen);
-        activeFetchRequests.set(requestId, {
-          requestId,
-          session,
-          controller
-        });
-        void fetch(url, {
-          method,
-          headers,
-          body: bodyBytes.length > 0 ? copyBytesToArrayBuffer2(bodyBytes) : void 0,
-          signal: controller.signal
-        }).then((response) => {
-          const active = activeFetchRequests.get(requestId);
-          if (active === void 0 || active.session !== session) {
-            return;
-          }
-          activeFetchRequests.delete(requestId);
-          if (dependencies.getCurrentSession() !== session) {
-            return;
-          }
-          emitFetchComplete(
-            session,
-            requestId,
-            response.ok,
-            response.status,
-            response.statusText,
-            response.url
-          );
-        }).catch((error) => {
-          const active = activeFetchRequests.get(requestId);
-          if (active === void 0) {
-            return;
-          }
-          activeFetchRequests.delete(requestId);
-          if (controller.signal.aborted || dependencies.getCurrentSession() !== session) {
-            return;
-          }
-          emitFetchError(session, requestId, dependencies.describeHarnessError(error));
-        });
-      },
-      fui_fetch_cancel(requestId) {
-        const record = activeFetchRequests.get(requestId);
-        if (record === void 0) {
-          return;
-        }
-        activeFetchRequests.delete(requestId);
-        record.controller.abort();
-      }
-    }
-  };
+  const existingIndex = managedHistoryEntries.lastIndexOf(target.href);
+  if (existingIndex >= 0) {
+    managedHistoryIndex = existingIndex;
+    return;
+  }
+  managedHistoryEntries = [target.href];
+  managedHistoryIndex = 0;
+}
+function canManagedNavigateBack() {
+  ensureManagedHistoryInitialized();
+  return managedHistoryIndex > 0;
+}
+function canManagedNavigateForward() {
+  ensureManagedHistoryInitialized();
+  return managedHistoryIndex + 1 < managedHistoryEntries.length;
+}
+function getBrowserNavigationApi() {
+  const windowWithNavigation = window;
+  return windowWithNavigation.navigation ?? null;
+}
+function canBrowserNavigateBack() {
+  const navigationApi = getBrowserNavigationApi();
+  if (navigationApi?.canGoBack !== void 0) {
+    return navigationApi.canGoBack;
+  }
+  return canManagedNavigateBack();
+}
+function canBrowserNavigateForward() {
+  const navigationApi = getBrowserNavigationApi();
+  if (navigationApi?.canGoForward !== void 0) {
+    return navigationApi.canGoForward;
+  }
+  return canManagedNavigateForward();
+}
+function navigateBrowserBack() {
+  if (!canBrowserNavigateBack()) {
+    return;
+  }
+  const navigationApi = getBrowserNavigationApi();
+  if (navigationApi?.back !== void 0) {
+    void navigationApi.back();
+    return;
+  }
+  window.history.back();
+}
+function navigateBrowserForward() {
+  if (!canBrowserNavigateForward()) {
+    return;
+  }
+  const navigationApi = getBrowserNavigationApi();
+  if (navigationApi?.forward !== void 0) {
+    void navigationApi.forward();
+    return;
+  }
+  window.history.forward();
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/persisted-ui-state.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/persisted-ui-state.ts
 var PERSISTED_UI_STATE_DB_NAME = "effindom-ui-state";
 var PERSISTED_UI_STATE_DB_VERSION = 1;
 var PERSISTED_UI_STATE_SNAPSHOT_SCHEMA_VERSION = 1;
@@ -2852,15 +3112,25 @@ ${routeHref}`;
 }
 function requestToPromise(request) {
   return new Promise((resolve, reject) => {
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error ?? new Error("IndexedDB request failed."));
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+    request.onerror = () => {
+      reject(request.error ?? new Error("IndexedDB request failed."));
+    };
   });
 }
 function transactionToPromise(transaction) {
   return new Promise((resolve, reject) => {
-    transaction.oncomplete = () => resolve();
-    transaction.onabort = () => reject(transaction.error ?? new Error("IndexedDB transaction aborted."));
-    transaction.onerror = () => reject(transaction.error ?? new Error("IndexedDB transaction failed."));
+    transaction.oncomplete = () => {
+      resolve();
+    };
+    transaction.onabort = () => {
+      reject(transaction.error ?? new Error("IndexedDB transaction aborted."));
+    };
+    transaction.onerror = () => {
+      reject(transaction.error ?? new Error("IndexedDB transaction failed."));
+    };
   });
 }
 function openDatabase(factory) {
@@ -2869,20 +3139,16 @@ function openDatabase(factory) {
     request.onupgradeneeded = () => {
       const database = request.result;
       let snapshots = database.objectStoreNames.contains(PERSISTED_UI_STATE_SNAPSHOTS_STORE) ? request.transaction?.objectStore(PERSISTED_UI_STATE_SNAPSHOTS_STORE) ?? null : null;
-      if (snapshots === null) {
-        snapshots = database.createObjectStore(PERSISTED_UI_STATE_SNAPSHOTS_STORE, {
-          keyPath: "snapshotId"
-        });
-      }
+      snapshots ??= database.createObjectStore(PERSISTED_UI_STATE_SNAPSHOTS_STORE, {
+        keyPath: "snapshotId"
+      });
       if (!snapshots.indexNames.contains("byLastAccessedAt")) {
         snapshots.createIndex("byLastAccessedAt", "lastAccessedAt");
       }
       let routeHeads = database.objectStoreNames.contains(PERSISTED_UI_STATE_ROUTE_HEADS_STORE) ? request.transaction?.objectStore(PERSISTED_UI_STATE_ROUTE_HEADS_STORE) ?? null : null;
-      if (routeHeads === null) {
-        routeHeads = database.createObjectStore(PERSISTED_UI_STATE_ROUTE_HEADS_STORE, {
-          keyPath: "routeKey"
-        });
-      }
+      routeHeads ??= database.createObjectStore(PERSISTED_UI_STATE_ROUTE_HEADS_STORE, {
+        keyPath: "routeKey"
+      });
       if (!routeHeads.indexNames.contains("byUpdatedAt")) {
         routeHeads.createIndex("byUpdatedAt", "updatedAt");
       }
@@ -2890,8 +3156,12 @@ function openDatabase(factory) {
         routeHeads.createIndex("bySnapshotId", "snapshotId");
       }
     };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error ?? new Error("Failed to open IndexedDB database."));
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+    request.onerror = () => {
+      reject(request.error ?? new Error("Failed to open IndexedDB database."));
+    };
   });
 }
 var IndexedDbPersistedUiStateStore = class {
@@ -2986,9 +3256,9 @@ function createPersistedUiStateStore() {
   return new IndexedDbPersistedUiStateStore(globalThis.indexedDB);
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/persisted-restore-policy.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/persisted-restore-policy.ts
 function readBrowserNavigationType(performanceLike = globalThis.performance) {
-  const navigationEntry = performanceLike?.getEntriesByType?.("navigation")?.[0];
+  const navigationEntry = performanceLike.getEntriesByType("navigation")[0];
   if (navigationEntry !== void 0) {
     switch (navigationEntry.type) {
       case "navigate":
@@ -3000,16 +3270,7 @@ function readBrowserNavigationType(performanceLike = globalThis.performance) {
         return "unknown";
     }
   }
-  switch (performanceLike?.navigation?.type) {
-    case 0:
-      return "navigate";
-    case 1:
-      return "reload";
-    case 2:
-      return "back_forward";
-    default:
-      return "unknown";
-  }
+  return "unknown";
 }
 function shouldRestoreInitialHistorySnapshot(navigationType, hasHistorySnapshotId) {
   if (navigationType === "back_forward") {
@@ -3021,7 +3282,7 @@ function shouldRestoreInitialHistorySnapshot(navigationType, hasHistorySnapshotI
   return false;
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/persisted-ui-state-controller.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/persisted-ui-state-controller.ts
 function createPersistedSnapshotId() {
   if (typeof crypto.randomUUID === "function") {
     return crypto.randomUUID();
@@ -3130,7 +3391,7 @@ ${nodeId}`;
   }
   getCurrentPersistedTextEntry(nodeId, kind) {
     const entry = this.currentPersistedEntries.get(this.persistedEntryKey(kind, nodeId));
-    if (entry === void 0 || entry.kind !== kind || typeof entry.payload !== "string") {
+    if (entry?.kind !== kind || typeof entry.payload !== "string") {
       return null;
     }
     return {
@@ -3270,7 +3531,7 @@ ${nodeId}`;
   }
 };
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/text-session-bridge.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/text-session-bridge.ts
 var decoder = new TextDecoder();
 var encoder4 = new TextEncoder();
 var TEXTBOX_HARD_CLAMP_MAX_CODEPOINTS = 1e4;
@@ -3473,7 +3734,7 @@ var TextSessionBridge = class {
       throw new Error(`${context} exceeds the shared AssemblyScript text buffer.`);
     }
     if (encoded.length > 0) {
-      const memory = new Uint8Array(session.memory.buffer, session.textBufferPtr, encoded.length);
+      const memory = new Uint8Array(this.getCurrentMemory().buffer, session.textBufferPtr, encoded.length);
       memory.set(encoded);
     }
     return encoded.length;
@@ -3488,7 +3749,7 @@ var TextSessionBridge = class {
     const encoded = encoder4.encode(text);
     const length = Math.min(encoded.length, session.textBufferSize);
     if (length > 0) {
-      const memory = new Uint8Array(session.memory.buffer, session.textBufferPtr, length);
+      const memory = new Uint8Array(this.getCurrentMemory().buffer, session.textBufferPtr, length);
       memory.set(encoded.subarray(0, length));
     }
     return length;
@@ -3500,54 +3761,28 @@ var TextSessionBridge = class {
       return;
     }
     const bytes = encoder4.encode(text);
-    const ptr = runtime.ui._malloc(bytes.length);
-    const numericPtr = toNumberHandle(ptr);
-    runtime.ui.HEAPU8.set(bytes, numericPtr);
-    callback(normalizePointer(runtime, ptr), bytes.length);
-    runtime.ui._free(ptr);
+    withHeapBytes(runtime.ui, bytes, (heap) => {
+      callback(heap.ptr, heap.len);
+    });
   }
   withUiGridData(values, types, callback) {
     const runtime = this.getRuntime();
     const valueBytes = new Uint8Array(values.buffer);
-    const valuePtr = valueBytes.length > 0 ? runtime.ui._malloc(valueBytes.length) : zeroPointer(runtime);
-    const valueNumericPtr = valueBytes.length > 0 ? toNumberHandle(valuePtr) : 0;
-    if (valueBytes.length > 0) {
-      runtime.ui.HEAPU8.set(valueBytes, valueNumericPtr);
-    }
-    const typePtr = types.length > 0 ? runtime.ui._malloc(types.length) : zeroPointer(runtime);
-    const typeNumericPtr = types.length > 0 ? toNumberHandle(typePtr) : 0;
-    if (types.length > 0) {
-      runtime.ui.HEAPU8.set(types, typeNumericPtr);
-    }
-    callback(normalizePointer(runtime, valuePtr), normalizePointer(runtime, typePtr));
-    if (types.length > 0) {
-      runtime.ui._free(typePtr);
-    }
-    if (valueBytes.length > 0) {
-      runtime.ui._free(valuePtr);
-    }
+    withHeapBytes(runtime.ui, valueBytes, (valueHeap) => {
+      withHeapBytes(runtime.ui, types, (typeHeap) => {
+        callback(valueHeap.ptr, typeHeap.ptr);
+      });
+    });
   }
   withUiGradientData(offsets, colors, callback) {
     const runtime = this.getRuntime();
     const offsetBytes = new Uint8Array(offsets.buffer);
-    const offsetPtr = offsetBytes.length > 0 ? runtime.ui._malloc(offsetBytes.length) : zeroPointer(runtime);
-    const offsetNumericPtr = offsetBytes.length > 0 ? toNumberHandle(offsetPtr) : 0;
-    if (offsetBytes.length > 0) {
-      runtime.ui.HEAPU8.set(offsetBytes, offsetNumericPtr);
-    }
     const colorBytes = new Uint8Array(colors.buffer);
-    const colorPtr = colorBytes.length > 0 ? runtime.ui._malloc(colorBytes.length) : zeroPointer(runtime);
-    const colorNumericPtr = colorBytes.length > 0 ? toNumberHandle(colorPtr) : 0;
-    if (colorBytes.length > 0) {
-      runtime.ui.HEAPU8.set(colorBytes, colorNumericPtr);
-    }
-    callback(normalizePointer(runtime, offsetPtr), normalizePointer(runtime, colorPtr));
-    if (colorBytes.length > 0) {
-      runtime.ui._free(colorPtr);
-    }
-    if (offsetBytes.length > 0) {
-      runtime.ui._free(offsetPtr);
-    }
+    withHeapBytes(runtime.ui, offsetBytes, (offsetHeap) => {
+      withHeapBytes(runtime.ui, colorBytes, (colorHeap) => {
+        callback(offsetHeap.ptr, colorHeap.ptr);
+      });
+    });
   }
   recordTextChanged(handle, text) {
     this.latestTextByHandle.set(toBigIntHandle(handle).toString(), text);
@@ -3632,7 +3867,199 @@ var TextSessionBridge = class {
   }
 };
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/ui-imports.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/ui-chrome.ts
+var DEFAULT_ACCENT_COLOR = 627305471;
+var URL_PREVIEW_BAR_ID = "fui-url-bar";
+var PLATFORM_FAMILY_UNKNOWN = 0;
+var PLATFORM_FAMILY_APPLE = 1;
+var PLATFORM_FAMILY_WINDOWS = 2;
+var PLATFORM_FAMILY_LINUX = 3;
+var LOADING_OVERLAY_ID = "effindom-loading-overlay";
+var LOADING_TITLE_ID = "effindom-loading-title";
+var LOADING_DETAIL_ID = "effindom-loading-detail";
+function packColor(red, green, blue, alpha = 255) {
+  return ((red & 255) << 24 | (green & 255) << 16 | (blue & 255) << 8 | alpha & 255) >>> 0;
+}
+function parseCssColorToRgba(colorValue) {
+  const probe = document.createElement("span");
+  probe.style.color = colorValue;
+  if (probe.style.color.length === 0) {
+    return null;
+  }
+  probe.style.position = "absolute";
+  probe.style.pointerEvents = "none";
+  probe.style.opacity = "0";
+  document.body.appendChild(probe);
+  const computed = getComputedStyle(probe).color.trim();
+  probe.remove();
+  const match = /^rgba?\(([^)]+)\)$/.exec(computed);
+  if (match === null) {
+    return null;
+  }
+  const channels = match[1];
+  if (channels === void 0) {
+    return null;
+  }
+  const parts = channels.split(",").map((part) => part.trim());
+  if (parts.length < 3) {
+    return null;
+  }
+  const [redPart, greenPart, bluePart, alphaPart] = parts;
+  if (redPart === void 0 || greenPart === void 0 || bluePart === void 0) {
+    return null;
+  }
+  const red = Number.parseInt(redPart, 10);
+  const green = Number.parseInt(greenPart, 10);
+  const blue = Number.parseInt(bluePart, 10);
+  if ([red, green, blue].some((channel) => Number.isNaN(channel))) {
+    return null;
+  }
+  const alpha = parts.length < 4 ? 255 : Math.max(0, Math.min(255, Math.round(Number.parseFloat(alphaPart ?? "1") * 255)));
+  return packColor(red, green, blue, alpha);
+}
+function readCssSystemAccentColor() {
+  if (typeof CSS === "undefined" || typeof CSS.supports !== "function" || !CSS.supports("color", "AccentColor")) {
+    return null;
+  }
+  return parseCssColorToRgba("AccentColor");
+}
+function readCssRootAccentColor() {
+  const accent = getComputedStyle(document.documentElement).getPropertyValue("accent-color").trim();
+  if (accent.length === 0 || accent === "auto") {
+    return null;
+  }
+  return parseCssColorToRgba(accent);
+}
+function readWebkitFocusRingAccentColor() {
+  return parseCssColorToRgba("-webkit-focus-ring-color");
+}
+function readHostAccentColor() {
+  return readCssSystemAccentColor() ?? readWebkitFocusRingAccentColor() ?? readCssRootAccentColor() ?? DEFAULT_ACCENT_COLOR;
+}
+function ensureUrlPreviewBar() {
+  const existing = document.getElementById(URL_PREVIEW_BAR_ID);
+  if (existing instanceof HTMLDivElement) {
+    return existing;
+  }
+  const bar = document.createElement("div");
+  bar.id = URL_PREVIEW_BAR_ID;
+  bar.hidden = true;
+  bar.dataset.visible = "false";
+  bar.setAttribute("aria-hidden", "true");
+  bar.style.position = "fixed";
+  bar.style.left = "12px";
+  bar.style.bottom = "12px";
+  bar.style.maxWidth = "min(60vw, 720px)";
+  bar.style.padding = "6px 10px";
+  bar.style.borderRadius = "10px";
+  bar.style.background = "rgba(15, 23, 42, 0.84)";
+  bar.style.color = "#f8fafc";
+  bar.style.font = '12px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+  bar.style.letterSpacing = "0.01em";
+  bar.style.whiteSpace = "nowrap";
+  bar.style.overflow = "hidden";
+  bar.style.textOverflow = "ellipsis";
+  bar.style.pointerEvents = "none";
+  bar.style.opacity = "0";
+  bar.style.transform = "translateY(6px)";
+  bar.style.transition = "opacity 120ms ease, transform 120ms ease";
+  bar.style.backdropFilter = "blur(12px)";
+  bar.style.boxShadow = "0 10px 28px rgba(2, 6, 23, 0.24)";
+  bar.style.zIndex = "2147483647";
+  document.body.appendChild(bar);
+  return bar;
+}
+function waitForFrame() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resolve();
+      });
+    });
+  });
+}
+var HarnessUiChrome = class {
+  getLoadingOverlayText() {
+    const overlay = document.getElementById(LOADING_OVERLAY_ID);
+    const titleNode = document.getElementById(LOADING_TITLE_ID);
+    const detailNode = document.getElementById(LOADING_DETAIL_ID);
+    const title = titleNode instanceof HTMLElement ? titleNode.textContent : "";
+    const detail = detailNode instanceof HTMLElement ? detailNode.textContent : "";
+    if (overlay instanceof HTMLElement && title.length > 0 && detail.length > 0) {
+      return { title, detail };
+    }
+    return {
+      title: "Loading...",
+      detail: "The runtime is starting up."
+    };
+  }
+  setLoadingOverlay(state, title, detail) {
+    const overlay = document.getElementById(LOADING_OVERLAY_ID);
+    const titleNode = document.getElementById(LOADING_TITLE_ID);
+    const detailNode = document.getElementById(LOADING_DETAIL_ID);
+    if (!(overlay instanceof HTMLElement) || !(titleNode instanceof HTMLElement) || !(detailNode instanceof HTMLElement)) {
+      return;
+    }
+    overlay.dataset.state = state;
+    overlay.hidden = false;
+    overlay.setAttribute("aria-hidden", "false");
+    titleNode.textContent = title;
+    detailNode.textContent = detail;
+  }
+  hideLoadingOverlay() {
+    const overlay = document.getElementById(LOADING_OVERLAY_ID);
+    if (!(overlay instanceof HTMLElement)) {
+      return;
+    }
+    overlay.hidden = true;
+    overlay.dataset.state = "ready";
+    overlay.setAttribute("aria-hidden", "true");
+  }
+  setUrlPreviewText(text) {
+    const bar = ensureUrlPreviewBar();
+    if (text.length === 0) {
+      bar.textContent = "";
+      bar.hidden = true;
+      bar.dataset.visible = "false";
+      bar.style.opacity = "0";
+      bar.style.transform = "translateY(6px)";
+      window.__fuiUrlPreviewText = "";
+      return;
+    }
+    bar.textContent = text;
+    bar.hidden = false;
+    bar.dataset.visible = "true";
+    bar.style.opacity = "1";
+    bar.style.transform = "translateY(0)";
+    window.__fuiUrlPreviewText = text;
+  }
+  readHostAccentColor() {
+    return readHostAccentColor();
+  }
+  detectPlatformFamily() {
+    const navigatorWithUserAgentData = navigator;
+    const platform = (navigatorWithUserAgentData.userAgentData?.platform ?? navigator.userAgent).toLowerCase();
+    if (platform.includes("mac") || platform.includes("iphone") || platform.includes("ipad") || platform.includes("ipod") || platform.includes("ios")) {
+      return PLATFORM_FAMILY_APPLE;
+    }
+    if (platform.includes("win")) {
+      return PLATFORM_FAMILY_WINDOWS;
+    }
+    if (platform.includes("linux") || platform.includes("android") || platform.includes("x11") || platform.includes("cros")) {
+      return PLATFORM_FAMILY_LINUX;
+    }
+    return PLATFORM_FAMILY_UNKNOWN;
+  }
+  detectCoarsePointer() {
+    return window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+  }
+  getCanvasSizeSource(canvas) {
+    const source = canvas.closest("[data-effindom-canvas-size-source]");
+    return source instanceof HTMLElement ? source : canvas;
+  }
+};
+
+// node_modules/@effindomv2/runtime/src/managed-harness/ui-imports.ts
 function createUiImportModule(deps) {
   return {
     ui_reset() {
@@ -3702,6 +4129,23 @@ function createUiImportModule(deps) {
     },
     ui_set_is_shared_size_scope(handle, flag) {
       deps.getRuntime().ui._ui_set_is_shared_size_scope(toBigIntHandle(handle), flag);
+    },
+    ui_set_custom_drawable(handle, flag) {
+      deps.getRuntime().ui._ui_set_custom_drawable(toBigIntHandle(handle), flag);
+    },
+    ui_set_flex_wrap(handle, wrap) {
+      deps.getRuntime().ui._ui_set_flex_wrap(toBigIntHandle(handle), wrap);
+    },
+    ui_prepare_node(handle) {
+      const resolved = deps.getRuntime().ui._ui_prepare_node(toBigIntHandle(handle));
+      return resolved;
+    },
+    ui_set_dynamic_text_charset(handle, ptr, len) {
+      const runtime = deps.getRuntime();
+      const value = len > 0 ? deps.readAppUtf8(ptr, len) : "";
+      deps.withUiUtf8(value, (uiPtr, uiLen) => {
+        runtime.ui._ui_set_dynamic_text_charset(toBigIntHandle(handle), uiPtr, uiLen);
+      });
     },
     ui_set_root(handle) {
       const runtime = deps.getRuntime();
@@ -3823,57 +4267,40 @@ function createUiImportModule(deps) {
     ui_set_background_blur(handle, blurSigma) {
       deps.getRuntime().ui._ui_set_background_blur(toBigIntHandle(handle), blurSigma);
     },
-    ui_set_image(handle, textureId, objectFit) {
-      deps.getRuntime().ui._ui_set_image(toBigIntHandle(handle), textureId, objectFit);
+    ui_set_image(handle, textureId, objectFit, samplingKind, maxAniso) {
+      deps.getRuntime().ui._ui_set_image(toBigIntHandle(handle), textureId, objectFit, samplingKind, maxAniso);
     },
-    ui_set_image_nine(handle, textureId, insetLeft, insetTop, insetRight, insetBottom) {
+    ui_set_image_nine(handle, textureId, insetLeft, insetTop, insetRight, insetBottom, samplingKind, maxAniso) {
       deps.getRuntime().ui._ui_set_image_nine(
         toBigIntHandle(handle),
         textureId,
         insetLeft,
         insetTop,
         insetRight,
-        insetBottom
+        insetBottom,
+        samplingKind,
+        maxAniso
       );
     },
-    ui_set_svg(handle, svgId, tintColor) {
-      deps.getRuntime().ui._ui_set_svg(toBigIntHandle(handle), svgId, tintColor);
+    ui_set_svg(handle, svgId, tintColor, samplingKind, maxAniso) {
+      deps.getRuntime().ui._ui_set_svg(toBigIntHandle(handle), svgId, tintColor, samplingKind, maxAniso);
     },
-    ui_set_linear_gradient(handle, startX, startY, endX, endY, stopCount) {
-      deps.pendingGradients.set(toBigIntHandle(handle).toString(), {
-        startX,
-        startY,
-        endX,
-        endY,
-        stopCount,
-        offsets: [],
-        colors: []
-      });
-    },
-    ui_push_linear_gradient_stop(handle, offset, color) {
-      const runtime = deps.getRuntime();
-      const key = toBigIntHandle(handle).toString();
-      const pending = deps.pendingGradients.get(key);
-      if (pending === void 0) {
-        throw new Error("Gradient stop received before gradient header.");
-      }
-      pending.offsets.push(offset);
-      pending.colors.push(color >>> 0);
-      if (pending.offsets.length !== pending.stopCount) {
-        return;
-      }
-      deps.pendingGradients.delete(key);
+    ui_set_linear_gradient(handle, startX, startY, endX, endY, stopCount, offsetsPtr, colorsPtr) {
+      const normalizedStopCount = Math.max(0, stopCount);
+      const colorBytes = deps.readAppBytes(colorsPtr, normalizedStopCount * 4);
+      const colors = new Uint32Array(colorBytes.buffer, colorBytes.byteOffset, normalizedStopCount);
       deps.withUiGradientData(
-        Float32Array.from(pending.offsets),
-        Uint32Array.from(pending.colors),
+        deps.readAppFloats(offsetsPtr, normalizedStopCount),
+        new Uint32Array(colors),
         (uiOffsetsPtr, uiColorsPtr) => {
+          const runtime = deps.getRuntime();
           runtime.ui._ui_set_linear_gradient(
             toBigIntHandle(handle),
-            pending.startX,
-            pending.startY,
-            pending.endX,
-            pending.endY,
-            pending.stopCount,
+            startX,
+            startY,
+            endX,
+            endY,
+            normalizedStopCount,
             uiOffsetsPtr,
             uiColorsPtr
           );
@@ -3889,6 +4316,39 @@ function createUiImportModule(deps) {
     ui_set_interactive(handle, flag) {
       deps.getRuntime().ui._ui_set_interactive(toBigIntHandle(handle), flag);
     },
+    ui_set_preserve_selection_on_pointer_down(handle, preserve) {
+      const runtime = deps.getRuntime();
+      const setPreserve = runtime.ui._ui_set_preserve_selection_on_pointer_down;
+      if (typeof setPreserve !== "function") {
+        console.error(
+          "[fui_host] UI runtime is missing _ui_set_preserve_selection_on_pointer_down; run repo root ./build.sh and refresh the served runtime assets."
+        );
+        return;
+      }
+      setPreserve(toBigIntHandle(handle), preserve);
+    },
+    ui_set_editor_command_keys(handle, enabled) {
+      const runtime = deps.getRuntime();
+      const setEditorCommandKeys = runtime.ui._ui_set_editor_command_keys;
+      if (typeof setEditorCommandKeys !== "function") {
+        console.error(
+          "[fui_host] UI runtime is missing _ui_set_editor_command_keys; run repo root ./build.sh and refresh the served runtime assets."
+        );
+        return;
+      }
+      setEditorCommandKeys(toBigIntHandle(handle), enabled);
+    },
+    ui_set_editor_accepts_tab(handle, enabled) {
+      const runtime = deps.getRuntime();
+      const setEditorAcceptsTab = runtime.ui._ui_set_editor_accepts_tab;
+      if (typeof setEditorAcceptsTab !== "function") {
+        console.error(
+          "[fui_host] UI runtime is missing _ui_set_editor_accepts_tab; run repo root ./build.sh and refresh the served runtime assets."
+        );
+        return;
+      }
+      setEditorAcceptsTab(toBigIntHandle(handle), enabled);
+    },
     ui_set_scroll_proxy_target(handle, scrollHandle) {
       deps.getRuntime().ui._ui_set_scroll_proxy_target(toBigIntHandle(handle), toBigIntHandle(scrollHandle));
     },
@@ -3900,6 +4360,9 @@ function createUiImportModule(deps) {
     },
     ui_set_scroll_friction(handle, friction) {
       deps.getRuntime().ui._ui_set_scroll_friction(toBigIntHandle(handle), friction);
+    },
+    ui_set_smooth_scrolling(handle, smoothScrolling) {
+      deps.getRuntime().ui._ui_set_smooth_scrolling(toBigIntHandle(handle), smoothScrolling ? 1 : 0);
     },
     ui_set_scroll_content_size(handle, contentWidth, contentHeight) {
       deps.getRuntime().ui._ui_set_scroll_content_size(toBigIntHandle(handle), contentWidth, contentHeight);
@@ -3975,6 +4438,82 @@ function createUiImportModule(deps) {
     ui_set_text_selection_range(handle, selectionStart, selectionEnd) {
       deps.getRuntime().ui._ui_set_text_selection_range(toBigIntHandle(handle), selectionStart, selectionEnd);
     },
+    ui_select_word_at(handle, x, y) {
+      const runtime = deps.getRuntime();
+      const selectWordAt = runtime.ui._ui_select_word_at;
+      if (typeof selectWordAt !== "function") {
+        console.error(
+          "[fui_host] UI runtime is missing _ui_select_word_at; run repo root ./build.sh and refresh the served runtime assets."
+        );
+        return 0;
+      }
+      return selectWordAt(toBigIntHandle(handle), x, y);
+    },
+    ui_begin_selection_endpoint_drag(handle, endpoint) {
+      const runtime = deps.getRuntime();
+      const beginDrag = runtime.ui._ui_begin_selection_endpoint_drag;
+      if (typeof beginDrag !== "function") {
+        console.error(
+          "[fui_host] UI runtime is missing _ui_begin_selection_endpoint_drag; run repo root ./build.sh and refresh the served runtime assets."
+        );
+        return 0;
+      }
+      return beginDrag(toBigIntHandle(handle), endpoint);
+    },
+    ui_get_text_range_rect_count(handle, start, end) {
+      return deps.getRuntime().ui._ui_get_text_range_rect_count(toBigIntHandle(handle), start, end);
+    },
+    ui_copy_text_range_rects(handle, start, end, outRectWordsPtr, maxRectCount) {
+      const runtime = deps.getRuntime();
+      const clampedRectCount = Math.max(0, maxRectCount | 0);
+      if (clampedRectCount === 0) {
+        return 0;
+      }
+      const byteLength = clampedRectCount * 4 * 4;
+      return withHeapAllocation(runtime.ui, byteLength, (heap) => {
+        const copiedCount = runtime.ui._ui_copy_text_range_rects(
+          toBigIntHandle(handle),
+          start,
+          end,
+          heap.ptr,
+          clampedRectCount
+        );
+        if (copiedCount === 0) {
+          return 0;
+        }
+        const copiedBytes = copiedCount * 4 * 4;
+        const uiBytes = copyBytesFromHeap(runtime.ui, heap.ptr, copiedBytes);
+        const appMemory = deps.getCurrentMemory();
+        const appBytes = new Uint8Array(appMemory.buffer, outRectWordsPtr, copiedBytes);
+        appBytes.set(uiBytes);
+        return copiedCount;
+      });
+    },
+    ui_copy_cross_selection_endpoint_rects(areaHandle, outRectWordsPtr) {
+      const runtime = deps.getRuntime();
+      const copyEndpointRects = runtime.ui._ui_copy_cross_selection_endpoint_rects;
+      if (typeof copyEndpointRects !== "function") {
+        console.error(
+          "[fui_host] UI runtime is missing _ui_copy_cross_selection_endpoint_rects; run repo root ./build.sh and refresh the served runtime assets."
+        );
+        return 0;
+      }
+      const byteLength = 8 * 4;
+      return withHeapAllocation(runtime.ui, byteLength, (heap) => {
+        const copied = copyEndpointRects(
+          toBigIntHandle(areaHandle),
+          heap.ptr
+        );
+        if (copied === 0) {
+          return 0;
+        }
+        const uiBytes = copyBytesFromHeap(runtime.ui, heap.ptr, byteLength);
+        const appMemory = deps.getCurrentMemory();
+        const appBytes = new Uint8Array(appMemory.buffer, outRectWordsPtr, byteLength);
+        appBytes.set(uiBytes);
+        return 1;
+      });
+    },
     ui_clear_current_selection() {
       deps.getRuntime().ui._ui_clear_current_selection();
     },
@@ -4020,31 +4559,73 @@ function createUiImportModule(deps) {
     ui_get_bounds(handle, outX, outY, outWidth, outHeight) {
       const runtime = deps.getRuntime();
       const appMemory = deps.getCurrentMemory();
-      const boundsPtr = runtime.ui._malloc(16);
-      const boundsOffset = Number(boundsPtr);
-      runtime.ui.refreshHeapViews?.();
-      try {
+      return withHeapAllocation(runtime.ui, 16, (heap) => {
         const found = runtime.ui._ui_get_bounds(
           toBigIntHandle(handle),
-          deps.normalizePointer(boundsPtr),
-          addUiPointer(runtime, boundsPtr, 4),
-          addUiPointer(runtime, boundsPtr, 8),
-          addUiPointer(runtime, boundsPtr, 12)
+          heap.ptr,
+          addUiPointer(runtime, heap.ptr, 4),
+          addUiPointer(runtime, heap.ptr, 8),
+          addUiPointer(runtime, heap.ptr, 12)
         );
         if (found === 0) {
           return 0;
         }
-        runtime.ui.refreshHeapViews?.();
-        const uiView = new DataView(runtime.ui.HEAPU8.buffer);
+        const uiView = new DataView(copyBytesFromHeap(runtime.ui, heap.ptr, heap.len).buffer);
         const appView = new DataView(appMemory.buffer);
-        appView.setFloat32(outX, uiView.getFloat32(boundsOffset, true), true);
-        appView.setFloat32(outY, uiView.getFloat32(boundsOffset + 4, true), true);
-        appView.setFloat32(outWidth, uiView.getFloat32(boundsOffset + 8, true), true);
-        appView.setFloat32(outHeight, uiView.getFloat32(boundsOffset + 12, true), true);
+        appView.setFloat32(outX, uiView.getFloat32(0, true), true);
+        appView.setFloat32(outY, uiView.getFloat32(4, true), true);
+        appView.setFloat32(outWidth, uiView.getFloat32(8, true), true);
+        appView.setFloat32(outHeight, uiView.getFloat32(12, true), true);
         return 1;
-      } finally {
-        runtime.ui._free(boundsPtr);
-      }
+      });
+    },
+    ui_get_visible_bounds(handle, outX, outY, outWidth, outHeight) {
+      const runtime = deps.getRuntime();
+      const appMemory = deps.getCurrentMemory();
+      return withHeapAllocation(runtime.ui, 16, (heap) => {
+        const found = runtime.ui._ui_get_visible_bounds(
+          toBigIntHandle(handle),
+          heap.ptr,
+          addUiPointer(runtime, heap.ptr, 4),
+          addUiPointer(runtime, heap.ptr, 8),
+          addUiPointer(runtime, heap.ptr, 12)
+        );
+        if (found === 0) {
+          return 0;
+        }
+        const uiView = new DataView(copyBytesFromHeap(runtime.ui, heap.ptr, heap.len).buffer);
+        const appView = new DataView(appMemory.buffer);
+        appView.setFloat32(outX, uiView.getFloat32(0, true), true);
+        appView.setFloat32(outY, uiView.getFloat32(4, true), true);
+        appView.setFloat32(outWidth, uiView.getFloat32(8, true), true);
+        appView.setFloat32(outHeight, uiView.getFloat32(12, true), true);
+        return 1;
+      });
+    },
+    ui_get_text_metrics(handle, outWidth, outHeight, outBaseline, outLineCount, outMaxLineWidth) {
+      const runtime = deps.getRuntime();
+      const appMemory = deps.getCurrentMemory();
+      return withHeapAllocation(runtime.ui, 20, (heap) => {
+        const found = runtime.ui._ui_get_text_metrics(
+          toBigIntHandle(handle),
+          heap.ptr,
+          addUiPointer(runtime, heap.ptr, 4),
+          addUiPointer(runtime, heap.ptr, 8),
+          addUiPointer(runtime, heap.ptr, 12),
+          addUiPointer(runtime, heap.ptr, 16)
+        );
+        if (found === 0) {
+          return 0;
+        }
+        const uiView = new DataView(copyBytesFromHeap(runtime.ui, heap.ptr, heap.len).buffer);
+        const appView = new DataView(appMemory.buffer);
+        appView.setFloat32(outWidth, uiView.getFloat32(0, true), true);
+        appView.setFloat32(outHeight, uiView.getFloat32(4, true), true);
+        appView.setFloat32(outBaseline, uiView.getFloat32(8, true), true);
+        appView.setUint32(outLineCount, uiView.getUint32(12, true), true);
+        appView.setFloat32(outMaxLineWidth, uiView.getFloat32(16, true), true);
+        return 1;
+      });
     },
     ui_set_text(handle, ptr, len) {
       const runtime = deps.getRuntime();
@@ -4052,6 +4633,7 @@ function createUiImportModule(deps) {
       deps.withUiUtf8(text, (uiPtr, uiLen) => {
         runtime.ui._ui_set_text(toBigIntHandle(handle), uiPtr, uiLen);
       });
+      deps.recordTextChangedFromAppSet?.(handle, text);
     },
     ui_set_text_style_runs(handle, runCount, runsWordsPtr) {
       const runtime = deps.getRuntime();
@@ -4077,17 +4659,13 @@ function createUiImportModule(deps) {
           console.error(`[fui_host] rich text font ${String(fontId)} failed to load on demand: ${message}`);
         });
       }
-      const uiPtr = runtime.ui._malloc(byteLength);
-      try {
-        runtime.ui.HEAPU8.set(appBytes, Number(uiPtr));
+      withHeapBytes(runtime.ui, appBytes, (heap) => {
         runtime.ui._ui_set_text_style_runs(
           toBigIntHandle(handle),
           clampedRunCount,
-          deps.normalizePointer(uiPtr)
+          heap.ptr
         );
-      } finally {
-        runtime.ui._free(uiPtr);
-      }
+      });
     },
     ui_commit_frame() {
       const runtime = deps.getRuntime();
@@ -4100,178 +4678,7 @@ function createUiImportModule(deps) {
   };
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/ui-chrome.ts
-var DEFAULT_ACCENT_COLOR = 627305471;
-var URL_PREVIEW_BAR_ID = "fui-url-bar";
-var PLATFORM_FAMILY_UNKNOWN = 0;
-var PLATFORM_FAMILY_APPLE = 1;
-var PLATFORM_FAMILY_WINDOWS = 2;
-var PLATFORM_FAMILY_LINUX = 3;
-var LOADING_OVERLAY_ID = "effindom-loading-overlay";
-var LOADING_TITLE_ID = "effindom-loading-title";
-var LOADING_DETAIL_ID = "effindom-loading-detail";
-function packColor(red, green, blue, alpha = 255) {
-  return ((red & 255) << 24 | (green & 255) << 16 | (blue & 255) << 8 | alpha & 255) >>> 0;
-}
-function parseCssColorToRgba(colorValue) {
-  const probeParent = document.body ?? document.documentElement;
-  const probe = document.createElement("span");
-  probe.style.color = colorValue;
-  if (probe.style.color.length === 0) {
-    return null;
-  }
-  probe.style.position = "absolute";
-  probe.style.pointerEvents = "none";
-  probe.style.opacity = "0";
-  probeParent.appendChild(probe);
-  const computed = getComputedStyle(probe).color.trim();
-  probe.remove();
-  const match = /^rgba?\(([^)]+)\)$/.exec(computed);
-  if (match === null) {
-    return null;
-  }
-  const parts = match[1].split(",").map((part) => part.trim());
-  if (parts.length < 3) {
-    return null;
-  }
-  const red = Number.parseInt(parts[0] ?? "", 10);
-  const green = Number.parseInt(parts[1] ?? "", 10);
-  const blue = Number.parseInt(parts[2] ?? "", 10);
-  if ([red, green, blue].some((channel) => Number.isNaN(channel))) {
-    return null;
-  }
-  const alphaPart = parts[3];
-  const alpha = alphaPart === void 0 ? 255 : Math.max(0, Math.min(255, Math.round(Number.parseFloat(alphaPart) * 255)));
-  return packColor(red, green, blue, alpha);
-}
-function ensureUrlPreviewBar() {
-  const existing = document.getElementById(URL_PREVIEW_BAR_ID);
-  if (existing instanceof HTMLDivElement) {
-    return existing;
-  }
-  const bar = document.createElement("div");
-  bar.id = URL_PREVIEW_BAR_ID;
-  bar.hidden = true;
-  bar.dataset.visible = "false";
-  bar.setAttribute("aria-hidden", "true");
-  bar.style.position = "fixed";
-  bar.style.left = "12px";
-  bar.style.bottom = "12px";
-  bar.style.maxWidth = "min(60vw, 720px)";
-  bar.style.padding = "6px 10px";
-  bar.style.borderRadius = "10px";
-  bar.style.background = "rgba(15, 23, 42, 0.84)";
-  bar.style.color = "#f8fafc";
-  bar.style.font = '12px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-  bar.style.letterSpacing = "0.01em";
-  bar.style.whiteSpace = "nowrap";
-  bar.style.overflow = "hidden";
-  bar.style.textOverflow = "ellipsis";
-  bar.style.pointerEvents = "none";
-  bar.style.opacity = "0";
-  bar.style.transform = "translateY(6px)";
-  bar.style.transition = "opacity 120ms ease, transform 120ms ease";
-  bar.style.backdropFilter = "blur(12px)";
-  bar.style.boxShadow = "0 10px 28px rgba(2, 6, 23, 0.24)";
-  bar.style.zIndex = "2147483647";
-  (document.body ?? document.documentElement).appendChild(bar);
-  return bar;
-}
-function waitForFrame() {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        resolve();
-      });
-    });
-  });
-}
-var HarnessUiChrome = class {
-  getLoadingOverlayText() {
-    const overlay = document.getElementById(LOADING_OVERLAY_ID);
-    const titleNode = document.getElementById(LOADING_TITLE_ID);
-    const detailNode = document.getElementById(LOADING_DETAIL_ID);
-    const title = titleNode instanceof HTMLElement ? titleNode.textContent ?? "" : "";
-    const detail = detailNode instanceof HTMLElement ? detailNode.textContent ?? "" : "";
-    if (overlay instanceof HTMLElement && title.length > 0 && detail.length > 0) {
-      return { title, detail };
-    }
-    return {
-      title: "Loading...",
-      detail: "The runtime is starting up."
-    };
-  }
-  setLoadingOverlay(state, title, detail) {
-    const overlay = document.getElementById(LOADING_OVERLAY_ID);
-    const titleNode = document.getElementById(LOADING_TITLE_ID);
-    const detailNode = document.getElementById(LOADING_DETAIL_ID);
-    if (!(overlay instanceof HTMLElement) || !(titleNode instanceof HTMLElement) || !(detailNode instanceof HTMLElement)) {
-      return;
-    }
-    overlay.dataset.state = state;
-    overlay.hidden = false;
-    overlay.setAttribute("aria-hidden", "false");
-    titleNode.textContent = title;
-    detailNode.textContent = detail;
-  }
-  hideLoadingOverlay() {
-    const overlay = document.getElementById(LOADING_OVERLAY_ID);
-    if (!(overlay instanceof HTMLElement)) {
-      return;
-    }
-    overlay.hidden = true;
-    overlay.dataset.state = "ready";
-    overlay.setAttribute("aria-hidden", "true");
-  }
-  setUrlPreviewText(text) {
-    const bar = ensureUrlPreviewBar();
-    if (text.length === 0) {
-      bar.textContent = "";
-      bar.hidden = true;
-      bar.dataset.visible = "false";
-      bar.style.opacity = "0";
-      bar.style.transform = "translateY(6px)";
-      window.__fuiUrlPreviewText = "";
-      return;
-    }
-    bar.textContent = text;
-    bar.hidden = false;
-    bar.dataset.visible = "true";
-    bar.style.opacity = "1";
-    bar.style.transform = "translateY(0)";
-    window.__fuiUrlPreviewText = text;
-  }
-  readHostAccentColor() {
-    const accent = getComputedStyle(document.documentElement).getPropertyValue("accent-color").trim();
-    if (accent.length === 0 || accent === "auto") {
-      return DEFAULT_ACCENT_COLOR;
-    }
-    return parseCssColorToRgba(accent) ?? DEFAULT_ACCENT_COLOR;
-  }
-  detectPlatformFamily() {
-    const navigatorWithUserAgentData = navigator;
-    const platform = (navigatorWithUserAgentData.userAgentData?.platform ?? navigator.platform ?? navigator.userAgent).toLowerCase();
-    if (platform.includes("mac") || platform.includes("iphone") || platform.includes("ipad") || platform.includes("ipod") || platform.includes("ios")) {
-      return PLATFORM_FAMILY_APPLE;
-    }
-    if (platform.includes("win")) {
-      return PLATFORM_FAMILY_WINDOWS;
-    }
-    if (platform.includes("linux") || platform.includes("android") || platform.includes("x11") || platform.includes("cros")) {
-      return PLATFORM_FAMILY_LINUX;
-    }
-    return PLATFORM_FAMILY_UNKNOWN;
-  }
-  detectCoarsePointer() {
-    return window.matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
-  }
-  getCanvasSizeSource(canvas) {
-    const source = canvas.closest("[data-effindom-canvas-size-source]");
-    return source instanceof HTMLElement ? source : canvas;
-  }
-};
-
-// node_modules/@effindomv2/fui-as/browser/src/common-harness/managed-harness.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/managed-harness.ts
 function tryResolveNavigationTarget(target) {
   try {
     return new URL(target, window.location.href);
@@ -4282,18 +4689,38 @@ function tryResolveNavigationTarget(target) {
 function toAppRoute(url) {
   return `${url.pathname}${url.search}${url.hash}`;
 }
-var decoder2 = new TextDecoder();
 var encoder5 = new TextEncoder();
 var harnessUiChrome = new HarnessUiChrome();
+function isHandledResult(value) {
+  return value === true || value === 1;
+}
+function applyHarnessRuntimeOptions(options) {
+  const update = {};
+  if (options.buildMode !== void 0) {
+    update.buildMode = options.buildMode;
+  }
+  if (options.devToolsDomMirror !== void 0) {
+    update.devToolsDomMirror = options.devToolsDomMirror;
+  }
+  if (options.pageZoom !== void 0) {
+    update.pageZoom = options.pageZoom;
+  }
+  if (Object.keys(update).length === 0) {
+    return;
+  }
+  const runtimeWindow = window;
+  runtimeWindow.__effindomRuntime = Object.assign({}, runtimeWindow.__effindomRuntime, update);
+}
 function describeHarnessError(error) {
   return error instanceof Error ? error.message : String(error);
 }
 function startManagedHarness(options) {
+  applyHarnessRuntimeOptions(options);
   let cleanup = () => {
     delete window.__fui_debug;
   };
   const loadingOverlayText = harnessUiChrome.getLoadingOverlayText();
-  let loadingOverlayTitle = loadingOverlayText.title;
+  const loadingOverlayTitle = loadingOverlayText.title;
   let loadingOverlayDetail = loadingOverlayText.detail;
   let loadingOverlayVisible = false;
   let loadingOverlayTimer = null;
@@ -4338,11 +4765,12 @@ function startManagedHarness(options) {
     throw new Error("EffinDomBrowserBridge is unavailable.");
   }
   if (typeof Worker !== "function") {
-    failLoadingOverlay("FUI-AS requires browser Worker support.");
-    throw new Error("FUI-AS requires browser Worker support.");
+    failLoadingOverlay("Managed harness requires browser Worker support.");
+    throw new Error("Managed harness requires browser Worker support.");
   }
   const bridgeState = bridge;
   void bridgeState.ready.then(async (initialRuntime) => {
+    assertCompatibleAbi(initialRuntime);
     ensureManagedHistoryInitialized();
     const debugLogsEnabled = new URLSearchParams(window.location.search).get("debug-logs") === "1";
     const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -4351,17 +4779,18 @@ function startManagedHarness(options) {
     let navigationHandler = null;
     let harnessFrameQueued = false;
     let appFlushRequested = false;
+    let missingWheelExportLogged = false;
     const hostTimers = /* @__PURE__ */ new Map();
     let lastHandledUrlHref = window.location.href;
     let latestCommandWords = [];
     let latestRootHandle = null;
     const wasmByteCache = /* @__PURE__ */ new Map();
     const wasmModuleCache = /* @__PURE__ */ new Map();
-    const pendingGradients = /* @__PURE__ */ new Map();
+    let lastSystemAccentColor = -1;
     harnessUiChrome.setUrlPreviewText("");
     function getCurrentSession() {
       if (currentSession === null) {
-        throw new Error("No AssemblyScript app is currently mounted.");
+        throw new Error("No managed app is currently mounted.");
       }
       return currentSession;
     }
@@ -4369,7 +4798,8 @@ function startManagedHarness(options) {
       return getCurrentSession().memory;
     }
     const persistedUiStateController = new PersistedUiStateController();
-    let textBridge;
+    const textBridge = new TextSessionBridge(() => runtime, getCurrentMemory, queueHarnessFrame);
+    let recordRuntimeTextChangedFromAppSet = null;
     function readAppUtf8(ptr, len) {
       return textBridge.readAppUtf8(ptr, len);
     }
@@ -4424,6 +4854,7 @@ function startManagedHarness(options) {
     const bitmapHost = createManagedHarnessBitmapHost({
       getRuntime: () => runtime,
       readAppBytes,
+      writeAppBytes,
       notifyBitmapChanged() {
         appFlushRequested = true;
         runtime.requestFrame();
@@ -4431,6 +4862,11 @@ function startManagedHarness(options) {
       }
     });
     bitmapHost.installReplay(runtime);
+    const canvasHost = createManagedHarnessCanvasHost({
+      getRuntime: () => runtime,
+      readAppBytes,
+      writeAppBytes
+    });
     async function settleCurrentSessionAfterRestore(context) {
       const session = currentSession;
       if (session === null) {
@@ -4471,10 +4907,6 @@ function startManagedHarness(options) {
         });
       });
     }
-    textBridge = new TextSessionBridge(() => runtime, getCurrentMemory, queueHarnessFrame);
-    function addUiPointer2(ptr, byteOffset) {
-      return addUiPointer(runtime, ptr, byteOffset);
-    }
     function queuePersistedUiStateWork(work) {
       return persistedUiStateController.queuePersistedUiStateWork(work);
     }
@@ -4513,7 +4945,6 @@ function startManagedHarness(options) {
       );
     }
     function resetUiState() {
-      pendingGradients.clear();
       latestCommandWords = [];
       latestRootHandle = null;
       textBridge.clearState();
@@ -4533,9 +4964,6 @@ function startManagedHarness(options) {
       }
       hostTimers.clear();
     }
-    function readHostAccentColor() {
-      return harnessUiChrome.readHostAccentColor();
-    }
     function notifyRouteChanged(session, route) {
       if (session === null || session.textBufferPtr === 0 || session.textBufferSize === 0) {
         return;
@@ -4553,7 +4981,18 @@ function startManagedHarness(options) {
     function notifyRouteForCurrentLocation(session = currentSession) {
       notifyRouteChanged(session, `${window.location.pathname}${window.location.search}${window.location.hash}`);
     }
-    const workerBootstrapUrl = new URL("./worker-bootstrap.js", import.meta.url).toString();
+    function resolveHarnessBaseUrl() {
+      const scripts = Array.from(document.scripts);
+      for (let index = scripts.length - 1; index >= 0; index -= 1) {
+        const source = scripts[index]?.src ?? "";
+        if (source.endsWith("/harness.js") || source.endsWith("harness.js")) {
+          return source;
+        }
+      }
+      return window.location.href;
+    }
+    const harnessBaseUrl = resolveHarnessBaseUrl();
+    const workerBootstrapUrl = new URL("./worker-bootstrap.js", harnessBaseUrl).toString();
     const fileHost = createManagedHarnessFileHost({
       getCurrentSession: () => currentSession,
       getRuntime: () => runtime,
@@ -4573,7 +5012,7 @@ function startManagedHarness(options) {
       describeHarnessError
     });
     const workerManager = createWorkerManager({
-      scriptBaseUrl: import.meta.url,
+      scriptBaseUrl: harnessBaseUrl,
       getCurrentSession: () => currentSession,
       getCurrentWorkerHostServices: () => currentSession?.workerHostServices,
       writeTextCallbackPayload: writeWorkerTextCallbackPayload
@@ -4592,6 +5031,21 @@ function startManagedHarness(options) {
         return;
       }
       session.exports.__fui_on_system_dark_mode_changed(isDark);
+      notifySystemAccentColor(session, true);
+    }
+    function notifySystemAccentColor(session = currentSession, force = false) {
+      if (session === null) {
+        return;
+      }
+      const accentColor = harnessUiChrome.readHostAccentColor() >>> 0;
+      if (!force && accentColor === lastSystemAccentColor) {
+        return;
+      }
+      lastSystemAccentColor = accentColor;
+      const callback = session.exports.__fui_on_system_accent_color_changed;
+      if (typeof callback === "function") {
+        callback(accentColor);
+      }
     }
     function encodeHostEventCallArgs(session, method, args) {
       function alignOffset(value, alignment) {
@@ -4853,7 +5307,7 @@ function startManagedHarness(options) {
         anchor.target = "_blank";
         anchor.rel = "noopener";
         anchor.hidden = true;
-        (document.body ?? document.documentElement).appendChild(anchor);
+        document.body.appendChild(anchor);
         anchor.click();
         anchor.remove();
         return;
@@ -4909,7 +5363,10 @@ function startManagedHarness(options) {
           queueHarnessFrame,
           syncUiHostCapabilities,
           resetUiState,
-          pendingGradients
+          recordTextChangedFromAppSet(handle, text) {
+            textBridge.recordTextChanged(handle, text);
+            recordRuntimeTextChangedFromAppSet?.(handle, text);
+          }
         }),
         fui_host: {
           ...createHostImportModule({
@@ -4950,6 +5407,7 @@ function startManagedHarness(options) {
             notifyTextureFailed
           }),
           ...bitmapHost.imports,
+          ...canvasHost.imports,
           ...fileHost.imports
         },
         fui_fetch_host: fetchHost.imports,
@@ -4962,8 +5420,164 @@ function startManagedHarness(options) {
       previousPointerCallback?.(type, handle, x, y, modifiers);
       const session = currentSession;
       if (session !== null) {
-        session.exports.__fui_on_pointer_event(type, toBigIntHandle(handle), x, y, modifiers ?? 0);
+        return isHandledResult(session.exports.__fui_on_pointer_event_with_metadata(
+          type,
+          toBigIntHandle(handle),
+          x,
+          y,
+          modifiers ?? 0,
+          -1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ));
       }
+      return false;
+    };
+    const previousPointerMetadataCallback = callbacks.onPointerEventWithMetadata;
+    callbacks.onPointerEventWithMetadata = (type, handle, x, y, modifiers, pointerId, pointerType, button, buttons, pressure, width, height, clickCount) => {
+      previousPointerMetadataCallback?.(
+        type,
+        handle,
+        x,
+        y,
+        modifiers,
+        pointerId,
+        pointerType,
+        button,
+        buttons,
+        pressure,
+        width,
+        height,
+        clickCount
+      );
+      previousPointerCallback?.(type, handle, x, y, modifiers);
+      const session = currentSession;
+      if (session === null) {
+        return false;
+      }
+      return isHandledResult(session.exports.__fui_on_pointer_event_with_metadata(
+        type,
+        toBigIntHandle(handle),
+        x,
+        y,
+        modifiers,
+        pointerId,
+        pointerType,
+        button,
+        buttons,
+        pressure,
+        width,
+        height,
+        clickCount
+      ));
+    };
+    const previousWheelCallback = callbacks.onWheelEventWithCoords;
+    callbacks.onWheelEventWithCoords = (handle, x, y, deltaX, deltaY, deltaMode, modifiers) => {
+      const previousHandled = previousWheelCallback?.(handle, x, y, deltaX, deltaY, deltaMode, modifiers) === true;
+      const session = currentSession;
+      if (session === null) {
+        return previousHandled;
+      }
+      const onWheelEvent = session.exports.__fui_on_wheel_event;
+      if (typeof onWheelEvent !== "function") {
+        if (!missingWheelExportLogged) {
+          missingWheelExportLogged = true;
+          console.error(
+            "[fui_host] AssemblyScript app does not export __fui_on_wheel_event; rebuild the app with the current @effindomv2/fui-as exports."
+          );
+        }
+        return previousHandled;
+      }
+      return previousHandled || onWheelEvent(
+        toBigIntHandle(handle),
+        x,
+        y,
+        deltaX,
+        deltaY,
+        deltaMode,
+        modifiers
+      ) !== 0;
+    };
+    callbacks.resolveGestureOwner = (handle) => {
+      const session = currentSession;
+      const resolveGestureOwner = session?.exports.__fui_resolve_gesture_owner;
+      if (session === null || typeof resolveGestureOwner !== "function") {
+        return null;
+      }
+      const owner = resolveGestureOwner(toBigIntHandle(handle));
+      return owner === 0n ? null : owner;
+    };
+    callbacks.getGestureIntent = (handle) => {
+      const session = currentSession;
+      const getGestureIntent = session?.exports.__fui_get_gesture_intent;
+      if (session === null || typeof getGestureIntent !== "function") {
+        return 0;
+      }
+      return getGestureIntent(toBigIntHandle(handle));
+    };
+    callbacks.onGestureEventWithCoords = (handle, phase, kind, x, y, deltaX, deltaY, scale, pointerCount) => {
+      const session = currentSession;
+      const onGestureEvent = session?.exports.__fui_on_gesture_event;
+      if (session === null || typeof onGestureEvent !== "function") {
+        return false;
+      }
+      return isHandledResult(onGestureEvent(
+        toBigIntHandle(handle),
+        phase,
+        kind,
+        x,
+        y,
+        deltaX,
+        deltaY,
+        scale,
+        pointerCount
+      ));
+    };
+    callbacks.resolveLongPressOwner = (handle) => {
+      const session = currentSession;
+      const resolveLongPressOwner = session?.exports.__fui_resolve_long_press_owner;
+      if (session === null || typeof resolveLongPressOwner !== "function") {
+        return null;
+      }
+      const owner = resolveLongPressOwner(toBigIntHandle(handle));
+      return owner === 0n ? null : owner;
+    };
+    callbacks.getLongPressMinimumDurationMs = (handle) => {
+      const session = currentSession;
+      const getLongPressMinimumDurationMs = session?.exports.__fui_get_long_press_minimum_duration_ms;
+      if (session === null || typeof getLongPressMinimumDurationMs !== "function") {
+        return 500;
+      }
+      return getLongPressMinimumDurationMs(toBigIntHandle(handle));
+    };
+    callbacks.getLongPressMovementTolerance = (handle) => {
+      const session = currentSession;
+      const getLongPressMovementTolerance = session?.exports.__fui_get_long_press_movement_tolerance;
+      if (session === null || typeof getLongPressMovementTolerance !== "function") {
+        return 10;
+      }
+      return getLongPressMovementTolerance(toBigIntHandle(handle));
+    };
+    callbacks.onLongPressEventWithCoords = (handle, x, y, pointerId, pointerType, modifiers, durationMs) => {
+      const session = currentSession;
+      const onLongPressEvent = session?.exports.__fui_on_long_press_event;
+      if (session === null || typeof onLongPressEvent !== "function") {
+        return false;
+      }
+      return isHandledResult(onLongPressEvent(
+        toBigIntHandle(handle),
+        x,
+        y,
+        pointerId,
+        pointerType,
+        modifiers,
+        durationMs
+      ));
     };
     const previousBeforeContextMenuHitTest = callbacks.onBeforeContextMenuHitTest;
     callbacks.onBeforeContextMenuHitTest = () => {
@@ -4984,15 +5598,50 @@ function startManagedHarness(options) {
         session.exports.__fui_on_context_menu(toBigIntHandle(handle), x, y);
       }
     };
+    callbacks.canShowContextMenu = (handle) => {
+      const session = currentSession;
+      if (session === null) {
+        return true;
+      }
+      const canShowContextMenu = session.exports.__fui_can_show_context_menu;
+      return typeof canShowContextMenu === "function" ? canShowContextMenu(toBigIntHandle(handle)) : true;
+    };
     const previousFocusChanged = callbacks.onFocusChanged;
     callbacks.onFocusChanged = (handle, isFocused) => {
       previousFocusChanged?.(handle, isFocused);
       const session = currentSession;
       if (session !== null) {
         session.exports.__fui_on_focus_changed(toBigIntHandle(handle), isFocused);
+        session.exports.__flushRenders();
       }
     };
+    const previousFontLoaded = callbacks.onFontLoaded;
+    callbacks.onFontLoaded = (fontId) => {
+      previousFontLoaded?.(fontId);
+      const session = currentSession;
+      if (session !== null) {
+        session.exports.__fui_on_font_loaded(fontId);
+        session.exports.__flushRenders();
+        runtime.flushPendingCommit();
+      }
+    };
+    const previousMissingFontCoverage = callbacks.onMissingFontCoverage;
+    callbacks.onMissingFontCoverage = (fontId, coverageKind, sampleText) => {
+      if (previousMissingFontCoverage !== void 0) {
+        previousMissingFontCoverage(fontId, coverageKind, sampleText);
+        return;
+      }
+      runtime.logs.missingFontCoverageRequests.push({
+        fontId,
+        coverageKind,
+        sampleText
+      });
+      runtime.handleMissingFontCoverage(fontId, coverageKind, sampleText);
+    };
     const previousTextChanged = callbacks.onTextChanged;
+    recordRuntimeTextChangedFromAppSet = previousTextChanged === void 0 ? null : (handle, text) => {
+      previousTextChanged(toBigIntHandle(handle), text);
+    };
     callbacks.onTextChanged = (handle, text) => {
       previousTextChanged?.(handle, text);
       textBridge.recordTextChanged(toBigIntHandle(handle), text);
@@ -5006,6 +5655,8 @@ function startManagedHarness(options) {
         length > 0 ? session.textBufferPtr : 0,
         length
       );
+      session.exports.__flushRenders();
+      runtime.flushPendingCommit();
     };
     const previousTextReplaced = callbacks.onTextReplaced;
     callbacks.onTextReplaced = (handle, start, end, text) => {
@@ -5023,6 +5674,8 @@ function startManagedHarness(options) {
         length > 0 ? session.textBufferPtr : 0,
         length
       );
+      session.exports.__flushRenders();
+      runtime.flushPendingCommit();
     };
     const previousSelectionChanged = callbacks.onSelectionChanged;
     callbacks.onSelectionChanged = (handle, start, end) => {
@@ -5031,6 +5684,8 @@ function startManagedHarness(options) {
       const session = currentSession;
       if (session !== null) {
         session.exports.__fui_on_selection_changed(toBigIntHandle(handle), start, end);
+        session.exports.__flushRenders();
+        runtime.flushPendingCommit();
       }
     };
     const previousCrossSelectionChanged = callbacks.onCrossSelectionChanged;
@@ -5056,7 +5711,9 @@ function startManagedHarness(options) {
       }
       const memory = new Uint8Array(session.memory.buffer, session.keyBufferPtr, encoded.length);
       memory.set(encoded);
-      return previousHandled || session.exports.__fui_on_key_event(type, session.keyBufferPtr, encoded.length, modifiers) !== 0;
+      const handled = previousHandled || session.exports.__fui_on_key_event(type, session.keyBufferPtr, encoded.length, modifiers) !== 0;
+      session.exports.__flushRenders();
+      return handled;
     };
     const previousScroll = callbacks.onScroll;
     callbacks.onScroll = (handle, offsetX, offsetY, contentWidth, contentHeight, viewportWidth, viewportHeight) => {
@@ -5083,6 +5740,10 @@ function startManagedHarness(options) {
       notifySystemTheme(currentSession, event.matches);
     };
     darkModeQuery.addEventListener("change", handleDarkModeChange);
+    const handleWindowFocus = () => {
+      notifySystemAccentColor();
+    };
+    window.addEventListener("focus", handleWindowFocus);
     const handlePopState = () => {
       const target = new URL(window.location.href);
       syncManagedHistoryPop(target);
@@ -5142,10 +5803,12 @@ function startManagedHarness(options) {
       }
     };
     const handleVisibilityChange = () => {
-      if (document.visibilityState !== "visible") {
-        dismissTransientUi();
-        void queuePersistedUiStateWork(() => saveCurrentHistoryEntrySnapshot("visibility change"));
+      if (document.visibilityState === "visible") {
+        notifySystemAccentColor();
+        return;
       }
+      dismissTransientUi();
+      void queuePersistedUiStateWork(() => saveCurrentHistoryEntrySnapshot("visibility change"));
     };
     const handlePageHide = () => {
       void queuePersistedUiStateWork(() => saveCurrentHistoryEntrySnapshot("page hide"));
@@ -5167,8 +5830,8 @@ function startManagedHarness(options) {
       if (target === null) {
         return;
       }
-      for (let index = 0; index < externalDragTargets.length; index += 1) {
-        if (externalDragTargets[index] === target) {
+      for (const externalDragTarget of externalDragTargets) {
+        if (externalDragTarget === target) {
           return;
         }
       }
@@ -5179,12 +5842,11 @@ function startManagedHarness(options) {
     registerExternalDragTarget(harnessUiChrome.getCanvasSizeSource(runtime.canvas));
     window.addEventListener("blur", handleWindowBlur);
     runtime.canvas.addEventListener("blur", handleCanvasBlur);
-    for (let index = 0; index < externalDragTargets.length; index += 1) {
-      const target = externalDragTargets[index];
-      target?.addEventListener("dragenter", canvasDragEnterListener);
-      target?.addEventListener("dragover", canvasDragOverListener);
-      target?.addEventListener("dragleave", canvasDragLeaveListener);
-      target?.addEventListener("drop", canvasDropListener);
+    for (const target of externalDragTargets) {
+      target.addEventListener("dragenter", canvasDragEnterListener);
+      target.addEventListener("dragover", canvasDragOverListener);
+      target.addEventListener("dragleave", canvasDragLeaveListener);
+      target.addEventListener("drop", canvasDropListener);
     }
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("pagehide", handlePageHide);
@@ -5194,14 +5856,14 @@ function startManagedHarness(options) {
       window.removeEventListener("resize", handleViewportChange);
       darkModeQuery.removeEventListener("change", handleDarkModeChange);
       window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("focus", handleWindowFocus);
       window.removeEventListener("blur", handleWindowBlur);
       runtime.canvas.removeEventListener("blur", handleCanvasBlur);
-      for (let index = 0; index < externalDragTargets.length; index += 1) {
-        const target = externalDragTargets[index];
-        target?.removeEventListener("dragenter", canvasDragEnterListener);
-        target?.removeEventListener("dragover", canvasDragOverListener);
-        target?.removeEventListener("dragleave", canvasDragLeaveListener);
-        target?.removeEventListener("drop", canvasDropListener);
+      for (const target of externalDragTargets) {
+        target.removeEventListener("dragenter", canvasDragEnterListener);
+        target.removeEventListener("dragover", canvasDragOverListener);
+        target.removeEventListener("dragleave", canvasDragLeaveListener);
+        target.removeEventListener("drop", canvasDropListener);
       }
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("pagehide", handlePageHide);
@@ -5210,6 +5872,32 @@ function startManagedHarness(options) {
     const debugApi = {
       async flush() {
         await flushDebugInteraction(getCurrentSession());
+      },
+      getDebugTree() {
+        return Promise.resolve(runtime.getDebugTree());
+      },
+      async externalDragEvent(type, handle, x, y, files) {
+        const session = getCurrentSession();
+        const dataTransfer = new DataTransfer();
+        for (const file of files) {
+          dataTransfer.items.add(new File([file.text], file.name, {
+            type: file.type ?? "application/octet-stream"
+          }));
+        }
+        const eventName = type === EXTERNAL_DRAG_EVENT_ENTER ? "dragenter" : type === EXTERNAL_DRAG_EVENT_OVER ? "dragover" : type === EXTERNAL_DRAG_EVENT_LEAVE ? "dragleave" : "drop";
+        const event = new DragEvent(eventName, {
+          bubbles: true,
+          cancelable: true,
+          clientX: x,
+          clientY: y,
+          dataTransfer
+        });
+        const effect = fileHost.dispatchExternalDragEvent(type, event, {
+          handle: toBigIntHandle(handle),
+          reuseActiveItems: type !== EXTERNAL_DRAG_EVENT_ENTER
+        });
+        await flushDebugInteraction(session);
+        return effect;
       },
       async pointerEvent(type, handle, x, y, modifiers = 0) {
         const session = getCurrentSession();
@@ -5244,8 +5932,9 @@ function startManagedHarness(options) {
         debugKeyEvent(type, session.keyBufferPtr, encoded.length, modifiers);
         await flushDebugInteraction(session);
       },
-      async navigateTo(target) {
+      navigateTo(target) {
         navigateWithinDocument(target, false);
+        return Promise.resolve();
       },
       async scroll(handle, offsetX, offsetY, contentWidth, contentHeight, viewportWidth, viewportHeight) {
         const session = getCurrentSession();
@@ -5356,6 +6045,7 @@ function startManagedHarness(options) {
       latestRootHandle = null;
       updateState();
       runtime = await bridgeState.recreateRuntime();
+      assertCompatibleAbi(runtime);
       bitmapHost.installReplay(runtime);
       syncUiHostCapabilities();
       resetUiState();
@@ -5385,20 +6075,32 @@ function startManagedHarness(options) {
       const keyBufferPtr = exports.__fui_key_buffer();
       const textBufferPtr = exports.__fui_text_buffer();
       const textBufferSize = textBufferPtr !== 0 ? exports.__fui_text_buffer_size() : 0;
-      const session = {
+      const sessionBase = {
         exports,
         memory: exports.memory,
         keyBufferPtr,
         textBufferPtr,
         textBufferSize,
-        hostEventDisposers: [],
-        workerHostServices: loadOptions.workerHostServices,
-        onStateUpdated: loadOptions.onStateUpdated,
-        onDispose: loadOptions.onDispose === void 0 ? void 0 : (activeExports) => {
+        hostEventDisposers: []
+      };
+      const session = {
+        ...sessionBase,
+        ...loadOptions.workerHostServices === void 0 ? {} : { workerHostServices: loadOptions.workerHostServices },
+        ...loadOptions.onStateUpdated === void 0 ? {} : { onStateUpdated: loadOptions.onStateUpdated },
+        ...loadOptions.onDispose === void 0 ? {} : { onDispose: (activeExports) => {
           loadOptions.onDispose?.(activeExports);
-        }
+        } }
       };
       currentSession = session;
+      window.__effindomV2CustomDraw = (handleLo, handleHi, canvasPtrLo, canvasPtrHi = 0) => {
+        const handle = BigInt(handleHi >>> 0) << 32n | BigInt(handleLo >>> 0);
+        const canvasPtr = BigInt(canvasPtrHi >>> 0) << 32n | BigInt(canvasPtrLo >>> 0);
+        const canvasToken = canvasHost.tokenForCanvasPointer(canvasPtr);
+        const rawExports = exports;
+        if (typeof rawExports.fui_dispatch_custom_draw === "function") {
+          rawExports.fui_dispatch_custom_draw(handle, canvasToken);
+        }
+      };
       notifyRouteForCurrentLocation(session);
       runtime.setAppFrameHandler((timestampMs) => {
         if (currentSession !== session) {
@@ -5460,7 +6162,7 @@ function startManagedHarness(options) {
   });
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/routed-app-conventions.ts
+// node_modules/@effindomv2/runtime/src/routed-app-conventions.ts
 var RoutedAppHeadTag = class {
   kind;
   name;
@@ -5492,34 +6194,6 @@ var RoutedAppRoute = class {
   }
 };
 var RoutedAppRouteManifest = class {
-  sourceRouteBase;
-  routes;
-  constructor(sourceRouteBase2 = "", routes2 = new Array()) {
-    this.sourceRouteBase = sourceRouteBase2;
-    this.routes = routes2;
-  }
-};
-var ResolvedRoutedAppRoute = class {
-  key;
-  title;
-  headTags;
-  shellDir;
-  wasmFile;
-  entrypoint;
-  sourceRoutePath;
-  publishedRoutePath;
-  constructor(key = "", title = "", headTags = new Array(), shellDir = "", wasmFile = "", entrypoint = "", sourceRoutePath = "", publishedRoutePath = "") {
-    this.key = key;
-    this.title = title;
-    this.headTags = headTags;
-    this.shellDir = shellDir;
-    this.wasmFile = wasmFile;
-    this.entrypoint = entrypoint;
-    this.sourceRoutePath = sourceRoutePath;
-    this.publishedRoutePath = publishedRoutePath;
-  }
-};
-var ResolvedRoutedAppRouteManifest = class {
   sourceRouteBase;
   routes;
   constructor(sourceRouteBase2 = "", routes2 = new Array()) {
@@ -5574,66 +6248,42 @@ function routeDef(key, title, headTags = new Array(), entrypoint = "", wasmFile 
 function defineRoutedAppManifest(sourceRouteBase2, routes2) {
   const normalizedBase = normalizeRouteBase(sourceRouteBase2);
   const normalizedRoutes = new Array();
-  for (let index = 0; index < routes2.length; index += 1) {
-    const route = routes2[index];
+  for (const route of routes2) {
     const routeKey = trimSlashes(route.key);
-    const entrypoint = route.entrypoint == null || route.entrypoint.length == 0 ? `src/routes/${toPascalCase(routeKey)}App.ts` : route.entrypoint;
-    const wasmFile = route.wasmFile == null || route.wasmFile.length == 0 ? `${routeKey}.wasm` : route.wasmFile;
-    const shellDir = route.shellDir == null || route.shellDir.length == 0 ? routeKey : route.shellDir;
-    const sourceRoutePath = route.sourceRoutePath == null || route.sourceRoutePath.length == 0 ? `${normalizedBase}/${routeKey}/` : route.sourceRoutePath;
-    const publishedRoutePath = route.publishedRoutePath == null || route.publishedRoutePath.length == 0 ? `/${routeKey}/` : route.publishedRoutePath;
+    const entrypoint = route.entrypoint.length === 0 ? `src/routes/${toPascalCase(routeKey)}App.ts` : route.entrypoint;
+    const wasmFile = route.wasmFile.length === 0 ? `${routeKey}.wasm` : route.wasmFile;
+    const shellDir = route.shellDir.length === 0 ? routeKey : route.shellDir;
+    const sourceRoutePath = route.sourceRoutePath.length === 0 ? `${normalizedBase}/${routeKey}/` : route.sourceRoutePath;
+    const publishedRoutePath = route.publishedRoutePath.length === 0 ? `/${routeKey}/` : route.publishedRoutePath;
     normalizedRoutes.push(new RoutedAppRoute(routeKey, route.title, route.headTags, entrypoint, wasmFile, shellDir, sourceRoutePath, publishedRoutePath));
   }
   return new RoutedAppRouteManifest(normalizedBase, normalizedRoutes);
-}
-function resolveRouteManifest(manifest) {
-  const routes2 = new Array();
-  for (let index = 0; index < manifest.routes.length; index += 1) {
-    const route = manifest.routes[index];
-    const routeKey = trimSlashes(route.key);
-    routes2.push(
-      new ResolvedRoutedAppRoute(
-        routeKey,
-        route.title,
-        route.headTags,
-        routeKey.length == 0 ? "" : routeKey,
-        `${routeKey}.wasm`,
-        `src/routes/${toPascalCase(routeKey)}App.ts`,
-        `${manifest.sourceRouteBase}/${routeKey}/`,
-        `/${routeKey}/`
-      )
-    );
-  }
-  return new ResolvedRoutedAppRouteManifest(manifest.sourceRouteBase, routes2);
 }
 function routeHead(...entries) {
   const headTags = new Array();
   for (let index = 0; index + 1 < entries.length; index += 2) {
     const name = entries[index];
     const content = entries[index + 1];
+    if (name === void 0 || content === void 0) {
+      continue;
+    }
     const kind = name.startsWith("og:") || name.startsWith("fb:") ? "property" : "name";
     headTags.push(new RoutedAppHeadTag(kind, name, content));
   }
   return headTags;
 }
-function buildRoutedHarnessRoutes(manifest, pathname) {
-  const resolvedManifest = resolveRouteManifest(manifest);
-  const routePrefix = pathname.startsWith(`${resolvedManifest.sourceRouteBase}/`) ? resolvedManifest.sourceRouteBase : "";
+function buildRoutedHarnessRoutes(manifest) {
   const routes2 = new Array();
-  for (let index = 0; index < resolvedManifest.routes.length; index += 1) {
-    const route = resolvedManifest.routes[index];
-    routes2.push(
-      new RoutedHarnessRouteSpec(
-        `${routePrefix}${route.publishedRoutePath}`,
-        `${routePrefix}/${route.wasmFile}`.replace("//", "/"),
-        route.title
-      )
-    );
+  for (const route of manifest.routes) {
+    routes2.push(new RoutedHarnessRouteSpec(route.publishedRoutePath, route.wasmFile, route.title));
+    if (route.sourceRoutePath !== route.publishedRoutePath) {
+      routes2.push(new RoutedHarnessRouteSpec(route.sourceRoutePath, route.wasmFile, route.title));
+    }
   }
   return routes2;
 }
 
-// node_modules/@effindomv2/fui-as/browser/src/routed-harness.ts
+// node_modules/@effindomv2/runtime/src/routed-harness.ts
 function normalizeRoutePath(pathname, routeBase, routeByPath, fallbackRoutePath) {
   let normalized = pathname;
   if (normalized.endsWith("/index.html")) {
@@ -5658,22 +6308,30 @@ function currentBrowserPath() {
   return pathname.endsWith("/") ? pathname : `${pathname}/`;
 }
 function startRoutedHarness(config) {
+  if (config.routes.length === 0) {
+    throw new Error("startRoutedHarness requires at least one route.");
+  }
   const routeByPath = new Map(config.routes.map((route) => [resolveRouteMatchPath(route), route]));
   const fallbackRoute = config.routes[0];
-  const routeLoads = {};
-  let activeRoute = null;
-  let navigationQueue = Promise.resolve();
   if (fallbackRoute === void 0) {
     throw new Error("startRoutedHarness requires at least one route.");
   }
+  const defaultRoute = fallbackRoute;
+  const routeLoads = {};
+  let activeRoute = null;
+  let navigationQueue = Promise.resolve();
   function resolveRoute(pathname) {
     const normalizedPath = normalizeRoutePath(
       pathname,
       config.routeBase,
       routeByPath,
-      resolveRouteMatchPath(fallbackRoute)
+      resolveRouteMatchPath(defaultRoute)
     );
-    return routeByPath.get(normalizedPath) ?? fallbackRoute;
+    const resolved = routeByPath.get(normalizedPath);
+    if (resolved !== void 0) {
+      return resolved;
+    }
+    return defaultRoute;
   }
   function sameBrowserLocation(route) {
     return currentBrowserPath() === resolveRouteMatchPath(route);
@@ -5690,8 +6348,6 @@ function startRoutedHarness(config) {
     const route = resolveRoute(targetUrl.pathname);
     if (mode !== "pop" && sameBrowserLocation(route) && activeRoute?.routePath === route.routePath) {
       config.onRouteReady?.(buildManagerState(route), route);
-      window.__fuiAsReady = true;
-      delete window.__fuiAsError;
       return;
     }
     const destination = new URL(route.routePath, window.location.origin);
@@ -5702,18 +6358,15 @@ function startRoutedHarness(config) {
     } else if (mode === "replace" && !sameBrowserLocation(route)) {
       replaceManagedHistoryEntry(destination);
     }
-    window.__fuiAsReady = false;
     config.onRouteLoading?.(route);
     const isWarmRouteSwap = activeRoute !== null;
     if (isWarmRouteSwap && config.recreateRuntimeOnWarmRouteSwap === true) {
       await controller.recreateRuntime();
     }
-    const appOptions = {
+    const persistedRestoreMode = activeRoute === null ? "initial" : mode === "pop" ? "pop" : "none";
+    const appOptionsBase = {
       wasmPath: route.wasmPath,
-      persistedRestoreMode: activeRoute === null ? "initial" : mode === "pop" ? "pop" : "none",
-      hostEvents: config.hostEvents,
-      hostServices: config.hostServices,
-      workerHostServices: config.workerHostServices,
+      persistedRestoreMode,
       run(exports) {
         config.run(exports, route);
       },
@@ -5724,16 +6377,23 @@ function startRoutedHarness(config) {
         config.onHarnessStateUpdated?.(state);
       }
     };
+    const appOptions = {
+      ...appOptionsBase,
+      ...config.hostEvents === void 0 ? {} : { hostEvents: config.hostEvents },
+      ...config.hostServices === void 0 ? {} : { hostServices: config.hostServices },
+      ...config.workerHostServices === void 0 ? {} : { workerHostServices: config.workerHostServices }
+    };
     const showLoadingOverlay = config.showLoadingOverlay?.(isWarmRouteSwap, route);
     appOptions.showLoadingOverlay = showLoadingOverlay ?? !isWarmRouteSwap;
     await controller.loadApp(appOptions);
     routeLoads[route.routePath] = (routeLoads[route.routePath] ?? 0) + 1;
     activeRoute = route;
     config.onRouteReady?.(buildManagerState(route), route);
-    window.__fuiAsReady = true;
-    delete window.__fuiAsError;
   }
   startManagedHarness({
+    ...config.buildMode === void 0 ? {} : { buildMode: config.buildMode },
+    ...config.devToolsDomMirror === void 0 ? {} : { devToolsDomMirror: config.devToolsDomMirror },
+    ...config.pageZoom === void 0 ? {} : { pageZoom: config.pageZoom },
     onReady: async (controller) => {
       controller.setSameOriginNavigationHandler((target, mode) => {
         navigationQueue = navigationQueue.then(() => navigateToRoute(controller, target, mode));
@@ -5799,12 +6459,17 @@ var routeManifest = defineRoutedAppManifest(sourceRouteBase, [
   routeDef("advanced", "Advanced", routeHead(
     "description",
     "Transitions, scroll surfaces, workers, and browser bridge interop demos."
+  )),
+  routeDef("immediate-drawing", "Immediate Drawing", routeHead(
+    "description",
+    "CustomDrawable widgets: gauge, bar chart, waveform, sparkline."
   ))
 ]);
 var routes = routeManifest.routes;
 var homeRouteConfig = routes[0];
 var textFontsRouteConfig = routes[1];
 var advancedRouteConfig = routes[2];
+var immediateDrawingRouteConfig = routes[3];
 
 // harness.ts
 var routedRoutes = buildRoutedHarnessRoutes(routeManifest, window.location.pathname);

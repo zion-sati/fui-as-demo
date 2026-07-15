@@ -1,6 +1,5 @@
 import {
   AnimationTiming,
-  BorderStyle,
   Column,
   Easings,
   FlexBox,
@@ -11,11 +10,14 @@ import {
   Theme,
   Unit,
   activeTheme,
-} from "../../fui/Fui";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
-import { DemoButton, DemoButtonTone } from "../shared/design-system/DemoButton";
-import { VerticalSpacer } from "../shared/design-system/Spacers";
-import { applyRowBackground } from "../shared/design-system/DemoRowBackground";
+  } from "../../fui/Fui";
+import { DemoText,
+  DemoTextStyle,
+  DemoButton,
+  DemoButtonTone,
+  VerticalSpacer,
+  applyRowBackground,
+} from "../shared/design-system";
 
 const ANIMATION_SCROLL_ROW_HEIGHT_PX: f32 = 80.0;
 const ANIMATION_SCROLL_ROW_COUNT: i32 = 18;
@@ -34,7 +36,7 @@ function buildAnimationPreviewCard(
     .height(128.0, Unit.Pixel)
     .padding(18.0, 18.0, 18.0, 18.0)
     .cornerRadius(20.0)
-    .border(1.0, theme.colors.border, BorderStyle.Solid)
+    .border(1.0, theme.colors.border)
     .child(
       Column(
         titleText,
@@ -129,7 +131,7 @@ export class AnimationSection {
     this.previewCard
       .bgColor(this.previewEmphasized ? theme.colors.accentHovered : theme.colors.surface)
       .opacity(this.previewEmphasized ? 1.0 : 0.7)
-      .border(1.0, theme.colors.border, BorderStyle.Solid);
+      .border(1.0, theme.colors.border);
     for (let index = 0; index < this.rowCards.length; index += 1) {
       applyRowBackground(this.rowCards[index], index, theme);
     }

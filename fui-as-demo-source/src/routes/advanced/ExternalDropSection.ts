@@ -1,4 +1,5 @@
 import {
+  Border,
   BorderStyle,
   BrowserFile,
   Column,
@@ -8,6 +9,7 @@ import {
   ExternalDropItemInfo,
   ExternalDropItemKind,
   File,
+  FileErrorEventArgs,
   FileWorkerProcessProgress,
   FileWorkerProcessRequest,
   FileWorkerProcessResult,
@@ -15,10 +17,14 @@ import {
   Theme,
   Unit,
   activeTheme,
-} from "../../fui/Fui";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
-import { DemoButton, DemoButtonTone } from "../shared/design-system/DemoButton";
-import { HorizontalSpacer, VerticalSpacer } from "../shared/design-system/Spacers";
+  } from "../../fui/Fui";
+import { DemoText,
+  DemoTextStyle,
+  DemoButton,
+  DemoButtonTone,
+  HorizontalSpacer,
+  VerticalSpacer,
+} from "../shared/design-system";
 import { changeColorAlpha } from "../shared/ColorUtils";
 
 function describeDropItems(items: ExternalDropItemInfo[]): string {
@@ -95,7 +101,11 @@ export class ExternalDropSection {
   syncDropTheme(theme: Theme): void {
     this.dropTarget
       .bgColor(this.dropHovering ? changeColorAlpha(theme.colors.accent, 0x20) : changeColorAlpha(theme.colors.accent, 0x08))
-      .border(2.0, this.dropHovering ? theme.colors.accent : theme.colors.border, this.dropHovering ? BorderStyle.Dashed : BorderStyle.Solid);
+      .borderConfig(new Border(
+        2.0,
+        this.dropHovering ? theme.colors.accent : theme.colors.border,
+        this.dropHovering ? BorderStyle.Dashed : BorderStyle.Solid,
+      ));
     const canExport = this.droppedFile != null && this.activeCopyRequest == null && File.capabilities().canProcessInWorkerToPickedFile;
     this.dropCopyButton.enabled(canExport);
   }
@@ -121,12 +131,13 @@ export class ExternalDropSection {
       ? name.substring(0, dot) + "-copy" + name.substring(dot)
       : name + "-copy";
     this.activeCopyRequest = File.processFileInWorker(file)
+      .worker("../advanced-workers.wasm", "fileProcessorWorker")
       .saveToPickedFile(suggestedName)
       .onProgressWith(this, fileCopyProgressFn)
       .onCompleteWith(this, fileCopyCompleteFn)
       .onErrorWith(this, fileCopyErrorFn)
       .start();
-    this.dropStatusText.text("Drop: copying " + file.name + " to " + suggestedName + "...");
+    this.dropStatusText.text("Drop: opening save picker for " + suggestedName + "...");
   }
 
   private syncDropCapabilities(): void {
@@ -159,11 +170,13 @@ function fileCopyCompleteFn(section: ExternalDropSection, result: FileWorkerProc
     "Drop: copied " + result.processedBytes.toString() +
     " bytes to " + (name === null ? "(file)" : name) + "." + hashStr,
   );
+  section.syncDropTheme(activeTheme.value);
 }
 
-function fileCopyErrorFn(section: ExternalDropSection, message: string): void {
+function fileCopyErrorFn(section: ExternalDropSection, event: FileErrorEventArgs): void {
   section.activeCopyRequest = null;
-  section.dropStatusText.text("Drop: copy failed - " + message);
+  section.dropStatusText.text("Drop: copy failed - " + event.message);
+  section.syncDropTheme(activeTheme.value);
 }
 
 // Module-level external drop handler functions

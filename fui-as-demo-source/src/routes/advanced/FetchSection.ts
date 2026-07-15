@@ -1,6 +1,14 @@
-import { Fetch, FetchRequest, FetchResponse, Unit } from "../../fui/Fui";
-import { DemoButton, DemoButtonTone } from "../shared/design-system/DemoButton";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
+import {
+  Fetch,
+  FetchErrorEventArgs,
+  FetchRequest,
+  FetchResponse,
+  Unit } from "../../fui/Fui";
+import { DemoButton,
+  DemoButtonTone,
+  DemoText,
+  DemoTextStyle,
+} from "../shared/design-system";
 
 export class FetchSection {
   readonly getButton: DemoButton = new DemoButton("GET /posts/1")
@@ -73,8 +81,8 @@ function handleFetchCompleteFn(section: FetchSection, response: FetchResponse): 
   section.dispose();
 }
 
-function handleFetchErrorFn(section: FetchSection, message: string): void {
+function handleFetchErrorFn(section: FetchSection, event: FetchErrorEventArgs): void {
   section.statusText.text("Fetch status: error");
-  section.resultText.text(section.fetchRequestLabel + " -> error - " + message);
+  section.resultText.text(section.fetchRequestLabel + " -> error - " + event.message);
   section.dispose();
 }

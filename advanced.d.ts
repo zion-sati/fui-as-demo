@@ -47,6 +47,12 @@ export declare function __runApp(): void;
  */
 export declare function __fui_on_external_drag_event(eventType: number, handle: bigint, x: number, y: number, modifiers: number, payloadPtr: number, payloadLen: number): number;
 /**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_can_show_context_menu
+ * @param handle `u64`
+ * @returns `bool`
+ */
+export declare function __fui_can_show_context_menu(handle: bigint): boolean;
+/**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_fetch_complete
  * @param requestId `u32`
  * @param ok `bool`
@@ -185,6 +191,50 @@ export declare function __fui_on_focus_changed(handle: bigint, focused: boolean)
  */
 export declare function __fui_on_frame(timestampMs: number): void;
 /**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_get_gesture_intent
+ * @param handle `u64`
+ * @returns `u32`
+ */
+export declare function __fui_get_gesture_intent(handle: bigint): number;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_get_long_press_minimum_duration_ms
+ * @param handle `u64`
+ * @returns `i32`
+ */
+export declare function __fui_get_long_press_minimum_duration_ms(handle: bigint): number;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_get_long_press_movement_tolerance
+ * @param handle `u64`
+ * @returns `f32`
+ */
+export declare function __fui_get_long_press_movement_tolerance(handle: bigint): number;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_gesture_event
+ * @param handle `u64`
+ * @param phase `u32`
+ * @param kind `u32`
+ * @param x `f32`
+ * @param y `f32`
+ * @param deltaX `f32`
+ * @param deltaY `f32`
+ * @param scale `f32`
+ * @param pointerCount `i32`
+ * @returns `bool`
+ */
+export declare function __fui_on_gesture_event(handle: bigint, phase: number, kind: number, x: number, y: number, deltaX: number, deltaY: number, scale: number, pointerCount: number): boolean;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_long_press_event
+ * @param handle `u64`
+ * @param x `f32`
+ * @param y `f32`
+ * @param pointerId `i32`
+ * @param pointerType `u32`
+ * @param modifiers `u32`
+ * @param durationMs `i32`
+ * @returns `bool`
+ */
+export declare function __fui_on_long_press_event(handle: bigint, x: number, y: number, pointerId: number, pointerType: number, modifiers: number, durationMs: number): boolean;
+/**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_key_event
  * @param eventType `u32`
  * @param keyPtr `usize`
@@ -194,14 +244,23 @@ export declare function __fui_on_frame(timestampMs: number): void;
  */
 export declare function __fui_on_key_event(eventType: number, keyPtr: number, keyLen: number, modifiers: number): boolean;
 /**
- * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_pointer_event
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_pointer_event_with_metadata
  * @param eventType `u32`
  * @param handle `u64`
  * @param x `f32`
  * @param y `f32`
  * @param modifiers `u32`
+ * @param pointerId `i32`
+ * @param pointerType `u32`
+ * @param button `i32`
+ * @param buttons `u32`
+ * @param pressure `f32`
+ * @param width `f32`
+ * @param height `f32`
+ * @param clickCount `i32`
+ * @returns `bool`
  */
-export declare function __fui_on_pointer_event(eventType: number, handle: bigint, x: number, y: number, modifiers?: number): void;
+export declare function __fui_on_pointer_event_with_metadata(eventType: number, handle: bigint, x: number, y: number, modifiers: number, pointerId: number, pointerType: number, button: number, buttons: number, pressure: number, width: number, height: number, clickCount: number): boolean;
 /**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_route_changed
  * @param routePtr `usize`
@@ -226,6 +285,11 @@ export declare function __fui_on_scroll(handle: bigint, offsetX: number, offsetY
  * @param end `u32`
  */
 export declare function __fui_on_selection_changed(handle: bigint, start: number, end: number): void;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_system_accent_color_changed
+ * @param color `u32`
+ */
+export declare function __fui_on_system_accent_color_changed(color: number): void;
 /**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_system_dark_mode_changed
  * @param isDark `bool`
@@ -252,6 +316,35 @@ export declare function __fui_on_text_replaced(handle: bigint, start: number, en
  * @param timerId `u32`
  */
 export declare function __fui_on_timer(timerId: number): void;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_wheel_event
+ * @param handle `u64`
+ * @param x `f32`
+ * @param y `f32`
+ * @param deltaX `f32`
+ * @param deltaY `f32`
+ * @param deltaMode `u32`
+ * @param modifiers `u32`
+ * @returns `bool`
+ */
+export declare function __fui_on_wheel_event(handle: bigint, x: number, y: number, deltaX: number, deltaY: number, deltaMode: number, modifiers: number): boolean;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_resolve_gesture_owner
+ * @param handle `u64`
+ * @returns `u64`
+ */
+export declare function __fui_resolve_gesture_owner(handle: bigint): bigint;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_resolve_long_press_owner
+ * @param handle `u64`
+ * @returns `u64`
+ */
+export declare function __fui_resolve_long_press_owner(handle: bigint): bigint;
+/**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_font_loaded
+ * @param fontId `u32`
+ */
+export declare function __fui_on_font_loaded(fontId: number): void;
 /**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_viewport_changed
  * @param w `f32`
@@ -352,10 +445,16 @@ export declare function __fui_on_texture_failed(textureId: number, errorPtr: num
  */
 export declare function __fui_on_texture_loaded(textureId: number, width: number, height: number): void;
 /**
+ * ~lib/@effindomv2/fui-as/src/drawing/DrawCallback/fui_dispatch_custom_draw
+ * @param handle `u64`
+ * @param canvasPtr `usize`
+ */
+export declare function fui_dispatch_custom_draw(handle: bigint, canvasPtr: number): void;
+/**
  * src/host/generated/HostEvents/onAppClockTick
  * @param callback `~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null`
  */
-export declare function onAppClockTick(callback: __Record50<undefined> | null): void;
+export declare function onAppClockTick(callback: __Record232<undefined> | null): void;
 /**
  * src/host/generated/HostEvents/clearAppClockTick
  */
@@ -366,5 +465,5 @@ export declare function clearAppClockTick(): void;
  */
 export declare function __fui_host_event_appClockTick(arg0: number): void;
 /** ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> */
-declare interface __Record50<TOmittable> {
+declare interface __Record232<TOmittable> {
 }

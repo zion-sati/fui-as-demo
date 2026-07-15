@@ -1,9 +1,9 @@
 import {
   AlignItems,
-  BorderStyle,
   Column,
   CursorStyle,
   DragDataObject,
+  DragCompletedEventArgs,
   DragDropEffects,
   DragEventArgs,
   DropProposal,
@@ -24,10 +24,12 @@ import {
   Disposable,
   disposeAll,
   scheduleTimer,
-} from "../../fui/Fui";
+  } from "../../fui/Fui";
 import { clearCurrentSelection } from "../../fui/FuiPrimitives";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
-import { applyRowBackground } from "../shared/design-system/DemoRowBackground";
+import { DemoText,
+  DemoTextStyle,
+  applyRowBackground,
+} from "../shared/design-system";
 import { changeColorAlpha } from "../shared/ColorUtils";
 import {
   REORDER_DRAG_FORMAT,
@@ -67,8 +69,8 @@ function rowDragData(owner: ReorderRowView): DragDataObject | null {
   return owner.provideDragData();
 }
 
-function rowDragCompleted(owner: ReorderRowView, effect: DragDropEffects): void {
-  owner.handleDragCompleted(effect);
+function rowDragCompleted(owner: ReorderRowView, event: DragCompletedEventArgs): void {
+  owner.handleDragCompleted(event.effect);
 }
 
 function rowDragOver(owner: ReorderRowView, args: DragEventArgs): DropProposal {
@@ -207,7 +209,7 @@ class ReorderRowView {
       this.card.visibility(Visibility.Normal);
       applyRowBackground(this.card, this.rawIndex, theme);
     }
-    this.card.border(1.0, isSource ? theme.colors.accent : theme.colors.border, BorderStyle.Solid);
+    this.card.border(1.0, isSource ? theme.colors.accent : theme.colors.border);
     this.titleText.textColor(isSource ? theme.colors.surface : theme.colors.textPrimary);
     this.detailText.textColor(isSource ? theme.colors.surface : theme.colors.textMuted);
     this.grip.cursor(isSource ? CursorStyle.Grabbing : CursorStyle.Grab);
@@ -263,7 +265,7 @@ export class ReorderSection {
     .fillSize()
     .child(this.previewGhost) as Portal;
   readonly hintText: DemoText = new DemoText(
-    "Drag a grip to reorder the list. Grip highlights the source row while dragging. Drop indicators mark the insertion point between rows.",
+    "Drag a grip with a mouse, or touch and hold before moving. Release to drop. The grip highlights the source row and drop indicators mark the insertion point.",
     DemoTextStyle.BodySecondary,
   )
     .maxLines(4) as DemoText;
@@ -485,7 +487,7 @@ export class ReorderSection {
       .opacity(this.rawInsertionIndex == this.items.length ? 1.0 : 0.0);
     this.endDropZone
       .bgColor(changeColorAlpha(theme.colors.accent, 0x08))
-      .border(1.0, theme.colors.border, BorderStyle.Solid);
+      .border(1.0, theme.colors.border);
 
     this.orderStatusText.textColor(theme.colors.textPrimary);
     this.dragStatusText.textColor(theme.colors.textMuted);
@@ -493,7 +495,7 @@ export class ReorderSection {
 
     this.previewGhost
       .bgColor(theme.colors.surface)
-      .border(1.0, theme.colors.accent, BorderStyle.Solid);
+      .border(1.0, theme.colors.accent);
     this.previewTitleText.textColor(theme.colors.textPrimary);
     this.previewDetailText.textColor(theme.colors.textMuted);
 

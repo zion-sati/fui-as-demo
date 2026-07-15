@@ -1,5 +1,4 @@
 {
-  "extends": "./node_modules/assemblyscript/std/assembly.json",
   "targets": {
     "debug": {
       "debug": true,
@@ -18,5 +17,7 @@
       "sourceMap": false,
       "textFile": "public/app.wat"
     }
+  },
+  "options": {
   }
 }

@@ -25,5 +25,5 @@ assets (WASM, JS, HTML) are served directly from the repo root.
 |---|---|
 | **[fui-as-demo](https://github.com/zion-sati/fui-as-demo)** | This repo — live demo site |
 | **[fui-as](https://github.com/zion-sati/fui-as)** | AssemblyScript SDK + controls |
-| **[EffinDOM](https://github.com/zion-sati/EffinDOM)** | Monorepo — runtime, engine, docs |
+| **[EffinDOM](https://github.com/zion-sati/EffinDOM)** | Runtime, engine, docs |
 | **[create-fui-as-app](https://github.com/zion-sati/create-fui-as-app)** | `npx` scaffolder CLI |

@@ -1,7 +1,0 @@
-{
-  "version": 1,
-  "entries": {
-    "largestPrimeCalculatorWorker": "./advanced-workers.wasm",
-    "fileProcessorWorker": "./advanced-workers.wasm"
-  }
-}

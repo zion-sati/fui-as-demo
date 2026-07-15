@@ -1,4 +1,4 @@
-// node_modules/@effindomv2/fui-as/browser/src/host-services.ts
+// node_modules/@effindomv2/runtime/src/managed-harness/host-services.ts
 function hostService(definition) {
   return definition;
 }

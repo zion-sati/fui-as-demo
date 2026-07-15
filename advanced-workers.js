@@ -45,12 +45,6 @@ async function instantiate(module, imports = {}) {
         ptr = ptr >>> 0;
         __module0.fui_file_worker_write_chunk(ptr, len);
       },
-      fui_worker_copy_input(ptr, capacity) {
-        // ~lib/@effindomv2/fui-as/src/worker/ffi/fui_worker_copy_input(usize, u32) => u32
-        ptr = ptr >>> 0;
-        capacity = capacity >>> 0;
-        return __module0.fui_worker_copy_input(ptr, capacity);
-      },
     }, __module0),
     fui_host_service: __module1,
   };

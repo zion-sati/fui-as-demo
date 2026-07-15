@@ -1,22 +1,43 @@
-import { Column, Disposable, Grid, GridUnit, Row, ScrollBarVisibility, SelectionArea, SemanticCheckedState, TextAlign, TextVerticalAlign, Theme, Unit, Visibility, activeTheme, bindTheme, disposeAll, DropdownItem } from "../../fui/Fui";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
-import { DemoCheckbox } from "../shared/design-system/DemoCheckbox";
-import { DemoRadioGroup } from "../shared/design-system/DemoRadioGroup";
-import { DemoRadioButton } from "../shared/design-system/DemoRadioButton";
-import { DemoDropdown } from "../shared/design-system/DemoDropdown";
-import { createNavBar } from "../shared/design-system/NavBar";
-import { Panel } from "../shared/design-system/Panel";
 import {
+  Column,
+  Disposable,
+  Form,
+  Grid,
+  GridUnit,
+  Row,
+  ScrollBarVisibility,
+  SelectionArea,
+  SemanticCheckedState,
+  TextAlign,
+  TextVerticalAlign,
+  Theme,
+  Unit,
+  Visibility,
+  activeTheme,
+  bindTheme,
+  disposeAll,
+  DropdownItem } from "../../fui/Fui";
+import {
+  DemoText,
+  DemoTextStyle,
+  DemoCheckbox,
+  DemoRadioGroup,
+  DemoRadioButton,
+  DemoDropdown,
+  createNavBar,
+  Panel,
   HEADING_TO_BODY_GAP_PX,
   HorizontalSpacer,
   PAGE_SECTION_GAP_PX,
   TITLE_TO_SUPPORTING_GAP_PX,
   VerticalSpacer,
-} from "../shared/design-system/Spacers";
+  DemoScrollBox,
+  DemoTextInput,
+  DemoTextArea,
+  DemoButton,
+  DemoButtonTone,
+} from "../shared/design-system";
 import { TextFontsModel } from "./TextFontsModel";
-import { DemoScrollBox } from "../shared/design-system/DemoScrollBox";
-import { DemoTextInput } from "../shared/design-system/DemoTextInput";
-import { DemoTextArea } from "../shared/design-system/DemoTextArea";
 import { CustomFontSection } from "./CustomFontSection";
 import { RichTextSection } from "./RichTextSection";
 
@@ -119,10 +140,25 @@ export class TextFontsView {
 
   // Text inputs with theme-bound colors
   readonly standardTextInput: DemoTextInput = new DemoTextInput()
-    .placeholder("Type here") as DemoTextInput;
+    .semanticLabel("Username or email")
+    .placeholder("Username or email")
+    .hostAutofill("username")
+    .nodeId("public-demo-username") as DemoTextInput;
 
   readonly passwordTextInput: DemoTextInput = new DemoTextInput()
-    .password() as DemoTextInput;
+    .semanticLabel("Password")
+    .placeholder("Password")
+    .password()
+    .hostAutofill("current-password")
+    .nodeId("public-demo-current-password") as DemoTextInput;
+
+  readonly signInButton: DemoButton = new DemoButton("Sign in", DemoButtonTone.Primary);
+  readonly clearSignInButton: DemoButton = new DemoButton("Clear");
+  readonly signInStatusText: DemoText = new DemoText(
+    "Password managers should recognize this projected login form. No credentials are sent anywhere.",
+    DemoTextStyle.BodySecondary,
+  ) as DemoText;
+  private credentialsForm!: Form;
 
   // Custom font section
   readonly customFont: CustomFontSection = new CustomFontSection();
@@ -158,6 +194,15 @@ export class TextFontsView {
       view.applyTheme(theme);
     }));
     this.applyTheme(activeTheme.value);
+    this.signInButton.onClickWith(this, (view): void => {
+      view.signInStatusText.text("Sign-in submitted locally. No credentials were transmitted.");
+    });
+    this.clearSignInButton.onClickWith(this, (view): void => {
+      view.standardTextInput.text("");
+      view.passwordTextInput.text("");
+      view.signInStatusText.text("Login fields cleared locally.");
+    });
+    this.credentialsForm.activate();
   }
 
   getRoot(): SelectionArea {
@@ -172,6 +217,37 @@ export class TextFontsView {
 
 
   private createMainPanel(model: TextFontsModel): Panel {
+    this.credentialsForm = new Form()
+      .defaultBtn(this.signInButton)
+      .cancelBtn(this.clearSignInButton)
+      .children([
+        new Grid()
+          .columns(2, [180.0, 1.0], [GridUnit.Pixel, GridUnit.Star])
+          .rows(3, [40.0, 12.0, 40.0], [GridUnit.Pixel, GridUnit.Pixel, GridUnit.Pixel])
+          .placeChild(
+            new DemoText("Username or email:   ", DemoTextStyle.Body)
+              .verticalAlign(TextVerticalAlign.Center)
+              .textAlign(TextAlign.Right),
+            0, 0)
+          .placeChild(this.standardTextInput, 0, 1)
+          .placeChild(
+            new DemoText("Password:   ", DemoTextStyle.Body)
+              .verticalAlign(TextVerticalAlign.Center)
+              .textAlign(TextAlign.Right),
+            2, 0)
+          .placeChild(this.passwordTextInput, 2, 1)
+          .width(500.0, Unit.Pixel),
+        VerticalSpacer(14.0),
+        Row(
+          this.signInButton,
+          HorizontalSpacer(12.0),
+          this.clearSignInButton,
+        ),
+        VerticalSpacer(10.0),
+        this.signInStatusText,
+      ])
+      .fillWidth() as Form;
+
     return new Panel()
       .children([
         new DemoText(model.title, DemoTextStyle.Heading2),
@@ -186,28 +262,12 @@ export class TextFontsView {
             new Panel().children([
               new DemoText("Text Inputs", DemoTextStyle.Heading3),
               VerticalSpacer(TITLE_TO_SUPPORTING_GAP_PX),
-              new DemoText("The following also demos Grid layout and alignment properties.", DemoTextStyle.BodySecondary),
+              new DemoText(
+                "This explicit Form projects username and password fields together so Proton Pass, browser autofill, and other password managers can recognize them. Enter submits; Escape clears.",
+                DemoTextStyle.BodySecondary,
+              ),
               VerticalSpacer(HEADING_TO_BODY_GAP_PX),
-              new Grid()
-                .columns(2, [180.0, 1.0], [GridUnit.Pixel, GridUnit.Star])
-                .rows(3, [40.0, 12.0, 40.0], [GridUnit.Pixel, GridUnit.Pixel, GridUnit.Pixel])
-                .placeChild(
-                  new DemoText("Standard Text Input:   ", DemoTextStyle.Body)
-                    .verticalAlign(TextVerticalAlign.Center)
-                    .textAlign(TextAlign.Right),
-                  0, 0)
-                .placeChild(
-                  this.standardTextInput,
-                  0, 1)
-                .placeChild(
-                  new DemoText("Password Text Input:   ", DemoTextStyle.Body)
-                    .verticalAlign(TextVerticalAlign.Center)
-                    .textAlign(TextAlign.Right),
-                  2, 0)
-                .placeChild(
-                  this.passwordTextInput,
-                  2, 1)
-                .width(500.0, Unit.Pixel),
+              this.credentialsForm,
               VerticalSpacer(PAGE_SECTION_GAP_PX),
 
               new DemoText("Text Area", DemoTextStyle.Heading3),
@@ -281,13 +341,13 @@ export class TextFontsView {
   }
 
   attachTextAreaBindings(): void {
-    this.readOnlyToggle.onChangedWith(this, (view, state) => {
-      view.textArea.readOnly(state != SemanticCheckedState.False);
+    this.readOnlyToggle.onChangedWith(this, (view, event) => {
+      view.textArea.readOnly(event.state != SemanticCheckedState.False);
       view.syncStatus();
     });
 
-    this.wrappingToggle.onChangedWith(this, (view, state) => {
-      const enabled = state != SemanticCheckedState.False;
+    this.wrappingToggle.onChangedWith(this, (view, event) => {
+      const enabled = event.state != SemanticCheckedState.False;
       view.textArea.wrapping(enabled);
       if (enabled) {
         view.horizontalPolicyGroup.selectIndex(0);
@@ -296,29 +356,29 @@ export class TextFontsView {
       view.syncStatus();
     });
 
-    this.alwaysVerticalToggle.onChangedWith(this, (view, state) => {
-      if (state != SemanticCheckedState.False) {
+    this.alwaysVerticalToggle.onChangedWith(this, (view, event) => {
+      if (event.state != SemanticCheckedState.False) {
         view.neverVerticalToggle.check(false);
       }
       view.syncVerticalPolicyFromCheckboxes();
     });
 
-    this.neverVerticalToggle.onChangedWith(this, (view, state) => {
-      if (state != SemanticCheckedState.False) {
+    this.neverVerticalToggle.onChangedWith(this, (view, event) => {
+      if (event.state != SemanticCheckedState.False) {
         view.alwaysVerticalToggle.check(false);
       }
       view.syncVerticalPolicyFromCheckboxes();
     });
 
-    this.alwaysHorizontalToggle.onChangedWith(this, (view, state) => {
-      if (state != SemanticCheckedState.False) {
+    this.alwaysHorizontalToggle.onChangedWith(this, (view, event) => {
+      if (event.state != SemanticCheckedState.False) {
         view.neverHorizontalToggle.check(false);
       }
       view.syncHorizontalPolicyFromCheckboxes();
     });
 
-    this.neverHorizontalToggle.onChangedWith(this, (view, state) => {
-      if (state != SemanticCheckedState.False) {
+    this.neverHorizontalToggle.onChangedWith(this, (view, event) => {
+      if (event.state != SemanticCheckedState.False) {
         view.alwaysHorizontalToggle.check(false);
       }
       view.syncHorizontalPolicyFromCheckboxes();
@@ -327,7 +387,7 @@ export class TextFontsView {
     this.textArea.onFocusChangedWith(this, (view, _focused) => {
       view.syncStatus();
     });
-    this.textArea.onSelectionChangedWith(this, (view, _start, _end) => {
+    this.textArea.onSelectionChangedWith(this, (view, _event) => {
       view.syncStatus();
     });
     this.textArea.onChangedWith(this, (view, _text) => {
@@ -346,7 +406,7 @@ export class TextFontsView {
     this.fontModeGroup.onChangedWith(this, (view, _value) => {
       view.syncFontMode();
     });
-    this.visibilityDropdown.onChangedWith(this, (view, _item, _index) => {
+    this.visibilityDropdown.onChangedWith(this, (view, _event) => {
       view.syncVisibility();
     });
 
@@ -501,6 +561,7 @@ export class TextFontsView {
   }
 
   disposeThemeBindings(): void {
+    this.credentialsForm.deactivate();
     if (this.themeBindingDisposed) {
       return;
     }

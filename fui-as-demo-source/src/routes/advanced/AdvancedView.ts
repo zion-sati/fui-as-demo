@@ -1,17 +1,55 @@
-import { AlignItems, AnimationTiming, BorderStyle, BrowserFile, Column, CursorStyle, Disposable, DragDataObject, DragDropEffects, DragEventArgs, DropProposal, Easings, ExternalDropEventArgs, ExternalDropItemInfo, ExternalDropItemKind, Fetch, FetchRequest, FetchResponse, File, FileWorkerProcessProgress, FileWorkerProcessRequest, FileWorkerProcessResult, FlexBox, NodeTransitions, ProgressBar, Row, ScrollBarVisibility, ScrollBox, ScrollState, SelectionArea, TextVerticalAlign, Theme, Unit, Worker, activeTheme, bindTheme, disposeAll } from "../../fui/Fui";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
-import { DemoButton, DemoButtonTone } from "../shared/design-system/DemoButton";
-import { DemoScrollBox } from "../shared/design-system/DemoScrollBox";
-import { createNavBar } from "../shared/design-system/NavBar";
-import { Panel } from "../shared/design-system/Panel";
-import { changeColorAlpha } from "../shared/ColorUtils";
 import {
+  AlignItems,
+  AnimationTiming,
+  BrowserFile,
+  Column,
+  CursorStyle,
+  Disposable,
+  DragDataObject,
+  DragDropEffects,
+  DragEventArgs,
+  DropProposal,
+  Easings,
+  ExternalDropEventArgs,
+  ExternalDropItemInfo,
+  ExternalDropItemKind,
+  Fetch,
+  FetchRequest,
+  FetchResponse,
+  File,
+  FileWorkerProcessProgress,
+  FileWorkerProcessRequest,
+  FileWorkerProcessResult,
+  FlexBox,
+  NodeTransitions,
+  ProgressBar,
+  Row,
+  ScrollBarVisibility,
+  ScrollBox,
+  ScrollState,
+  SelectionArea,
+  TextVerticalAlign,
+  Theme,
+  Unit,
+  Worker,
+  activeTheme,
+  bindTheme,
+  disposeAll } from "../../fui/Fui";
+import {
+  DemoText,
+  DemoTextStyle,
+  DemoButton,
+  DemoButtonTone,
+  DemoScrollBox,
+  createNavBar,
+  Panel,
   HEADING_TO_BODY_GAP_PX,
   HorizontalSpacer,
   PAGE_SECTION_GAP_PX,
   TITLE_TO_SUPPORTING_GAP_PX,
   VerticalSpacer,
-} from "../shared/design-system/Spacers";
+} from "../shared/design-system";
+import { changeColorAlpha } from "../shared/ColorUtils";
 import { AdvancedModel } from "./AdvancedModel";
 import { AnimationSection, ANIMATION_SCROLL_LOGICAL_CONTENT_HEIGHT_PX } from "./AnimationSection";
 import { WorkerSection } from "./WorkerSection";
@@ -105,13 +143,13 @@ export class AdvancedView {
     this.animation.scrollMiddleButton.onClickWith(this, (view): void => {
       const targetY = <f32>7.0 * ANIMATION_SCROLL_ROW_HEIGHT_PX;
       view.animation.scrollBox.scrollToAnimated(0.0, targetY, new AnimationTiming(300.0, Easings.cubicOut));
-      view.animation.scrollStatusText.text("Scrolling to 7th sample...");
+      view.animation.scrollStatusText.text("Scrolling to 8th sample...");
     });
 
     this.animation.scrollBottomButton.onClickWith(this, (view): void => {
       const targetY = <f32>13.0 * ANIMATION_SCROLL_ROW_HEIGHT_PX;
       view.animation.scrollBox.scrollToAnimated(0.0, targetY, new AnimationTiming(300.0, Easings.cubicOut));
-      view.animation.scrollStatusText.text("Scrolling to 13th sample...");
+      view.animation.scrollStatusText.text("Scrolling to 14th sample...");
     });
 
     this.animation.scrollTailButton.onClickWith(this, (view): void => {

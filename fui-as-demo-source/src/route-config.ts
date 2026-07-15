@@ -12,9 +12,13 @@ export const routeManifest = defineRoutedAppManifest(sourceRouteBase, [
   routeDef("advanced", "Advanced", routeHead(
     "description", "Transitions, scroll surfaces, workers, and browser bridge interop demos.",
   )),
+  routeDef("immediate-drawing", "Immediate Drawing", routeHead(
+    "description", "CustomDrawable widgets: gauge, bar chart, waveform, sparkline.",
+  )),
 ]);
 
 const routes = routeManifest.routes;
 export const homeRouteConfig = routes[0];
 export const textFontsRouteConfig = routes[1];
 export const advancedRouteConfig = routes[2];
+export const immediateDrawingRouteConfig = routes[3];

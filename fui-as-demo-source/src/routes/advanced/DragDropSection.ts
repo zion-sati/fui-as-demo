@@ -1,4 +1,5 @@
 import {
+  Border,
   BorderStyle,
   CursorStyle,
   DragDataObject,
@@ -9,8 +10,10 @@ import {
   Theme,
   Unit,
   activeTheme,
-} from "../../fui/Fui";
-import { DemoText, DemoTextStyle } from "../shared/design-system/DemoText";
+  } from "../../fui/Fui";
+import { DemoText,
+  DemoTextStyle,
+} from "../shared/design-system";
 
 export class DragDropSection {
   readonly dragSourceBox: FlexBox = new FlexBox()
@@ -57,10 +60,14 @@ export class DragDropSection {
   syncDragDropTheme(theme: Theme): void {
     this.dragSourceBox
       .bgColor(this.dragActive ? theme.colors.accent : theme.colors.surface)
-      .border(1.0, theme.colors.border, BorderStyle.Solid);
+      .border(1.0, theme.colors.border);
     this.dropZone
       .bgColor(this.dropHover ? theme.colors.accentHovered : theme.colors.surface)
-      .border(2.0, this.dropHover ? theme.colors.accent : theme.colors.border, BorderStyle.Dashed);
+      .borderConfig(new Border(
+        2.0,
+        this.dropHover ? theme.colors.accent : theme.colors.border,
+        BorderStyle.Dashed,
+      ));
   }
 }
 
