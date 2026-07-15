@@ -455,12 +455,6 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_padding(handle, left, top, right, bottom);
       },
-      ui_set_show_scrollbars(handle, show_scrollbars) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_show_scrollbars(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        show_scrollbars = show_scrollbars != 0;
-        __module1.ui_set_show_scrollbars(handle, show_scrollbars);
-      },
       ui_set_flex_direction(handle, dir_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_direction(u64, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -497,16 +491,16 @@ async function instantiate(module, imports = {}) {
         wrap_enum = wrap_enum >>> 0;
         __module1.ui_set_flex_wrap(handle, wrap_enum);
       },
-      ui_set_margin(handle, left, top, right, bottom) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_margin(handle, left, top, right, bottom);
-      },
       ui_set_text_align(handle, align_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_align(u64, u32) => void
         handle = BigInt.asUintN(64, handle);
         align_enum = align_enum >>> 0;
         __module1.ui_set_text_align(handle, align_enum);
+      },
+      ui_set_margin(handle, left, top, right, bottom) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_margin(handle, left, top, right, bottom);
       },
       ui_set_min_width(handle, value, unit_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_width(u64, f32, u32) => void
@@ -532,6 +526,13 @@ async function instantiate(module, imports = {}) {
         run_count = run_count >>> 0;
         runs_words = runs_words >>> 0;
         __module1.ui_set_text_style_runs(handle, run_count, runs_words);
+      },
+      ui_set_text_selection_range(handle, selection_start, selection_end) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_selection_range(u64, u32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        selection_start = selection_start >>> 0;
+        selection_end = selection_end >>> 0;
+        __module1.ui_set_text_selection_range(handle, selection_start, selection_end);
       },
       ui_set_position_type(handle, pos_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_position_type(u64, u32) => void
@@ -735,13 +736,6 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_select_word_at(u64, f32, f32) => bool
         handle = BigInt.asUintN(64, handle);
         return __module1.ui_select_word_at(handle, logical_x, logical_y) ? 1 : 0;
-      },
-      ui_set_text_selection_range(handle, selection_start, selection_end) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_selection_range(u64, u32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        selection_start = selection_start >>> 0;
-        selection_end = selection_end >>> 0;
-        __module1.ui_set_text_selection_range(handle, selection_start, selection_end);
       },
       ui_set_custom_drawable(handle, is_custom_drawable) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_custom_drawable(u64, bool) => void
@@ -954,6 +948,11 @@ async function instantiate(module, imports = {}) {
       handle = handle || 0n;
       return exports.__fui_get_long_press_movement_tolerance(handle);
     },
+    __fui_long_press_continues_pointer_events(handle) {
+      // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_long_press_continues_pointer_events(u64) => bool
+      handle = handle || 0n;
+      return exports.__fui_long_press_continues_pointer_events(handle) != 0;
+    },
     __fui_on_gesture_event(handle, phase, kind, x, y, deltaX, deltaY, scale, pointerCount) {
       // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_gesture_event(u64, u32, u32, f32, f32, f32, f32, f32, i32) => bool
       handle = handle || 0n;
@@ -1107,6 +1106,7 @@ export const {
   __fui_get_gesture_intent,
   __fui_get_long_press_minimum_duration_ms,
   __fui_get_long_press_movement_tolerance,
+  __fui_long_press_continues_pointer_events,
   __fui_on_gesture_event,
   __fui_on_long_press_event,
   __fui_on_key_event,

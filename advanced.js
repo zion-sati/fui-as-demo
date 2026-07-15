@@ -328,12 +328,6 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_scroll_offset(handle, offset_x, offset_y);
       },
-      ui_set_show_scrollbars(handle, show_scrollbars) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_show_scrollbars(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        show_scrollbars = show_scrollbars != 0;
-        __module1.ui_set_show_scrollbars(handle, show_scrollbars);
-      },
       ui_set_fill_width(handle, fill) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width(u64, bool) => void
         handle = BigInt.asUintN(64, handle);
@@ -969,6 +963,11 @@ async function instantiate(module, imports = {}) {
       handle = handle || 0n;
       return exports.__fui_get_long_press_movement_tolerance(handle);
     },
+    __fui_long_press_continues_pointer_events(handle) {
+      // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_long_press_continues_pointer_events(u64) => bool
+      handle = handle || 0n;
+      return exports.__fui_long_press_continues_pointer_events(handle) != 0;
+    },
     __fui_on_gesture_event(handle, phase, kind, x, y, deltaX, deltaY, scale, pointerCount) {
       // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_gesture_event(u64, u32, u32, f32, f32, f32, f32, f32, i32) => bool
       handle = handle || 0n;
@@ -1122,6 +1121,7 @@ export const {
   __fui_get_gesture_intent,
   __fui_get_long_press_minimum_duration_ms,
   __fui_get_long_press_movement_tolerance,
+  __fui_long_press_continues_pointer_events,
   __fui_on_gesture_event,
   __fui_on_long_press_event,
   __fui_on_key_event,

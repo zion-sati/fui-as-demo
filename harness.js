@@ -1168,7 +1168,7 @@ function createHostImportModule(deps) {
       return sizeSource.clientHeight > 0 ? sizeSource.clientHeight : rect.height > 0 ? rect.height : runtime.canvas.height;
     },
     get_device_pixel_ratio() {
-      return window.devicePixelRatio > 0 ? window.devicePixelRatio : 1;
+      return deps.platformHost.getDevicePixelRatio();
     },
     fui_set_pointer_capture(handle) {
       deps.getRuntime().setCapturedPointerHandle(toBigIntHandle(handle));
@@ -1177,7 +1177,7 @@ function createHostImportModule(deps) {
       deps.getRuntime().setCapturedPointerHandle(null);
     },
     fui_reload_page() {
-      window.location.reload();
+      deps.platformHost.reload();
     },
     fui_can_navigate_back() {
       return deps.canBrowserNavigateBack() ? 1 : 0;
@@ -1193,7 +1193,7 @@ function createHostImportModule(deps) {
     },
     fui_copy_text(ptr, len) {
       const text = deps.readAppUtf8(ptr, len);
-      window.__effindomCallbacks?.onClipboardWrite?.({ plainText: text });
+      deps.platformHost.publishClipboard({ plainText: text });
     },
     fui_has_text_selection_snapshot(handle) {
       if (isPasswordTextInput(handle)) {
@@ -1216,7 +1216,7 @@ function createHostImportModule(deps) {
       if (snapshot === null) {
         return 0;
       }
-      window.__effindomCallbacks?.onClipboardWrite?.({
+      deps.platformHost.publishClipboard({
         plainText: snapshot.text.slice(snapshot.start, snapshot.end)
       });
       return 1;
@@ -1236,7 +1236,7 @@ function createHostImportModule(deps) {
       }
       const start = Math.min(selectionStart, selectionEnd);
       const end = Math.max(selectionStart, selectionEnd);
-      window.__effindomCallbacks?.onClipboardWrite?.({
+      deps.platformHost.publishClipboard({
         plainText: editor.value.slice(start, end)
       });
       editor.focus({ preventScroll: true });
@@ -1255,7 +1255,7 @@ function createHostImportModule(deps) {
         return 0;
       }
       const { handleKey, text, start, end } = snapshot;
-      window.__effindomCallbacks?.onClipboardWrite?.({
+      deps.platformHost.publishClipboard({
         plainText: text.slice(start, end)
       });
       const updatedText = text.slice(0, start) + text.slice(end);
@@ -1265,7 +1265,7 @@ function createHostImportModule(deps) {
         editor.value = updatedText;
         editor.setSelectionRange(start, start, "none");
       }
-      window.setTimeout(() => {
+      deps.platformHost.defer(() => {
         runtime.ui._ui_request_focus(toBigIntHandle(handle));
         deps.textBridge.withUiUtf8("", (uiPtr, uiLen) => {
           runtime.ui._ui_replace_text_range(toBigIntHandle(handle), start, end, uiPtr, uiLen, start);
@@ -1278,7 +1278,7 @@ function createHostImportModule(deps) {
           activeEditor.focus({ preventScroll: true });
           activeEditor.setSelectionRange(start, start, "none");
         }
-      }, 0);
+      });
       deps.textBridge.clearFrozenTextSelectionSnapshot();
       return 1;
     },
@@ -1298,7 +1298,7 @@ function createHostImportModule(deps) {
       if (rangeStart === rangeEnd) {
         return 0;
       }
-      window.__effindomCallbacks?.onClipboardWrite?.({
+      deps.platformHost.publishClipboard({
         plainText: resolvedText.slice(rangeStart, rangeEnd)
       });
       const updatedText = resolvedText.slice(0, rangeStart) + resolvedText.slice(rangeEnd);
@@ -1308,7 +1308,7 @@ function createHostImportModule(deps) {
         editor.value = updatedText;
         editor.setSelectionRange(rangeStart, rangeStart, "none");
       }
-      window.setTimeout(() => {
+      deps.platformHost.defer(() => {
         deps.getRuntime().ui._ui_request_focus(toBigIntHandle(handle));
         deps.textBridge.syncEditableTextToRuntime(handle, updatedText, rangeStart);
         deps.textBridge.updateLiveTextAfterCut(handleKey, updatedText, rangeStart);
@@ -1317,7 +1317,7 @@ function createHostImportModule(deps) {
           activeEditor.focus({ preventScroll: true });
           activeEditor.setSelectionRange(rangeStart, rangeStart, "none");
         }
-      }, 0);
+      });
       return 1;
     },
     fui_delete_focused_text_range(start, end) {
@@ -1335,7 +1335,7 @@ function createHostImportModule(deps) {
     },
     fui_commit_text_action_focus(handle) {
       const runtime = deps.getRuntime();
-      window.setTimeout(() => {
+      deps.platformHost.defer(() => {
         runtime.ui._ui_request_focus(toBigIntHandle(handle));
         runtime.commitFrame();
         deps.queueHarnessFrame();
@@ -1343,7 +1343,7 @@ function createHostImportModule(deps) {
         if (editor !== null) {
           editor.focus({ preventScroll: true });
         }
-      }, 0);
+      });
     },
     fui_register_text_input_metadata(handle, isPassword, hintPtr, hintLen) {
       const hostAutofillHint = hintLen > 0 ? deps.readAppUtf8(hintPtr, hintLen) : null;
@@ -1410,7 +1410,7 @@ function createHostImportModule(deps) {
       deps.cancelHostTimer(timerId);
       const session = deps.getCurrentSessionOrNull();
       const clampedDelayMs = Math.max(0, Math.ceil(delayMs));
-      const timeoutId = window.setTimeout(() => {
+      const timeoutId = deps.platformHost.setTimer(() => {
         if (deps.getHostTimer(timerId) !== timeoutId) {
           return;
         }
@@ -1426,7 +1426,7 @@ function createHostImportModule(deps) {
       deps.cancelHostTimer(timerId);
     },
     fui_now_ms() {
-      return performance.now();
+      return deps.platformHost.nowMilliseconds();
     },
     fui_worker_start_string(workerId, wasmPathPtr, wasmPathLen, entryPtr, entryLen, inputPtr, inputLen) {
       deps.workerManager.startString(
@@ -1447,7 +1447,7 @@ function createHostImportModule(deps) {
       deps.getRuntime().canvas.style.cursor = cursor;
     },
     fui_is_dark_mode() {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
+      return deps.platformHost.isDarkMode() ? 1 : 0;
     },
     fui_get_accent_color() {
       return deps.uiChrome.readHostAccentColor();
@@ -1461,7 +1461,7 @@ function createHostImportModule(deps) {
     fui_show_url_preview(ptr, len) {
       const rawTarget = deps.readAppUtf8(ptr, len);
       try {
-        const resolvedTarget = new URL(rawTarget, window.location.href);
+        const resolvedTarget = deps.platformHost.resolveUrl(rawTarget);
         deps.uiChrome.setUrlPreviewText(resolvedTarget.href);
       } catch {
         deps.uiChrome.setUrlPreviewText(rawTarget);
@@ -4355,9 +4355,6 @@ function createUiImportModule(deps) {
     ui_set_scroll_enabled(handle, enabledX, enabledY) {
       deps.getRuntime().ui._ui_set_scroll_enabled(toBigIntHandle(handle), enabledX, enabledY);
     },
-    ui_set_show_scrollbars(handle, showScrollbars) {
-      deps.getRuntime().ui._ui_set_show_scrollbars(toBigIntHandle(handle), showScrollbars);
-    },
     ui_set_scroll_friction(handle, friction) {
       deps.getRuntime().ui._ui_set_scroll_friction(toBigIntHandle(handle), friction);
     },
@@ -4677,6 +4674,39 @@ function createUiImportModule(deps) {
     }
   };
 }
+
+// node_modules/@effindomv2/runtime/src/managed-harness/platform-host.ts
+var BrowserManagedPlatformHost = class {
+  nowMilliseconds() {
+    return performance.now();
+  }
+  getDevicePixelRatio() {
+    return window.devicePixelRatio > 0 ? window.devicePixelRatio : 1;
+  }
+  isDarkMode() {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  reload() {
+    window.location.reload();
+  }
+  resolveUrl(target) {
+    return new URL(target, window.location.href);
+  }
+  publishClipboard(payload) {
+    const callbacks = window.__effindomCallbacks;
+    callbacks?.onClipboardWrite?.(payload);
+  }
+  defer(callback) {
+    return window.setTimeout(callback, 0);
+  }
+  setTimer(callback, delayMs) {
+    return window.setTimeout(callback, delayMs);
+  }
+  clearTimer(timerId) {
+    window.clearTimeout(timerId);
+  }
+};
+var browserManagedPlatformHost = new BrowserManagedPlatformHost();
 
 // node_modules/@effindomv2/runtime/src/managed-harness/managed-harness.ts
 function tryResolveNavigationTarget(target) {
@@ -5370,6 +5400,7 @@ function startManagedHarness(options) {
         }),
         fui_host: {
           ...createHostImportModule({
+            platformHost: browserManagedPlatformHost,
             getRuntime: () => runtime,
             getCurrentSession,
             getCurrentSessionOrNull: () => currentSession,
@@ -5562,6 +5593,11 @@ function startManagedHarness(options) {
         return 10;
       }
       return getLongPressMovementTolerance(toBigIntHandle(handle));
+    };
+    callbacks.longPressContinuesPointerEvents = (handle) => {
+      const session = currentSession;
+      const continues = session?.exports.__fui_long_press_continues_pointer_events;
+      return session !== null && typeof continues === "function" && isHandledResult(continues(toBigIntHandle(handle)));
     };
     callbacks.onLongPressEventWithCoords = (handle, x, y, pointerId, pointerType, modifiers, durationMs) => {
       const session = currentSession;
@@ -6440,7 +6476,9 @@ var appHostServices = defineHostServices({
     nowUnixSeconds: hostService({
       args: [],
       returns: "i32",
-      implementation: () => nowUnixSeconds2()
+      implementation() {
+        return nowUnixSeconds2();
+      }
     })
   }
 });

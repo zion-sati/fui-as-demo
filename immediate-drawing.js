@@ -28,10 +28,6 @@ async function instantiate(module, imports = {}) {
         msgLen = msgLen >>> 0;
         __module0.fui_log(categoryPtr, catLen, msgPtr, msgLen);
       },
-      fui_logs_enabled() {
-        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_logs_enabled() => bool
-        return __module0.fui_logs_enabled() ? 1 : 0;
-      },
       fui_is_coarse_pointer() {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_is_coarse_pointer() => bool
         return __module0.fui_is_coarse_pointer() ? 1 : 0;
@@ -41,6 +37,10 @@ async function instantiate(module, imports = {}) {
         style = style >>> 0;
         __module0.fui_set_cursor(style);
       },
+      fui_logs_enabled() {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_logs_enabled() => bool
+        return __module0.fui_logs_enabled() ? 1 : 0;
+      },
       fui_try_get_persisted_scroll_offset(nodeIdPtr, nodeIdLen, outX, outY) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_try_get_persisted_scroll_offset(usize, u32, usize, usize) => bool
         nodeIdPtr = nodeIdPtr >>> 0;
@@ -48,6 +48,49 @@ async function instantiate(module, imports = {}) {
         outX = outX >>> 0;
         outY = outY >>> 0;
         return __module0.fui_try_get_persisted_scroll_offset(nodeIdPtr, nodeIdLen, outX, outY) ? 1 : 0;
+      },
+      fui_canvas_create_offscreen(width, height) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_canvas_create_offscreen(u32, u32) => u32
+        width = width >>> 0;
+        height = height >>> 0;
+        return __module0.fui_canvas_create_offscreen(width, height);
+      },
+      fui_canvas_draw_batch(canvasPtr, wordsPtr, wordCount) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_canvas_draw_batch(usize, usize, u32) => void
+        canvasPtr = canvasPtr >>> 0;
+        wordsPtr = wordsPtr >>> 0;
+        wordCount = wordCount >>> 0;
+        __module0.fui_canvas_draw_batch(canvasPtr, wordsPtr, wordCount);
+      },
+      fui_canvas_read_offscreen_pixels(offscreenId, outPtr, width, height) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_canvas_read_offscreen_pixels(u32, usize, u32, u32) => void
+        offscreenId = offscreenId >>> 0;
+        outPtr = outPtr >>> 0;
+        width = width >>> 0;
+        height = height >>> 0;
+        __module0.fui_canvas_read_offscreen_pixels(offscreenId, outPtr, width, height);
+      },
+      fui_bitmap_commit_dirty(textureId, bytesPtr, bytesLen, fullW, fullH, subX, subY, subW, subH) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_bitmap_commit_dirty(u32, usize, u32, u32, u32, u32, u32, u32, u32) => void
+        textureId = textureId >>> 0;
+        bytesPtr = bytesPtr >>> 0;
+        bytesLen = bytesLen >>> 0;
+        fullW = fullW >>> 0;
+        fullH = fullH >>> 0;
+        subX = subX >>> 0;
+        subY = subY >>> 0;
+        subW = subW >>> 0;
+        subH = subH >>> 0;
+        __module0.fui_bitmap_commit_dirty(textureId, bytesPtr, bytesLen, fullW, fullH, subX, subY, subW, subH);
+      },
+      fui_bitmap_commit(textureId, bytesPtr, bytesLen, width, height) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_bitmap_commit(u32, usize, u32, u32, u32) => void
+        textureId = textureId >>> 0;
+        bytesPtr = bytesPtr >>> 0;
+        bytesLen = bytesLen >>> 0;
+        width = width >>> 0;
+        height = height >>> 0;
+        __module0.fui_bitmap_commit(textureId, bytesPtr, bytesLen, width, height);
       },
       fui_cancel_timer(timerId) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_cancel_timer(u32) => void
@@ -162,13 +205,6 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_can_navigate_forward() => bool
         return __module0.fui_can_navigate_forward() ? 1 : 0;
       },
-      fui_canvas_draw_batch(canvasPtr, wordsPtr, wordCount) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_canvas_draw_batch(usize, usize, u32) => void
-        canvasPtr = canvasPtr >>> 0;
-        wordsPtr = wordsPtr >>> 0;
-        wordCount = wordCount >>> 0;
-        __module0.fui_canvas_draw_batch(canvasPtr, wordsPtr, wordCount);
-      },
       fui_register_text_input_metadata(handle, isPassword, hintPtr, hintLen) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_register_text_input_metadata(u64, bool, usize, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -193,6 +229,25 @@ async function instantiate(module, imports = {}) {
         nodeIdLen = nodeIdLen >>> 0;
         __module0.fui_set_persisted_scroll_offset(nodeIdPtr, nodeIdLen, x, y);
       },
+      fui_render_node_to_rgba(handle, width, height, outPtr, outCapacity, scale, x, y) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_render_node_to_rgba(u64, u32, u32, usize, u32, f32, f32, f32) => u32
+        handle = BigInt.asUintN(64, handle);
+        width = width >>> 0;
+        height = height >>> 0;
+        outPtr = outPtr >>> 0;
+        outCapacity = outCapacity >>> 0;
+        return __module0.fui_render_node_to_rgba(handle, width, height, outPtr, outCapacity, scale, x, y);
+      },
+      fui_canvas_destroy_offscreen(offscreenId) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_canvas_destroy_offscreen(u32) => void
+        offscreenId = offscreenId >>> 0;
+        __module0.fui_canvas_destroy_offscreen(offscreenId);
+      },
+      fui_bitmap_release(textureId) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_bitmap_release(u32) => void
+        textureId = textureId >>> 0;
+        __module0.fui_bitmap_release(textureId);
+      },
     }, __module0),
     effindom_v2_ui: Object.setPrototypeOf({
       ui_register_font_fallback(font_id, fallback_font_id) {
@@ -201,10 +256,34 @@ async function instantiate(module, imports = {}) {
         fallback_font_id = fallback_font_id >>> 0;
         __module1.ui_register_font_fallback(font_id, fallback_font_id);
       },
-      ui_set_margin(handle, left, top, right, bottom) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
+      ui_set_interactive(handle, interactive) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_interactive(u64, bool) => void
         handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_margin(handle, left, top, right, bottom);
+        interactive = interactive != 0;
+        __module1.ui_set_interactive(handle, interactive);
+      },
+      ui_set_fill_width(handle, fill) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        fill = fill != 0;
+        __module1.ui_set_fill_width(handle, fill);
+      },
+      ui_set_fill_height(handle, fill) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_height(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        fill = fill != 0;
+        __module1.ui_set_fill_height(handle, fill);
+      },
+      ui_set_width(handle, value, unit_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_width(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit_enum = unit_enum >>> 0;
+        __module1.ui_set_width(handle, value, unit_enum);
+      },
+      ui_set_scroll_offset(handle, offset_x, offset_y) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_offset(u64, f32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_scroll_offset(handle, offset_x, offset_y);
       },
       ui_set_flex_direction(handle, dir_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_direction(u64, u32) => void
@@ -217,12 +296,6 @@ async function instantiate(module, imports = {}) {
         parent = BigInt.asUintN(64, parent);
         child = BigInt.asUintN(64, child);
         __module1.ui_node_remove_child(parent, child);
-      },
-      ui_set_interactive(handle, interactive) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_interactive(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        interactive = interactive != 0;
-        __module1.ui_set_interactive(handle, interactive);
       },
       ui_set_focusable(handle, focusable, tab_index) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_focusable(u64, bool, i32) => void
@@ -248,41 +321,6 @@ async function instantiate(module, imports = {}) {
         parent = BigInt.asUintN(64, parent);
         child = BigInt.asUintN(64, child);
         __module1.ui_node_add_child(parent, child);
-      },
-      ui_set_flex_wrap(handle, wrap_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_wrap(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        wrap_enum = wrap_enum >>> 0;
-        __module1.ui_set_flex_wrap(handle, wrap_enum);
-      },
-      ui_set_show_scrollbars(handle, show_scrollbars) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_show_scrollbars(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        show_scrollbars = show_scrollbars != 0;
-        __module1.ui_set_show_scrollbars(handle, show_scrollbars);
-      },
-      ui_set_fill_width(handle, fill) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        fill = fill != 0;
-        __module1.ui_set_fill_width(handle, fill);
-      },
-      ui_set_fill_height(handle, fill) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_height(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        fill = fill != 0;
-        __module1.ui_set_fill_height(handle, fill);
-      },
-      ui_set_width(handle, value, unit_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_width(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit_enum = unit_enum >>> 0;
-        __module1.ui_set_width(handle, value, unit_enum);
-      },
-      ui_set_scroll_offset(handle, offset_x, offset_y) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_offset(u64, f32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_scroll_offset(handle, offset_x, offset_y);
       },
       ui_set_align_items(handle, align_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_align_items(u64, u32) => void
@@ -341,19 +379,19 @@ async function instantiate(module, imports = {}) {
         colors = colors >>> 0;
         __module1.ui_set_linear_gradient(handle, sx, sy, ex, ey, stop_count, offsets, colors);
       },
-      ui_set_scroll_enabled(handle, enabled_x, enabled_y) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_enabled(u64, bool, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        enabled_x = enabled_x != 0;
-        enabled_y = enabled_y != 0;
-        __module1.ui_set_scroll_enabled(handle, enabled_x, enabled_y);
-      },
       ui_set_node_id(handle, utf8_id, len) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_node_id(u64, usize, u32) => void
         handle = BigInt.asUintN(64, handle);
         utf8_id = utf8_id >>> 0;
         len = len >>> 0;
         __module1.ui_set_node_id(handle, utf8_id, len);
+      },
+      ui_set_scroll_enabled(handle, enabled_x, enabled_y) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_enabled(u64, bool, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        enabled_x = enabled_x != 0;
+        enabled_y = enabled_y != 0;
+        __module1.ui_set_scroll_enabled(handle, enabled_x, enabled_y);
       },
       ui_set_semantic_role(handle, role_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_semantic_role(u64, u32) => void
@@ -423,11 +461,16 @@ async function instantiate(module, imports = {}) {
         justify_enum = justify_enum >>> 0;
         __module1.ui_set_justify_content(handle, justify_enum);
       },
-      ui_set_scroll_proxy_target(handle, scroll_handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_proxy_target(u64, u64) => void
+      ui_set_flex_wrap(handle, wrap_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_wrap(u64, u32) => void
         handle = BigInt.asUintN(64, handle);
-        scroll_handle = BigInt.asUintN(64, scroll_handle);
-        __module1.ui_set_scroll_proxy_target(handle, scroll_handle);
+        wrap_enum = wrap_enum >>> 0;
+        __module1.ui_set_flex_wrap(handle, wrap_enum);
+      },
+      ui_set_margin(handle, left, top, right, bottom) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_margin(handle, left, top, right, bottom);
       },
       ui_get_visible_bounds(handle, out_x, out_y, out_width, out_height) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_get_visible_bounds(u64, usize, usize, usize, usize) => bool
@@ -437,129 +480,6 @@ async function instantiate(module, imports = {}) {
         out_width = out_width >>> 0;
         out_height = out_height >>> 0;
         return __module1.ui_get_visible_bounds(handle, out_x, out_y, out_width, out_height) ? 1 : 0;
-      },
-      ui_remove_semantic_scope(token) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_remove_semantic_scope(u32) => void
-        token = token >>> 0;
-        __module1.ui_remove_semantic_scope(token);
-      },
-      ui_set_text(handle, utf8_str, len) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text(u64, usize, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        utf8_str = utf8_str >>> 0;
-        len = len >>> 0;
-        __module1.ui_set_text(handle, utf8_str, len);
-      },
-      ui_push_semantic_scope(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_push_semantic_scope(u64) => u32
-        handle = BigInt.asUintN(64, handle);
-        return __module1.ui_push_semantic_scope(handle);
-      },
-      ui_delete_node(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_delete_node(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_delete_node(handle);
-      },
-      ui_copy_cross_selection_endpoint_rects(area_handle, out_rect_words) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_copy_cross_selection_endpoint_rects(u64, usize) => bool
-        area_handle = BigInt.asUintN(64, area_handle);
-        out_rect_words = out_rect_words >>> 0;
-        return __module1.ui_copy_cross_selection_endpoint_rects(area_handle, out_rect_words) ? 1 : 0;
-      },
-      ui_get_text_range_rect_count(handle, start, end) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_get_text_range_rect_count(u64, u32, u32) => u32
-        handle = BigInt.asUintN(64, handle);
-        start = start >>> 0;
-        end = end >>> 0;
-        return __module1.ui_get_text_range_rect_count(handle, start, end);
-      },
-      ui_copy_text_range_rects(handle, start, end, out_rect_words, max_rect_count) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_copy_text_range_rects(u64, u32, u32, usize, u32) => u32
-        handle = BigInt.asUintN(64, handle);
-        start = start >>> 0;
-        end = end >>> 0;
-        out_rect_words = out_rect_words >>> 0;
-        max_rect_count = max_rect_count >>> 0;
-        return __module1.ui_copy_text_range_rects(handle, start, end, out_rect_words, max_rect_count);
-      },
-      ui_set_position_type(handle, pos_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_position_type(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        pos_enum = pos_enum >>> 0;
-        __module1.ui_set_position_type(handle, pos_enum);
-      },
-      ui_set_preserve_selection_on_pointer_down(handle, preserve) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_preserve_selection_on_pointer_down(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        preserve = preserve != 0;
-        __module1.ui_set_preserve_selection_on_pointer_down(handle, preserve);
-      },
-      ui_begin_selection_endpoint_drag(handle, endpoint) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_begin_selection_endpoint_drag(u64, u32) => bool
-        handle = BigInt.asUintN(64, handle);
-        endpoint = endpoint >>> 0;
-        return __module1.ui_begin_selection_endpoint_drag(handle, endpoint) ? 1 : 0;
-      },
-      ui_has_text_selection(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_has_text_selection(u64) => bool
-        handle = BigInt.asUintN(64, handle);
-        return __module1.ui_has_text_selection(handle) ? 1 : 0;
-      },
-      ui_copy_text_selection(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_copy_text_selection(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_copy_text_selection(handle);
-      },
-      ui_undo_text_edit(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_undo_text_edit(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_undo_text_edit(handle);
-      },
-      ui_redo_text_edit(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_redo_text_edit(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_redo_text_edit(handle);
-      },
-      ui_cut_text_selection(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_cut_text_selection(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_cut_text_selection(handle);
-      },
-      ui_paste_text(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_paste_text(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_paste_text(handle);
-      },
-      ui_select_all_text(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_select_all_text(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_select_all_text(handle);
-      },
-      ui_set_text_overflow(handle, overflow_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_overflow(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        overflow_enum = overflow_enum >>> 0;
-        __module1.ui_set_text_overflow(handle, overflow_enum);
-      },
-      ui_set_is_shared_size_scope(handle, is_scope) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_is_shared_size_scope(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        is_scope = is_scope != 0;
-        __module1.ui_set_is_shared_size_scope(handle, is_scope);
-      },
-      ui_grid_set_column_shared_size_group(handle, index, utf8_group, len) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_column_shared_size_group(u64, u32, usize, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        index = index >>> 0;
-        utf8_group = utf8_group >>> 0;
-        len = len >>> 0;
-        __module1.ui_grid_set_column_shared_size_group(handle, index, utf8_group, len);
-      },
-      ui_set_text_align(handle, align_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_align(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        align_enum = align_enum >>> 0;
-        __module1.ui_set_text_align(handle, align_enum);
       },
       ui_create_node(type) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_create_node(u32) => u64
@@ -604,6 +524,24 @@ async function instantiate(module, imports = {}) {
         is_portal = is_portal != 0;
         __module1.ui_set_is_portal(handle, is_portal);
       },
+      ui_set_is_shared_size_scope(handle, is_scope) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_is_shared_size_scope(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        is_scope = is_scope != 0;
+        __module1.ui_set_is_shared_size_scope(handle, is_scope);
+      },
+      ui_set_scroll_proxy_target(handle, scroll_handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_proxy_target(u64, u64) => void
+        handle = BigInt.asUintN(64, handle);
+        scroll_handle = BigInt.asUintN(64, scroll_handle);
+        __module1.ui_set_scroll_proxy_target(handle, scroll_handle);
+      },
+      ui_set_preserve_selection_on_pointer_down(handle, preserve) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_preserve_selection_on_pointer_down(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        preserve = preserve != 0;
+        __module1.ui_set_preserve_selection_on_pointer_down(handle, preserve);
+      },
       ui_set_fill_height_percent(handle, percent) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_height_percent(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
@@ -632,6 +570,199 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         unit_enum = unit_enum >>> 0;
         __module1.ui_set_max_height(handle, value, unit_enum);
+      },
+      ui_set_text(handle, utf8_str, len) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text(u64, usize, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        utf8_str = utf8_str >>> 0;
+        len = len >>> 0;
+        __module1.ui_set_text(handle, utf8_str, len);
+      },
+      ui_set_text_style_runs(handle, run_count, runs_words) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
+        handle = BigInt.asUintN(64, handle);
+        run_count = run_count >>> 0;
+        runs_words = runs_words >>> 0;
+        __module1.ui_set_text_style_runs(handle, run_count, runs_words);
+      },
+      ui_set_line_height(handle, line_height) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_line_height(u64, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_line_height(handle, line_height);
+      },
+      ui_set_text_align(handle, align_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_align(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        align_enum = align_enum >>> 0;
+        __module1.ui_set_text_align(handle, align_enum);
+      },
+      ui_set_text_limits(handle, max_chars, max_lines) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_limits(u64, i32, i32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_text_limits(handle, max_chars, max_lines);
+      },
+      ui_set_text_wrapping(handle, wrap) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_wrapping(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        wrap = wrap != 0;
+        __module1.ui_set_text_wrapping(handle, wrap);
+      },
+      ui_set_text_overflow(handle, overflow_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_overflow(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        overflow_enum = overflow_enum >>> 0;
+        __module1.ui_set_text_overflow(handle, overflow_enum);
+      },
+      ui_set_text_overflow_fade(handle, horizontal, vertical) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_overflow_fade(u64, bool, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        horizontal = horizontal != 0;
+        vertical = vertical != 0;
+        __module1.ui_set_text_overflow_fade(handle, horizontal, vertical);
+      },
+      ui_set_text_obscured(handle, is_password) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_obscured(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        is_password = is_password != 0;
+        __module1.ui_set_text_obscured(handle, is_password);
+      },
+      ui_set_editable(handle, editable) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_editable(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        editable = editable != 0;
+        __module1.ui_set_editable(handle, editable);
+      },
+      ui_set_editor_command_keys(handle, enabled) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_editor_command_keys(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        enabled = enabled != 0;
+        __module1.ui_set_editor_command_keys(handle, enabled);
+      },
+      ui_set_editor_accepts_tab(handle, enabled) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_editor_accepts_tab(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        enabled = enabled != 0;
+        __module1.ui_set_editor_accepts_tab(handle, enabled);
+      },
+      ui_set_caret_color(handle, color) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_caret_color(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        color = color >>> 0;
+        __module1.ui_set_caret_color(handle, color);
+      },
+      ui_prepare_node(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_prepare_node(u64) => u32
+        handle = BigInt.asUintN(64, handle);
+        return __module1.ui_prepare_node(handle);
+      },
+      ui_get_text_metrics(handle, out_width, out_height, out_baseline, out_line_count, out_max_line_width) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_get_text_metrics(u64, usize, usize, usize, usize, usize) => bool
+        handle = BigInt.asUintN(64, handle);
+        out_width = out_width >>> 0;
+        out_height = out_height >>> 0;
+        out_baseline = out_baseline >>> 0;
+        out_line_count = out_line_count >>> 0;
+        out_max_line_width = out_max_line_width >>> 0;
+        return __module1.ui_get_text_metrics(handle, out_width, out_height, out_baseline, out_line_count, out_max_line_width) ? 1 : 0;
+      },
+      ui_set_dynamic_text_charset(handle, utf8_charset, len) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_dynamic_text_charset(u64, usize, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        utf8_charset = utf8_charset >>> 0;
+        len = len >>> 0;
+        __module1.ui_set_dynamic_text_charset(handle, utf8_charset, len);
+      },
+      ui_remove_semantic_scope(token) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_remove_semantic_scope(u32) => void
+        token = token >>> 0;
+        __module1.ui_remove_semantic_scope(token);
+      },
+      ui_push_semantic_scope(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_push_semantic_scope(u64) => u32
+        handle = BigInt.asUintN(64, handle);
+        return __module1.ui_push_semantic_scope(handle);
+      },
+      ui_delete_node(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_delete_node(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_delete_node(handle);
+      },
+      ui_copy_cross_selection_endpoint_rects(area_handle, out_rect_words) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_copy_cross_selection_endpoint_rects(u64, usize) => bool
+        area_handle = BigInt.asUintN(64, area_handle);
+        out_rect_words = out_rect_words >>> 0;
+        return __module1.ui_copy_cross_selection_endpoint_rects(area_handle, out_rect_words) ? 1 : 0;
+      },
+      ui_get_text_range_rect_count(handle, start, end) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_get_text_range_rect_count(u64, u32, u32) => u32
+        handle = BigInt.asUintN(64, handle);
+        start = start >>> 0;
+        end = end >>> 0;
+        return __module1.ui_get_text_range_rect_count(handle, start, end);
+      },
+      ui_copy_text_range_rects(handle, start, end, out_rect_words, max_rect_count) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_copy_text_range_rects(u64, u32, u32, usize, u32) => u32
+        handle = BigInt.asUintN(64, handle);
+        start = start >>> 0;
+        end = end >>> 0;
+        out_rect_words = out_rect_words >>> 0;
+        max_rect_count = max_rect_count >>> 0;
+        return __module1.ui_copy_text_range_rects(handle, start, end, out_rect_words, max_rect_count);
+      },
+      ui_set_position_type(handle, pos_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_position_type(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        pos_enum = pos_enum >>> 0;
+        __module1.ui_set_position_type(handle, pos_enum);
+      },
+      ui_begin_selection_endpoint_drag(handle, endpoint) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_begin_selection_endpoint_drag(u64, u32) => bool
+        handle = BigInt.asUintN(64, handle);
+        endpoint = endpoint >>> 0;
+        return __module1.ui_begin_selection_endpoint_drag(handle, endpoint) ? 1 : 0;
+      },
+      ui_has_text_selection(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_has_text_selection(u64) => bool
+        handle = BigInt.asUintN(64, handle);
+        return __module1.ui_has_text_selection(handle) ? 1 : 0;
+      },
+      ui_copy_text_selection(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_copy_text_selection(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_copy_text_selection(handle);
+      },
+      ui_undo_text_edit(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_undo_text_edit(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_undo_text_edit(handle);
+      },
+      ui_redo_text_edit(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_redo_text_edit(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_redo_text_edit(handle);
+      },
+      ui_cut_text_selection(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_cut_text_selection(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_cut_text_selection(handle);
+      },
+      ui_paste_text(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_paste_text(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_paste_text(handle);
+      },
+      ui_select_all_text(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_select_all_text(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_select_all_text(handle);
+      },
+      ui_grid_set_column_shared_size_group(handle, index, utf8_group, len) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_column_shared_size_group(u64, u32, usize, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        index = index >>> 0;
+        utf8_group = utf8_group >>> 0;
+        len = len >>> 0;
+        __module1.ui_grid_set_column_shared_size_group(handle, index, utf8_group, len);
       },
       ui_set_flex_basis(handle, basis) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_basis(u64, f32) => void
@@ -673,40 +804,10 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         return __module1.ui_select_word_at(handle, logical_x, logical_y) ? 1 : 0;
       },
-      ui_set_editable(handle, editable) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_editable(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        editable = editable != 0;
-        __module1.ui_set_editable(handle, editable);
-      },
-      ui_set_caret_color(handle, color) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_caret_color(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        color = color >>> 0;
-        __module1.ui_set_caret_color(handle, color);
-      },
-      ui_set_text_wrapping(handle, wrap) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_wrapping(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        wrap = wrap != 0;
-        __module1.ui_set_text_wrapping(handle, wrap);
-      },
       ui_request_semantic_announcement(handle) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_request_semantic_announcement(u64) => void
         handle = BigInt.asUintN(64, handle);
         __module1.ui_request_semantic_announcement(handle);
-      },
-      ui_set_text_limits(handle, max_chars, max_lines) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_limits(u64, i32, i32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_text_limits(handle, max_chars, max_lines);
-      },
-      ui_set_text_overflow_fade(handle, horizontal, vertical) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_overflow_fade(u64, bool, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        horizontal = horizontal != 0;
-        vertical = vertical != 0;
-        __module1.ui_set_text_overflow_fade(handle, horizontal, vertical);
       },
       ui_set_text_selection_range(handle, selection_start, selection_end) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_selection_range(u64, u32, u32) => void
@@ -715,41 +816,11 @@ async function instantiate(module, imports = {}) {
         selection_end = selection_end >>> 0;
         __module1.ui_set_text_selection_range(handle, selection_start, selection_end);
       },
-      ui_set_line_height(handle, line_height) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_line_height(u64, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_line_height(handle, line_height);
-      },
       ui_set_custom_drawable(handle, is_custom_drawable) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_custom_drawable(u64, bool) => void
         handle = BigInt.asUintN(64, handle);
         is_custom_drawable = is_custom_drawable != 0;
         __module1.ui_set_custom_drawable(handle, is_custom_drawable);
-      },
-      ui_set_text_style_runs(handle, run_count, runs_words) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
-        handle = BigInt.asUintN(64, handle);
-        run_count = run_count >>> 0;
-        runs_words = runs_words >>> 0;
-        __module1.ui_set_text_style_runs(handle, run_count, runs_words);
-      },
-      ui_set_text_obscured(handle, is_password) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_obscured(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        is_password = is_password != 0;
-        __module1.ui_set_text_obscured(handle, is_password);
-      },
-      ui_set_editor_command_keys(handle, enabled) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_editor_command_keys(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        enabled = enabled != 0;
-        __module1.ui_set_editor_command_keys(handle, enabled);
-      },
-      ui_set_editor_accepts_tab(handle, enabled) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_editor_accepts_tab(u64, bool) => void
-        handle = BigInt.asUintN(64, handle);
-        enabled = enabled != 0;
-        __module1.ui_set_editor_accepts_tab(handle, enabled);
       },
       ui_grid_set_columns(handle, count, values, types) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_columns(u64, u32, usize, usize) => void
@@ -939,6 +1010,11 @@ async function instantiate(module, imports = {}) {
       handle = handle || 0n;
       return exports.__fui_get_long_press_movement_tolerance(handle);
     },
+    __fui_long_press_continues_pointer_events(handle) {
+      // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_long_press_continues_pointer_events(u64) => bool
+      handle = handle || 0n;
+      return exports.__fui_long_press_continues_pointer_events(handle) != 0;
+    },
     __fui_on_gesture_event(handle, phase, kind, x, y, deltaX, deltaY, scale, pointerCount) {
       // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_gesture_event(u64, u32, u32, f32, f32, f32, f32, f32, i32) => bool
       handle = handle || 0n;
@@ -1092,6 +1168,7 @@ export const {
   __fui_get_gesture_intent,
   __fui_get_long_press_minimum_duration_ms,
   __fui_get_long_press_movement_tolerance,
+  __fui_long_press_continues_pointer_events,
   __fui_on_gesture_event,
   __fui_on_long_press_event,
   __fui_on_key_event,

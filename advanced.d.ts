@@ -209,6 +209,12 @@ export declare function __fui_get_long_press_minimum_duration_ms(handle: bigint)
  */
 export declare function __fui_get_long_press_movement_tolerance(handle: bigint): number;
 /**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_long_press_continues_pointer_events
+ * @param handle `u64`
+ * @returns `bool`
+ */
+export declare function __fui_long_press_continues_pointer_events(handle: bigint): boolean;
+/**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_gesture_event
  * @param handle `u64`
  * @param phase `u32`
