@@ -587,6 +587,13 @@ async function instantiate(module, imports = {}) {
         wrap_enum = wrap_enum >>> 0;
         __module1.ui_set_flex_wrap(handle, wrap_enum);
       },
+      ui_set_text_style_runs(handle, run_count, runs_words) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
+        handle = BigInt.asUintN(64, handle);
+        run_count = run_count >>> 0;
+        runs_words = runs_words >>> 0;
+        __module1.ui_set_text_style_runs(handle, run_count, runs_words);
+      },
       ui_set_min_width(handle, value, unit_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_width(u64, f32, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -812,13 +819,6 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         is_custom_drawable = is_custom_drawable != 0;
         __module1.ui_set_custom_drawable(handle, is_custom_drawable);
-      },
-      ui_set_text_style_runs(handle, run_count, runs_words) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
-        handle = BigInt.asUintN(64, handle);
-        run_count = run_count >>> 0;
-        runs_words = runs_words >>> 0;
-        __module1.ui_set_text_style_runs(handle, run_count, runs_words);
       },
       ui_set_text_obscured(handle, is_password) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_obscured(u64, bool) => void
@@ -1091,15 +1091,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord232(callback);
+      callback = __lowerRecord233(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord232(value) {
+  function __lowerRecord233(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 232));
+    const pointer = exports.__pin(exports.__new(0, 233));
     exports.__unpin(pointer);
     return pointer;
   }

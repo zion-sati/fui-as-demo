@@ -55,6 +55,10 @@ function onBrushU(event: PointerEventArgs): void {
   const p = demo.paintCanvas!;
   p.brushUp(event.x, event.y);
 }
+function onBrushC(event: PointerEventArgs): void {
+  const p = demo.paintCanvas!;
+  p.brushUp(event.x, event.y);
+}
 
 function onYarnD(event: PointerEventArgs): void {
   const yv = demo.yarn!;
@@ -68,7 +72,7 @@ function onYarnU(_event: PointerEventArgs): void {
   const yv = demo.yarn!;
   yv.pointerUp();
 }
-function onYarnL(_event: PointerEventArgs): void {
+function onYarnC(_event: PointerEventArgs): void {
   const yv = demo.yarn!;
   yv.pointerUp();
 }
@@ -105,9 +109,11 @@ class PaintCanvas extends CustomDrawable {
     this.onPointerDown(onBrushD);
     this.onPointerMove(onBrushM);
     this.onPointerUp(onBrushU);
+    this.onPointerCancel(onBrushC);
   }
 
   brushDown(x: f32, y: f32): void {
+    this.capturePointer();
     this.painting = true;
     this.brushAtLogical(x, y, 8.0, NEEDLE);
     this.bmp.clearDirtyRects();
@@ -125,6 +131,7 @@ class PaintCanvas extends CustomDrawable {
 
   brushUp(_x: f32, _y: f32): void {
     this.painting = false;
+    this.releasePointer();
   }
 
   setHintLabel(label: Text): void {
@@ -707,10 +714,11 @@ class DancingYarn extends CustomDrawable {
     this.onPointerDown(onYarnD);
     this.onPointerMove(onYarnM);
     this.onPointerUp(onYarnU);
-    this.onPointerLeave(onYarnL);
+    this.onPointerCancel(onYarnC);
   }
 
   pointerDown(x: f32, y: f32): void {
+    this.capturePointer();
     this.dragging = true;
     this.pointerX = x;
     this.pointerY = y;
@@ -728,6 +736,7 @@ class DancingYarn extends CustomDrawable {
 
   pointerUp(): void {
     this.dragging = false;
+    this.releasePointer();
     this.markDirty();
   }
 
@@ -829,20 +838,13 @@ function buildDrawingGallery(): Node {
     .flexWrap(FlexWrap.Wrap)
     .fillWidth()
     .children([
-      demo.gauge!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
-      demo.chart!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
-      demo.wave!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
-      demo.spark!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
-      demo.pie!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
-      demo.scatter!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
-      demo.yarn!.margin(0, 0, 0, 16),
-      new FlexBox().width(16).height(1),
+      demo.gauge!.margin(0, 0, 16, 16),
+      demo.chart!.margin(0, 0, 16, 16),
+      demo.wave!.margin(0, 0, 16, 16),
+      demo.spark!.margin(0, 0, 16, 16),
+      demo.pie!.margin(0, 0, 16, 16),
+      demo.scatter!.margin(0, 0, 16, 16),
+      demo.yarn!.margin(0, 0, 16, 16),
       demo.paintCanvas!.margin(0, 0, 0, 16),
     ]);
 }

@@ -49,6 +49,11 @@ async function instantiate(module, imports = {}) {
         outY = outY >>> 0;
         return __module0.fui_try_get_persisted_scroll_offset(nodeIdPtr, nodeIdLen, outX, outY) ? 1 : 0;
       },
+      fui_set_pointer_capture(handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_set_pointer_capture(u64) => void
+        handle = BigInt.asUintN(64, handle);
+        __module0.fui_set_pointer_capture(handle);
+      },
       fui_canvas_create_offscreen(width, height) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_canvas_create_offscreen(u32, u32) => u32
         width = width >>> 0;
@@ -111,11 +116,6 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_worker_cancel(u32) => void
         workerId = workerId >>> 0;
         __module0.fui_worker_cancel(workerId);
-      },
-      fui_set_pointer_capture(handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_set_pointer_capture(u64) => void
-        handle = BigInt.asUintN(64, handle);
-        __module0.fui_set_pointer_capture(handle);
       },
       fui_has_text_selection_snapshot(handle) {
         // ~lib/@effindomv2/fui-as/src/core/generated/HostAbi/fui_has_text_selection_snapshot(u64) => bool
@@ -393,6 +393,25 @@ async function instantiate(module, imports = {}) {
         enabled_y = enabled_y != 0;
         __module1.ui_set_scroll_enabled(handle, enabled_x, enabled_y);
       },
+      ui_set_text_color(handle, color) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_color(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        color = color >>> 0;
+        __module1.ui_set_text_color(handle, color);
+      },
+      ui_set_font(handle, font_id, size) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_font(u64, u32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        font_id = font_id >>> 0;
+        __module1.ui_set_font(handle, font_id, size);
+      },
+      ui_set_selectable(handle, selectable, selection_color) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_selectable(u64, bool, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        selectable = selectable != 0;
+        selection_color = selection_color >>> 0;
+        __module1.ui_set_selectable(handle, selectable, selection_color);
+      },
       ui_set_semantic_role(handle, role_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_semantic_role(u64, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -419,25 +438,6 @@ async function instantiate(module, imports = {}) {
         out_width = out_width >>> 0;
         out_height = out_height >>> 0;
         return __module1.ui_get_bounds(handle, out_x, out_y, out_width, out_height) ? 1 : 0;
-      },
-      ui_set_text_color(handle, color) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_color(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        color = color >>> 0;
-        __module1.ui_set_text_color(handle, color);
-      },
-      ui_set_font(handle, font_id, size) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_font(u64, u32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        font_id = font_id >>> 0;
-        __module1.ui_set_font(handle, font_id, size);
-      },
-      ui_set_selectable(handle, selectable, selection_color) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_selectable(u64, bool, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        selectable = selectable != 0;
-        selection_color = selection_color >>> 0;
-        __module1.ui_set_selectable(handle, selectable, selection_color);
       },
       ui_set_padding(handle, left, top, right, bottom) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_padding(u64, f32, f32, f32, f32) => void
@@ -1106,15 +1106,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord232(callback);
+      callback = __lowerRecord233(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord232(value) {
+  function __lowerRecord233(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 232));
+    const pointer = exports.__pin(exports.__new(0, 233));
     exports.__unpin(pointer);
     return pointer;
   }

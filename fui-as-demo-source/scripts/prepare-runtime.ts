@@ -27,10 +27,10 @@ function renderRuntimeConfig(): string {
   }
   const cdnManifestUrl = `https://runtimes.effindom.dev/v2/manifests/${manifest.runtime_set_hash}.json`;
   const entries = [
-    '  manifestUrl: "./runtime/dist/effindom.v2.manifest.json",',
     `  manifestUrls: ${JSON.stringify([cdnManifestUrl, "./runtime/dist/effindom.v2.manifest.json"])},`,
     `  expectedRuntimeSetHash: ${JSON.stringify(manifest.runtime_set_hash)},`,
     `  buildMode: ${JSON.stringify(buildMode)},`,
+    '  devToolsDomMirror: "on-requested",',
   ];
   return `window.__effindomRuntime = Object.assign({}, window.__effindomRuntime, {\n${entries.join("\n")}\n});\n`;
 }

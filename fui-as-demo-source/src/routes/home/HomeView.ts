@@ -10,9 +10,12 @@ import {
   FlexBox,
   FlexDirection,
   Image,
+  NavLink,
   ObjectFit,
   Orientation,
+  PlatformFamily,
   RadioGroup,
+  RichText,
   Row,
   ScrollBarVisibility,
   SelectionArea,
@@ -26,6 +29,8 @@ import {
   activeTheme,
   bindTheme,
   disposeAll,
+  getPlatformFamily,
+  span,
   } from "../../fui/Fui";
 import {
   createNavBar,
@@ -295,11 +300,23 @@ export class HomeView {
   }
 
   private createControlsSurfacePanel(): Panel {
+    const accessibilityDescription = new RichText([
+      span("Use keyboard Tab to navigate through the controls and inspect the semantic tree to explore accessibility features - FUI-AS is fully ARIA compliant out of the box. Press "),
+      span(HomeView.debugShortcutLabel()).bold(),
+      span(" to open the debug dialog when on-requested developer tools are enabled; apps can enable or disable this surface through runtime configuration."),
+    ])
+      .fontSize(14.0)
+      .fillWidth() as RichText;
+    this.trackTheme(bindTheme(accessibilityDescription, (text, theme): void => {
+      text.textColor(theme.colors.textMuted);
+    }));
+    accessibilityDescription.textColor(activeTheme.value.colors.textMuted);
+
     return new Panel()
       .children([
         new DemoText("Common Controls", DemoTextStyle.Heading3),
         VerticalSpacer(HEADING_TO_BODY_GAP_PX),
-        new DemoText("Use keyboard tab to navigate through the controls.  Also open the semantic tree to explore accessibility features - FUI-AS is fully ARIA compliant out of the box.", DemoTextStyle.BodySecondary),
+        accessibilityDescription,
         VerticalSpacer(HEADING_TO_BODY_GAP_PX),
         new DemoText("Dropdown", DemoTextStyle.Label),
         VerticalSpacer(LABEL_TO_CONTROL_GAP_PX),
@@ -429,6 +446,11 @@ export class HomeView {
       .child(new DemoText(model.title, DemoTextStyle.Heading2))
       .child(VerticalSpacer(TITLE_TO_SUPPORTING_GAP_PX))
       .child(new DemoText(model.subtitle, DemoTextStyle.BodySecondary))
+      .child(VerticalSpacer(HEADING_TO_BODY_TIGHT_GAP_PX))
+      .child(new NavLink(
+        "https://github.com/zion-sati/fui-as-demo",
+        "View the FUI-AS demo source code on GitHub",
+      ))
       .child(VerticalSpacer(PANEL_SECTION_GAP_PX))
       .child(this.elapsedText)
       .child(VerticalSpacer(HEADING_TO_BODY_GAP_PX))
@@ -651,6 +673,19 @@ export class HomeView {
       return "mixed";
     }
     return "unchecked";
+  }
+
+  private static debugShortcutLabel(): string {
+    switch (getPlatformFamily()) {
+      case PlatformFamily.Apple:
+        return "Cmd+Shift+F12";
+      case PlatformFamily.Windows:
+        return "Win+Shift+F12";
+      case PlatformFamily.Linux:
+        return "Super+Shift+F12";
+      default:
+        return "Meta+Shift+F12";
+    }
   }
 
   private static formatElapsedTime(totalSeconds: i32): string {

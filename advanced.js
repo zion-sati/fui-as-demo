@@ -227,6 +227,18 @@ async function instantiate(module, imports = {}) {
         fallback_font_id = fallback_font_id >>> 0;
         __module1.ui_register_font_fallback(font_id, fallback_font_id);
       },
+      ui_set_flex_direction(handle, dir_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_direction(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        dir_enum = dir_enum >>> 0;
+        __module1.ui_set_flex_direction(handle, dir_enum);
+      },
+      ui_set_justify_content(handle, justify_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_justify_content(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        justify_enum = justify_enum >>> 0;
+        __module1.ui_set_justify_content(handle, justify_enum);
+      },
       ui_set_width(handle, value, unit_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_width(u64, f32, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -340,12 +352,6 @@ async function instantiate(module, imports = {}) {
         fill = fill != 0;
         __module1.ui_set_fill_height(handle, fill);
       },
-      ui_set_flex_direction(handle, dir_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_direction(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        dir_enum = dir_enum >>> 0;
-        __module1.ui_set_flex_direction(handle, dir_enum);
-      },
       ui_node_remove_child(parent, child) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_node_remove_child(u64, u64) => void
         parent = BigInt.asUintN(64, parent);
@@ -390,20 +396,6 @@ async function instantiate(module, imports = {}) {
         enabled_y = enabled_y != 0;
         __module1.ui_set_scroll_enabled(handle, enabled_x, enabled_y);
       },
-      ui_set_position(handle, left, top, right, bottom) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_position(u64, f32, f32, f32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_position(handle, left, top, right, bottom);
-      },
-      ui_get_bounds(handle, out_x, out_y, out_width, out_height) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_get_bounds(u64, usize, usize, usize, usize) => bool
-        handle = BigInt.asUintN(64, handle);
-        out_x = out_x >>> 0;
-        out_y = out_y >>> 0;
-        out_width = out_width >>> 0;
-        out_height = out_height >>> 0;
-        return __module1.ui_get_bounds(handle, out_x, out_y, out_width, out_height) ? 1 : 0;
-      },
       ui_set_text_color(handle, color) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_color(u64, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -423,6 +415,20 @@ async function instantiate(module, imports = {}) {
         selection_color = selection_color >>> 0;
         __module1.ui_set_selectable(handle, selectable, selection_color);
       },
+      ui_set_position(handle, left, top, right, bottom) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_position(u64, f32, f32, f32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_position(handle, left, top, right, bottom);
+      },
+      ui_get_bounds(handle, out_x, out_y, out_width, out_height) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_get_bounds(u64, usize, usize, usize, usize) => bool
+        handle = BigInt.asUintN(64, handle);
+        out_x = out_x >>> 0;
+        out_y = out_y >>> 0;
+        out_width = out_width >>> 0;
+        out_height = out_height >>> 0;
+        return __module1.ui_get_bounds(handle, out_x, out_y, out_width, out_height) ? 1 : 0;
+      },
       ui_set_padding(handle, left, top, right, bottom) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_padding(u64, f32, f32, f32, f32) => void
         handle = BigInt.asUintN(64, handle);
@@ -438,12 +444,6 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width_percent(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_fill_width_percent(handle, percent);
-      },
-      ui_set_justify_content(handle, justify_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_justify_content(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        justify_enum = justify_enum >>> 0;
-        __module1.ui_set_justify_content(handle, justify_enum);
       },
       ui_set_flex_wrap(handle, wrap_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_wrap(u64, u32) => void
@@ -478,6 +478,12 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_content_size(u64, f32, f32) => void
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_scroll_content_size(handle, content_width, content_height);
+      },
+      ui_set_semantic_orientation(handle, orientation_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_semantic_orientation(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        orientation_enum = orientation_enum >>> 0;
+        __module1.ui_set_semantic_orientation(handle, orientation_enum);
       },
       ui_set_text_limits(handle, max_chars, max_lines) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_limits(u64, i32, i32) => void
@@ -624,12 +630,6 @@ async function instantiate(module, imports = {}) {
         has_expanded = has_expanded != 0;
         is_expanded = is_expanded != 0;
         __module1.ui_set_semantic_expanded(handle, has_expanded, is_expanded);
-      },
-      ui_set_semantic_orientation(handle, orientation_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_semantic_orientation(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        orientation_enum = orientation_enum >>> 0;
-        __module1.ui_set_semantic_orientation(handle, orientation_enum);
       },
       ui_set_is_portal(handle, is_portal) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_is_portal(u64, bool) => void
@@ -1059,15 +1059,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord232(callback);
+      callback = __lowerRecord233(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord232(value) {
+  function __lowerRecord233(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 232));
+    const pointer = exports.__pin(exports.__new(0, 233));
     exports.__unpin(pointer);
     return pointer;
   }
