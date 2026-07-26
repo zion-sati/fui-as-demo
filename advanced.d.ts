@@ -460,7 +460,7 @@ export declare function fui_dispatch_custom_draw(handle: bigint, canvasPtr: numb
  * src/host/generated/HostEvents/onAppClockTick
  * @param callback `~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null`
  */
-export declare function onAppClockTick(callback: __Record233<undefined> | null): void;
+export declare function onAppClockTick(callback: __Record234<undefined> | null): void;
 /**
  * src/host/generated/HostEvents/clearAppClockTick
  */
@@ -471,5 +471,5 @@ export declare function clearAppClockTick(): void;
  */
 export declare function __fui_host_event_appClockTick(arg0: number): void;
 /** ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> */
-declare interface __Record233<TOmittable> {
+declare interface __Record234<TOmittable> {
 }

@@ -1059,15 +1059,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord233(callback);
+      callback = __lowerRecord234(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord233(value) {
+  function __lowerRecord234(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 233));
+    const pointer = exports.__pin(exports.__new(0, 234));
     exports.__unpin(pointer);
     return pointer;
   }
