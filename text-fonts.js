@@ -933,6 +933,10 @@ async function instantiate(module, imports = {}) {
       focused = focused ? 1 : 0;
       exports.__fui_on_focus_changed(handle, focused);
     },
+    __fui_needs_animation_frame() {
+      // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_needs_animation_frame() => bool
+      return exports.__fui_needs_animation_frame() != 0;
+    },
     __fui_get_gesture_intent(handle) {
       // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_get_gesture_intent(u64) => u32
       handle = handle || 0n;
@@ -967,10 +971,11 @@ async function instantiate(module, imports = {}) {
       // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_key_event(u32, usize, u32, u32) => bool
       return exports.__fui_on_key_event(eventType, keyPtr, keyLen, modifiers) != 0;
     },
-    __fui_on_pointer_event_with_metadata(eventType, handle, x, y, modifiers, pointerId, pointerType, button, buttons, pressure, width, height, clickCount) {
-      // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_pointer_event_with_metadata(u32, u64, f32, f32, u32, i32, u32, i32, u32, f32, f32, f32, i32) => bool
+    __fui_on_pointer_event_with_metadata(eventType, handle, x, y, modifiers, pointerId, pointerType, button, buttons, pressure, width, height, clickCount, isPrimary, tangentialPressure, tiltX, tiltY, twist) {
+      // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_pointer_event_with_metadata(u32, u64, f32, f32, u32, i32, u32, i32, u32, f32, f32, f32, i32, bool, f32, f32, f32, f32) => bool
       handle = handle || 0n;
-      return exports.__fui_on_pointer_event_with_metadata(eventType, handle, x, y, modifiers, pointerId, pointerType, button, buttons, pressure, width, height, clickCount) != 0;
+      isPrimary = isPrimary ? 1 : 0;
+      return exports.__fui_on_pointer_event_with_metadata(eventType, handle, x, y, modifiers, pointerId, pointerType, button, buttons, pressure, width, height, clickCount, isPrimary, tangentialPressure, tiltX, tiltY, twist) != 0;
     },
     __fui_on_scroll(handle, offsetX, offsetY, contentWidth, contentHeight, viewportWidth, viewportHeight) {
       // ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_scroll(u64, f32, f32, f32, f32, f32, f32) => void
@@ -1044,15 +1049,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord234(callback);
+      callback = __lowerRecord210(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord234(value) {
+  function __lowerRecord210(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 234));
+    const pointer = exports.__pin(exports.__new(0, 210));
     exports.__unpin(pointer);
     return pointer;
   }
@@ -1103,6 +1108,7 @@ export const {
   __fui_on_cross_selection_changed,
   __fui_on_focus_changed,
   __fui_on_frame,
+  __fui_needs_animation_frame,
   __fui_get_gesture_intent,
   __fui_get_long_press_minimum_duration_ms,
   __fui_get_long_press_movement_tolerance,

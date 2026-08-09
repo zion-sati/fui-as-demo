@@ -191,6 +191,11 @@ export declare function __fui_on_focus_changed(handle: bigint, focused: boolean)
  */
 export declare function __fui_on_frame(timestampMs: number): void;
 /**
+ * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_needs_animation_frame
+ * @returns `bool`
+ */
+export declare function __fui_needs_animation_frame(): boolean;
+/**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_get_gesture_intent
  * @param handle `u64`
  * @returns `u32`
@@ -264,9 +269,14 @@ export declare function __fui_on_key_event(eventType: number, keyPtr: number, ke
  * @param width `f32`
  * @param height `f32`
  * @param clickCount `i32`
+ * @param isPrimary `bool`
+ * @param tangentialPressure `f32`
+ * @param tiltX `f32`
+ * @param tiltY `f32`
+ * @param twist `f32`
  * @returns `bool`
  */
-export declare function __fui_on_pointer_event_with_metadata(eventType: number, handle: bigint, x: number, y: number, modifiers: number, pointerId: number, pointerType: number, button: number, buttons: number, pressure: number, width: number, height: number, clickCount: number): boolean;
+export declare function __fui_on_pointer_event_with_metadata(eventType: number, handle: bigint, x: number, y: number, modifiers: number, pointerId: number, pointerType: number, button: number, buttons: number, pressure: number, width: number, height: number, clickCount: number, isPrimary: boolean, tangentialPressure: number, tiltX: number, tiltY: number, twist: number): boolean;
 /**
  * ~lib/@effindomv2/fui-as/src/core/event_exports/__fui_on_route_changed
  * @param routePtr `usize`
@@ -460,7 +470,7 @@ export declare function fui_dispatch_custom_draw(handle: bigint, canvasPtr: numb
  * src/host/generated/HostEvents/onAppClockTick
  * @param callback `~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null`
  */
-export declare function onAppClockTick(callback: __Record234<undefined> | null): void;
+export declare function onAppClockTick(callback: __Record210<undefined> | null): void;
 /**
  * src/host/generated/HostEvents/clearAppClockTick
  */
@@ -471,5 +481,5 @@ export declare function clearAppClockTick(): void;
  */
 export declare function __fui_host_event_appClockTick(arg0: number): void;
 /** ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> */
-declare interface __Record234<TOmittable> {
+declare interface __Record210<TOmittable> {
 }

@@ -10,7 +10,6 @@ import {
   FlexBox,
   FlexDirection,
   Image,
-  NavLink,
   ObjectFit,
   Orientation,
   PlatformFamily,
@@ -37,6 +36,7 @@ import {
   DemoCheckbox,
   DemoDialog,
   DemoDropdown,
+  DemoNavLink,
   DemoRadioButton,
   DemoRadioGroup,
   DemoScrollBox,
@@ -447,7 +447,7 @@ export class HomeView {
       .child(VerticalSpacer(TITLE_TO_SUPPORTING_GAP_PX))
       .child(new DemoText(model.subtitle, DemoTextStyle.BodySecondary))
       .child(VerticalSpacer(HEADING_TO_BODY_TIGHT_GAP_PX))
-      .child(new NavLink(
+      .child(new DemoNavLink(
         "https://github.com/zion-sati/fui-as-demo",
         "View the FUI-AS demo source code on GitHub",
       ))

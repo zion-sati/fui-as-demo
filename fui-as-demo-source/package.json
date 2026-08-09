@@ -1,9 +1,9 @@
 {
-  "name": "fui-as-demo",
+  "name": "tmp-fui-demo-refresh-v2.t6fxhj-fui-as-demo",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "EffinDom FUI-AS public demo",
+  "description": "Scaffolded FUI-AS routed app",
   "scripts": {
     "build": "npm run generate:host && npm run build:assets -- --build-mode debug && npm run build:wasm && npm run build:wasm:workers && npm run build:harness && npm run build:worker-bootstrap && npm run build:worker-host-services",
     "build:dev": "npm run generate:host && npm run build:assets -- --build-mode debug && npm run build:wasm:dev && npm run build:wasm:workers:dev && npm run build:harness && npm run build:worker-bootstrap && npm run build:worker-host-services",
@@ -15,8 +15,8 @@
     "build:harness": "esbuild harness.ts --bundle --format=esm --platform=browser --outfile=public/harness.js",
     "build:worker-host-services": "esbuild worker-host-services.ts --bundle --format=esm --platform=browser --outfile=public/worker-host-services.js",
     "build:worker-bootstrap": "esbuild @effindomv2/runtime/worker-bootstrap --bundle --format=iife --platform=browser --outfile=public/worker-bootstrap.js",
-    "build:wasm:workers:dev": "tsx scripts/build-worker-wasm.ts --all --target debug",
     "build:wasm:workers": "tsx scripts/build-worker-wasm.ts --all --target release",
+    "build:wasm:workers:dev": "tsx scripts/build-worker-wasm.ts --all --target debug",
     "build:wasm:workers:publish": "tsx scripts/build-worker-wasm.ts --all --target release --publish",
     "generate:host-services": "tsx ./node_modules/@effindomv2/fui-as/scripts/generate-host-services.ts src/host/host-services.ts appHostServices src/host/generated/HostServices.ts ../../fui/FuiPrimitives",
     "generate:host-events": "tsx ./node_modules/@effindomv2/fui-as/scripts/generate-host-events.ts src/host/host-events.ts appHostEvents src/host/generated/HostEvents.ts ../../fui/FuiPrimitives",
@@ -25,21 +25,21 @@
     "generate:all": "npm run generate:host && npm run generate:worker-host-services",
     "publish:stage": "tsx scripts/stage-publish.ts",
     "watch": "chokidar \"src/**/*.ts\" \"harness.ts\" \"route-shell.html\" \"index.html\" \"asconfig.json\" --ignore \"src/host/generated/**\" -c \"npm run build:dev\"",
-    "serve": "serve public --listen 8080",
+    "serve": "sirv public --dev --host 0.0.0.0 --port 8080",
     "dev": "npm run build:dev && concurrently -k -n watch,serve \"npm run watch\" \"npm run serve\"",
     "test": "npm run build && tsx scripts/smoke.ts"
   },
   "dependencies": {
-    "@devcycle/assemblyscript-json": "^2.0.0",
-    "@effindomv2/fui-as": "0.2.0",
-    "@effindomv2/runtime": "0.2.2"
+    "@effindomv2/fui-as": "0.2.6",
+    "@effindomv2/runtime": "0.2.14"
   },
   "devDependencies": {
+    "@devcycle/assemblyscript-json": "^2.0.0",
     "assemblyscript": "0.28.19",
     "chokidar-cli": "^3.0.0",
     "concurrently": "9.2.4",
     "esbuild": "0.28.1",
-    "serve": "^14.2.5",
+    "sirv-cli": "3.0.1",
     "tsx": "^4.20.6"
   },
   "allowScripts": {

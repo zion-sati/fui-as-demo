@@ -3,6 +3,7 @@ export * from "./DemoButton";
 export * from "./DemoCheckbox";
 export * from "./DemoDialog";
 export * from "./DemoDropdown";
+export * from "./DemoNavLink";
 export * from "./DemoRadioButton";
 export * from "./DemoRadioGroup";
 export * from "./DemoRowBackground";

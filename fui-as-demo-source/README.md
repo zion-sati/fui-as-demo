@@ -66,6 +66,10 @@ Each route builds to its own WASM module (`home.wasm`, `settings.wasm`).
 Routes can be deployed and updated independently — they share the same cached
 runtime but each route's app payload is just its own business logic.
 
+Debug builds default the DevTools DOM Mirror to on-requested. Release builds
+default it to disabled. Override `window.__effindomRuntime.devToolsDomMirror`
+before the bridge loads if you want different behavior.
+
 ---
 
 ## Shipping assets (fonts, images)

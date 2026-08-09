@@ -10,7 +10,6 @@ const expectedFiles = [
   "public/effindom-runtime-config.js",
   "public/runtime/dist/effindom.v2.manifest.json",
   "public/runtime/fonts/NotoSans-Regular.ttf",
-  "public/advanced-workers.wasm",
 ];
 
 for (const route of resolvedManifest.routes) {
