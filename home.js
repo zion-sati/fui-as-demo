@@ -713,6 +713,22 @@ async function instantiate(module, imports = {}) {
         is_scope = is_scope != 0;
         __module1.ui_set_is_shared_size_scope(handle, is_scope);
       },
+      ui_grid_set_columns(handle, count, values, types) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_columns(u64, u32, usize, usize) => void
+        handle = BigInt.asUintN(64, handle);
+        count = count >>> 0;
+        values = values >>> 0;
+        types = types >>> 0;
+        __module1.ui_grid_set_columns(handle, count, values, types);
+      },
+      ui_grid_set_rows(handle, count, values, types) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_rows(u64, u32, usize, usize) => void
+        handle = BigInt.asUintN(64, handle);
+        count = count >>> 0;
+        values = values >>> 0;
+        types = types >>> 0;
+        __module1.ui_grid_set_rows(handle, count, values, types);
+      },
       ui_grid_set_column_shared_size_group(handle, index, utf8_group, len) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_column_shared_size_group(u64, u32, usize, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -720,6 +736,15 @@ async function instantiate(module, imports = {}) {
         utf8_group = utf8_group >>> 0;
         len = len >>> 0;
         __module1.ui_grid_set_column_shared_size_group(handle, index, utf8_group, len);
+      },
+      ui_node_set_grid_placement(child, row, col, row_span, col_span) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_node_set_grid_placement(u64, u32, u32, u32, u32) => void
+        child = BigInt.asUintN(64, child);
+        row = row >>> 0;
+        col = col >>> 0;
+        row_span = row_span >>> 0;
+        col_span = col_span >>> 0;
+        __module1.ui_node_set_grid_placement(child, row, col, row_span, col_span);
       },
       ui_set_text_align(handle, align_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_align(u64, u32) => void
@@ -838,22 +863,6 @@ async function instantiate(module, imports = {}) {
         enabled = enabled != 0;
         __module1.ui_set_editor_accepts_tab(handle, enabled);
       },
-      ui_grid_set_columns(handle, count, values, types) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_columns(u64, u32, usize, usize) => void
-        handle = BigInt.asUintN(64, handle);
-        count = count >>> 0;
-        values = values >>> 0;
-        types = types >>> 0;
-        __module1.ui_grid_set_columns(handle, count, values, types);
-      },
-      ui_grid_set_rows(handle, count, values, types) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_rows(u64, u32, usize, usize) => void
-        handle = BigInt.asUintN(64, handle);
-        count = count >>> 0;
-        values = values >>> 0;
-        types = types >>> 0;
-        __module1.ui_grid_set_rows(handle, count, values, types);
-      },
       ui_grid_set_row_shared_size_group(handle, index, utf8_group, len) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_row_shared_size_group(u64, u32, usize, u32) => void
         handle = BigInt.asUintN(64, handle);
@@ -861,15 +870,6 @@ async function instantiate(module, imports = {}) {
         utf8_group = utf8_group >>> 0;
         len = len >>> 0;
         __module1.ui_grid_set_row_shared_size_group(handle, index, utf8_group, len);
-      },
-      ui_node_set_grid_placement(child, row, col, row_span, col_span) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_node_set_grid_placement(u64, u32, u32, u32, u32) => void
-        child = BigInt.asUintN(64, child);
-        row = row >>> 0;
-        col = col >>> 0;
-        row_span = row_span >>> 0;
-        col_span = col_span >>> 0;
-        __module1.ui_node_set_grid_placement(child, row, col, row_span, col_span);
       },
       ui_set_selection_area_barrier(handle, is_barrier) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_selection_area_barrier(u64, bool) => void
