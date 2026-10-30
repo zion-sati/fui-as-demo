@@ -576,10 +576,12 @@ async function instantiate(module, imports = {}) {
         len = len >>> 0;
         __module1.ui_set_node_id(handle, utf8_id, len);
       },
-      ui_set_fill_width_percent(handle, percent) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width_percent(u64, f32) => void
+      ui_set_text_style_runs(handle, run_count, runs_words) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
         handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_fill_width_percent(handle, percent);
+        run_count = run_count >>> 0;
+        runs_words = runs_words >>> 0;
+        __module1.ui_set_text_style_runs(handle, run_count, runs_words);
       },
       ui_set_flex_wrap(handle, wrap_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_wrap(u64, u32) => void
@@ -587,12 +589,10 @@ async function instantiate(module, imports = {}) {
         wrap_enum = wrap_enum >>> 0;
         __module1.ui_set_flex_wrap(handle, wrap_enum);
       },
-      ui_set_text_style_runs(handle, run_count, runs_words) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
+      ui_set_fill_width_percent(handle, percent) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width_percent(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
-        run_count = run_count >>> 0;
-        runs_words = runs_words >>> 0;
-        __module1.ui_set_text_style_runs(handle, run_count, runs_words);
+        __module1.ui_set_fill_width_percent(handle, percent);
       },
       ui_set_min_width(handle, value, unit_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_width(u64, f32, u32) => void

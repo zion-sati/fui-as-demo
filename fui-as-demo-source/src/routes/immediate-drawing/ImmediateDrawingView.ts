@@ -31,7 +31,7 @@ import {
 import { HandlerAction,
   Signal,
   scheduleTimer } from "@effindomv2/fui-as/src/Fui";
-import { createNavBar,
+import { PageShell,
   DemoScrollBox,
   DemoText,
   DemoTextStyle,
@@ -856,19 +856,7 @@ export class ImmediateDrawingView {
   private themeBindingDisposed: bool = false;
 
   constructor() {
-    const content = new DemoScrollBox("immediate-drawing-scroll")
-      .fillSize()
-      .child(
-        Column(
-          createNavBar("Immediate Drawing - FUI-AS Demo", "immediate-drawing"),
-          VerticalSpacer(PAGE_SECTION_GAP_PX),
-          this.createMainPanel(),
-        )
-          .minWidth(800.0, Unit.Pixel)
-          .minHeight(600.0, Unit.Pixel)
-          .fillSize()
-          .padding(24.0, 24.0, 24.0, 24.0),
-      );
+    const content = new PageShell("Immediate Drawing - FUI-AS Demo", "immediate-drawing", this.createMainPanel(), "immediate-drawing-scroll");
 
     this.root = new SelectionArea()
       .fillSize()
@@ -903,6 +891,7 @@ export class ImmediateDrawingView {
         ),
         VerticalSpacer(PAGE_SECTION_GAP_PX),
         new DemoScrollBox("immediate-drawing-content-scroll")
+          .fitWidthWhenCompact()
           .fillSize()
           .child(
             new Panel()

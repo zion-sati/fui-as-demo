@@ -1,6 +1,7 @@
 import {
   Column,
   Disposable,
+  FlexWrap,
   Form,
   Grid,
   GridUnit,
@@ -24,7 +25,7 @@ import {
   DemoRadioGroup,
   DemoRadioButton,
   DemoDropdown,
-  createNavBar,
+  PageShell,
   Panel,
   HEADING_TO_BODY_GAP_PX,
   HorizontalSpacer,
@@ -170,22 +171,7 @@ export class TextFontsView {
   );
 
   constructor(model: TextFontsModel) {
-    const content = new DemoScrollBox("mainScrollBox").child(
-      Column(
-        createNavBar("Text & Fonts - FUI-AS Demo \u{1FAF6}", "text-fonts"),
-        VerticalSpacer(PAGE_SECTION_GAP_PX),
-        this.createMainPanel(model),
-      )
-        .fillSize()
-        .minWidth(800.0, Unit.Pixel)
-        .minHeight(600.0, Unit.Pixel)
-        .padding(24.0, 24.0, 24.0, 24.0)
-    )
-      .scrollEnabledX(true)
-      .scrollEnabledY(true)
-      .horizontalScrollbarVisibility(ScrollBarVisibility.Auto)
-      .verticalScrollbarVisibility(ScrollBarVisibility.Auto)
-      .fillSize();
+    const content = new PageShell("Text & Fonts - FUI-AS Demo \u{1FAF6}", "text-fonts", this.createMainPanel(model));
 
     this.root = new SelectionArea()
       .fillSize()
@@ -236,7 +222,8 @@ export class TextFontsView {
               .textAlign(TextAlign.Right),
             2, 0)
           .placeChild(this.passwordTextInput, 2, 1)
-          .width(500.0, Unit.Pixel),
+          .width(500.0, Unit.Pixel)
+          .maxWidth(100.0, Unit.Percent),
         VerticalSpacer(14.0),
         Row(
           this.signInButton,
@@ -257,6 +244,7 @@ export class TextFontsView {
         new DemoText(model.description, DemoTextStyle.BodySecondary),
         VerticalSpacer(PAGE_SECTION_GAP_PX),
         new DemoScrollBox("AdvancedControlsScrollBox")
+          .fitWidthWhenCompact()
           .fillSize()
           .children([
             new Panel().children([
@@ -302,7 +290,7 @@ export class TextFontsView {
                   VerticalSpacer(12.0),
                   this.visibilityDropdown,
                 ),
-              ),
+              ).flexWrap(FlexWrap.Wrap),
               VerticalSpacer(14.0),
               this.focusStatusText,
               VerticalSpacer(6.0),
@@ -321,7 +309,8 @@ export class TextFontsView {
               this.richText.hintText,
               VerticalSpacer(PAGE_SECTION_GAP_PX),
             ])
-              .width(800.0, Unit.Pixel),
+              .width(800.0, Unit.Pixel)
+              .maxWidth(100.0, Unit.Percent),
             new Panel().children([
               new DemoText("App-authored Custom Fonts", DemoTextStyle.Heading3),
               VerticalSpacer(TITLE_TO_SUPPORTING_GAP_PX),
@@ -334,6 +323,7 @@ export class TextFontsView {
               this.customFont.comparisonText,
             ])
               .width(800.0, Unit.Pixel)
+              .maxWidth(100.0, Unit.Percent)
           ])
           .fillWidth(),
       ])

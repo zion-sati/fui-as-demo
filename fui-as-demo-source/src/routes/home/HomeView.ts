@@ -9,6 +9,7 @@ import {
   DropdownItem,
   FlexBox,
   FlexDirection,
+  FlexWrap,
   Image,
   ObjectFit,
   Orientation,
@@ -30,9 +31,9 @@ import {
   disposeAll,
   getPlatformFamily,
   span,
+  viewportWidthSignal,
   } from "../../fui/Fui";
 import {
-  createNavBar,
   DemoCheckbox,
   DemoDialog,
   DemoDropdown,
@@ -51,16 +52,26 @@ import {
   MICRO_STACK_GAP_PX,
   PAGE_SECTION_GAP_PX,
   PANEL_SECTION_GAP_PX,
+  PageShell,
   TITLE_TO_SUPPORTING_GAP_PX,
   VerticalSpacer,
   Panel,
   applyRowBackground,
+  isCompactLayout,
   PrimaryButton,
 } from "../shared/design-system";
 import { changeColorAlpha } from "../shared/ColorUtils";
 import { HomeModel } from "./HomeModel";
 
+// In the compact layout the list sits above the showcase at this height.
+const COMPACT_LIST_PANEL_HEIGHT_PX: f32 = 320.0;
+// Tall enough for the showcase under the list to keep a usable height of its own; the page scrolls.
+const COMPACT_PAGE_MIN_HEIGHT_PX: f32 = 1240.0;
+
 export class HomeView {
+  private listPanel!: Panel;
+  private columnGap!: FlexBox;
+  private columns!: FlexBox;
   readonly actionButton: PrimaryButton;
   readonly foundationsToggleButton: PrimaryButton;
   readonly foundationsScopedButton: PrimaryButton;
@@ -346,7 +357,7 @@ export class HomeView {
             .child(new DemoText("Vertical", DemoTextStyle.BodySecondary))
             .child(VerticalSpacer(MICRO_STACK_GAP_PX))
             .child(this.verticalSlider),
-        ).alignItems(AlignItems.Stretch),
+        ).alignItems(AlignItems.Stretch).flexWrap(FlexWrap.Wrap),
         VerticalSpacer(PAGE_SECTION_GAP_PX),
       ])
       .width(0.0, Unit.Auto) as Panel;
@@ -420,6 +431,7 @@ export class HomeView {
 
   private createControlsScrollBox(): DemoScrollBox {
     return new DemoScrollBox("ControlsScrollBox")
+      .fitWidthWhenCompact()
       .fillSize()
       .child(this.createControlsSurfacePanel())
       .child(VerticalSpacer(PANEL_SECTION_GAP_PX))
@@ -462,29 +474,30 @@ export class HomeView {
       .fillSize() as Panel;
   }
 
-  private createContentLayout(model: HomeModel): FlexBox {
-    return new DemoScrollBox("mainScrollBox").child(
-      Column(
-        createNavBar("Home Page - FUI-AS Demo ✌🏼", "home"),
-        VerticalSpacer(PAGE_SECTION_GAP_PX),
-        Row(
-          this.createVirtualListPanel(),
-          HorizontalSpacer(24.0),
-          this.createMainPanel(model),
-        )
-          .alignItems(AlignItems.Stretch)
-          .fillHeight(),
-      )
-        .minWidth(800.0, Unit.Pixel)
-        .minHeight(600.0, Unit.Pixel)
-        .fillSize()
-        .padding(24.0, 24.0, 24.0, 24.0) as FlexBox
-    )
-      .scrollEnabledX(true)
-      .scrollEnabledY(true)
-      .horizontalScrollbarVisibility(ScrollBarVisibility.Auto)
-      .verticalScrollbarVisibility(ScrollBarVisibility.Auto)
-      .fillSize();
+  private createContentLayout(model: HomeModel): PageShell {
+    this.listPanel = this.createVirtualListPanel();
+    this.columnGap = HorizontalSpacer(24.0);
+    this.columns = Row(this.listPanel, this.columnGap, this.createMainPanel(model))
+      .alignItems(AlignItems.Stretch)
+      .fillHeight() as FlexBox;
+    this.trackTheme(viewportWidthSignal.bind(this, (view, _width): void => {
+      view.applyColumnLayout();
+    }));
+    this.applyColumnLayout();
+    return new PageShell("Home Page - FUI-AS Demo ✌🏼", "home", this.columns, "mainScrollBox", COMPACT_PAGE_MIN_HEIGHT_PX);
+  }
+
+  /** The list beside the showcase, or above it in the compact layout. */
+  private applyColumnLayout(): void {
+    const compact = isCompactLayout();
+    this.columns.flexDirection(compact ? FlexDirection.Column : FlexDirection.Row);
+    if (compact) {
+      this.listPanel.fillWidth().height(COMPACT_LIST_PANEL_HEIGHT_PX, Unit.Pixel);
+      this.columnGap.width(0.0, Unit.Pixel).height(12.0, Unit.Pixel);
+    } else {
+      this.listPanel.width(250.0, Unit.Pixel).fillHeight();
+      this.columnGap.width(24.0, Unit.Pixel).height(0.0, Unit.Auto);
+    }
   }
 
   private static ensureListItemTemplate(container: FlexBox): void {

@@ -474,6 +474,12 @@ async function instantiate(module, imports = {}) {
         len = len >>> 0;
         __module1.ui_set_node_id(handle, utf8_id, len);
       },
+      ui_set_flex_wrap(handle, wrap_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_wrap(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        wrap_enum = wrap_enum >>> 0;
+        __module1.ui_set_flex_wrap(handle, wrap_enum);
+      },
       ui_set_fill_width_percent(handle, percent) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width_percent(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
@@ -485,11 +491,28 @@ async function instantiate(module, imports = {}) {
         justify_enum = justify_enum >>> 0;
         __module1.ui_set_justify_content(handle, justify_enum);
       },
-      ui_set_flex_wrap(handle, wrap_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_wrap(u64, u32) => void
+      ui_set_margin(handle, left, top, right, bottom) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
         handle = BigInt.asUintN(64, handle);
-        wrap_enum = wrap_enum >>> 0;
-        __module1.ui_set_flex_wrap(handle, wrap_enum);
+        __module1.ui_set_margin(handle, left, top, right, bottom);
+      },
+      ui_set_scroll_proxy_target(handle, scroll_handle) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_proxy_target(u64, u64) => void
+        handle = BigInt.asUintN(64, handle);
+        scroll_handle = BigInt.asUintN(64, scroll_handle);
+        __module1.ui_set_scroll_proxy_target(handle, scroll_handle);
+      },
+      ui_set_min_width(handle, value, unit_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_width(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit_enum = unit_enum >>> 0;
+        __module1.ui_set_min_width(handle, value, unit_enum);
+      },
+      ui_set_min_height(handle, value, unit_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_height(u64, f32, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        unit_enum = unit_enum >>> 0;
+        __module1.ui_set_min_height(handle, value, unit_enum);
       },
       ui_grid_set_columns(handle, count, values, types) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_grid_set_columns(u64, u32, usize, usize) => void
@@ -522,28 +545,11 @@ async function instantiate(module, imports = {}) {
         col_span = col_span >>> 0;
         __module1.ui_node_set_grid_placement(child, row, col, row_span, col_span);
       },
-      ui_set_margin(handle, left, top, right, bottom) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_margin(handle, left, top, right, bottom);
-      },
-      ui_set_min_width(handle, value, unit_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_width(u64, f32, u32) => void
+      ui_set_max_width(handle, value, unit_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_max_width(u64, f32, u32) => void
         handle = BigInt.asUintN(64, handle);
         unit_enum = unit_enum >>> 0;
-        __module1.ui_set_min_width(handle, value, unit_enum);
-      },
-      ui_set_min_height(handle, value, unit_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_min_height(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit_enum = unit_enum >>> 0;
-        __module1.ui_set_min_height(handle, value, unit_enum);
-      },
-      ui_set_scroll_proxy_target(handle, scroll_handle) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_proxy_target(u64, u64) => void
-        handle = BigInt.asUintN(64, handle);
-        scroll_handle = BigInt.asUintN(64, scroll_handle);
-        __module1.ui_set_scroll_proxy_target(handle, scroll_handle);
+        __module1.ui_set_max_width(handle, value, unit_enum);
       },
       ui_set_text_style_runs(handle, run_count, runs_words) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_text_style_runs(u64, u32, usize) => void
@@ -709,12 +715,6 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_height_percent(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_fill_height_percent(handle, percent);
-      },
-      ui_set_max_width(handle, value, unit_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_max_width(u64, f32, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        unit_enum = unit_enum >>> 0;
-        __module1.ui_set_max_width(handle, value, unit_enum);
       },
       ui_set_max_height(handle, value, unit_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_max_height(u64, f32, u32) => void

@@ -15,6 +15,8 @@ export * from "./DemoTextInput";
 export * from "./DemoVirtualList";
 export * from "./NavBar";
 export * from "./NavPill";
+export * from "./PageShell";
 export * from "./Panel";
 export * from "./PrimaryButton";
+export * from "./Responsive";
 export * from "./Spacers";

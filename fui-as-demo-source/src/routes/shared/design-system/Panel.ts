@@ -1,4 +1,5 @@
-import { AlignItems, Disposable, FlexDirection, Theme, activeTheme, bindTheme, disposeAll } from "@effindomv2/fui-as/src/Fui";
+import { AlignItems, Disposable, FlexDirection, Theme, activeTheme, bindTheme, disposeAll, viewportWidthSignal } from "@effindomv2/fui-as/src/Fui";
+import { isCompactLayout } from "./Responsive";
 import { FlexBox } from "@effindomv2/fui-as/src/nodes";
 
 export class Panel extends FlexBox {
@@ -9,14 +10,24 @@ export class Panel extends FlexBox {
     super();
     this.flexDirection(FlexDirection.Column)
       .alignItems(AlignItems.Start)
-      .padding(24.0, 24.0, 24.0, 24.0)
-      .margin(12.0, 12.0, 12.0, 12.0)
       .cornerRadius(16.0);
+    this.trackTheme(viewportWidthSignal.bind(this, (panel, _width): void => {
+      panel.applySpacing();
+    }));
+    this.applySpacing();
 
     this.trackTheme(bindTheme(this, (panel, theme): void => {
       panel.applyTheme(theme);
     }));
     this.applyTheme(activeTheme.value);
+  }
+
+  /** Nested panels keep less of a phone's width for their own spacing in the compact layout. */
+  private applySpacing(): void {
+    const compact = isCompactLayout();
+    const padding: f32 = compact ? 14.0 : 24.0;
+    const margin: f32 = compact ? 6.0 : 12.0;
+    this.padding(padding, padding, padding, padding).margin(margin, margin, margin, margin);
   }
 
   private applyTheme(theme: Theme): void {

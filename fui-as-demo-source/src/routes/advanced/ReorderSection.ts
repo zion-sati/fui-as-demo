@@ -332,7 +332,7 @@ export class ReorderSection {
       this.viewportStatusText,
       verticalSpacer(10.0),
       this.hintText,
-    ).width(600.0, Unit.Pixel) as FlexBox;
+    ).width(600.0, Unit.Pixel).maxWidth(100.0, Unit.Percent) as FlexBox;
 
     this.sectionRoot = new FlexBox()
       .fillWidth()

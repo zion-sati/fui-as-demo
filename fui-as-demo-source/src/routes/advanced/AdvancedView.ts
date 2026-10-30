@@ -21,6 +21,7 @@ import {
   FileWorkerProcessRequest,
   FileWorkerProcessResult,
   FlexBox,
+  FlexWrap,
   NodeTransitions,
   ProgressBar,
   Row,
@@ -41,7 +42,7 @@ import {
   DemoButton,
   DemoButtonTone,
   DemoScrollBox,
-  createNavBar,
+  PageShell,
   Panel,
   HEADING_TO_BODY_GAP_PX,
   HorizontalSpacer,
@@ -72,22 +73,7 @@ export class AdvancedView {
   readonly reorder: ReorderSection = new ReorderSection();
 
   constructor(model: AdvancedModel) {
-    const content = new DemoScrollBox("mainScrollBox").child(
-      Column(
-        createNavBar("Advanced - FUI-AS Demo", "advanced"),
-        VerticalSpacer(PAGE_SECTION_GAP_PX),
-        this.createMainPanel(model),
-      )
-        .minWidth(800.0, Unit.Pixel)
-        .minHeight(600.0, Unit.Pixel)
-        .fillSize()
-        .padding(24.0, 24.0, 24.0, 24.0)
-    )
-      .scrollEnabledX(true)
-      .scrollEnabledY(true)
-      .horizontalScrollbarVisibility(ScrollBarVisibility.Auto)
-      .verticalScrollbarVisibility(ScrollBarVisibility.Auto)
-      .fillSize();
+    const content = new PageShell("Advanced - FUI-AS Demo", "advanced", this.createMainPanel(model));
 
     this.root = new SelectionArea()
       .fillSize()
@@ -168,6 +154,7 @@ export class AdvancedView {
         new DemoText(model.description, DemoTextStyle.BodySecondary),
         VerticalSpacer(PAGE_SECTION_GAP_PX),
         new DemoScrollBox("AdvancedScrollBox")
+          .fitWidthWhenCompact()
           .fillSize()
           .children([
             new Panel().children([
@@ -182,6 +169,7 @@ export class AdvancedView {
                 this.animation.previewEmphasisButton,
               )
                 .fillWidth()
+                .flexWrap(FlexWrap.Wrap)
                 .alignItems(AlignItems.Stretch),
               VerticalSpacer(14.0),
               this.animation.previewStatusText,
@@ -191,7 +179,7 @@ export class AdvancedView {
               // -- Scroll Surfaces --
               new DemoText("Scroll Surfaces", DemoTextStyle.Heading3),
               VerticalSpacer(TITLE_TO_SUPPORTING_GAP_PX),
-              new Panel().child(this.animation.scrollBox.width(700.0, Unit.Pixel)),
+              new Panel().child(this.animation.scrollBox.width(700.0, Unit.Pixel).maxWidth(100.0, Unit.Percent)),
               VerticalSpacer(14.0),
               Row(
                 this.animation.scrollTopButton,
@@ -201,11 +189,12 @@ export class AdvancedView {
                 this.animation.scrollBottomButton,
               )
                 .fillWidth()
+                .flexWrap(FlexWrap.Wrap)
                 .alignItems(AlignItems.Stretch),
               VerticalSpacer(10.0),
               Row(
                 this.animation.scrollTailButton,
-              ).fillWidth(),
+              ).fillWidth().flexWrap(FlexWrap.Wrap),
               VerticalSpacer(10.0),
               this.animation.scrollStatusText,
               VerticalSpacer(10.0),
@@ -225,6 +214,7 @@ export class AdvancedView {
                 this.worker.cancelButton,
               )
                 .fillWidth()
+                .flexWrap(FlexWrap.Wrap)
                 .alignItems(AlignItems.Stretch),
               VerticalSpacer(10.0),
               this.worker.statusText,
@@ -244,7 +234,7 @@ export class AdvancedView {
                 this.fetch.getButton,
                 HorizontalSpacer(12.0),
                 this.fetch.postButton,
-              ).fillWidth(),
+              ).fillWidth().flexWrap(FlexWrap.Wrap),
               VerticalSpacer(12.0),
               this.fetch.statusText,
               VerticalSpacer(6.0),
