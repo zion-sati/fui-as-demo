@@ -35,12 +35,16 @@ function isPrime(value: i32): bool {
   if ((value & 1) == 0) {
     return false;
   }
+  // One division per step: the remainder is zero exactly when the quotient times the divisor gives the value back,
+  // so the quotient serves both the bound and the test.
   let divisor: i32 = 3;
-  while (divisor <= value / divisor) {
-    if (value % divisor == 0) {
+  let quotient: i32 = value / divisor;
+  while (divisor <= quotient) {
+    if (quotient * divisor == value) {
       return false;
     }
     divisor += 2;
+    quotient = value / divisor;
   }
   return true;
 }

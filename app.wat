@@ -6978,7 +6978,8 @@
   (local $1 f64)
   (local $2 i32)
   (local $3 i32)
-  (local $4 f64)
+  (local $4 i32)
+  (local $5 f64)
   global.get $~lib/memory/__stack_pointer
   i32.const 16
   i32.sub
@@ -7105,10 +7106,10 @@
    local.get $0
    f64.load offset=16
   end
-  local.set $4
+  local.set $5
   loop $while-continue|0
    local.get $1
-   local.get $4
+   local.get $5
    f64.lt
    if
     global.get $~lib/memory/__stack_pointer
@@ -7118,19 +7119,19 @@
      i32.const 0
      local.get $0
      i32.load offset=32
-     local.tee $3
+     local.tee $4
      i32.const 2
      i32.lt_s
      br_if $__inlined_func$src/workers/advanced_workers/isPrime$136
      drop
      i32.const 1
-     local.get $3
+     local.get $4
      i32.const 2
      i32.eq
      br_if $__inlined_func$src/workers/advanced_workers/isPrime$136
      drop
      i32.const 0
-     local.get $3
+     local.get $4
      i32.const 1
      i32.and
      i32.eqz
@@ -7138,24 +7139,30 @@
      drop
      i32.const 3
      local.set $2
+     local.get $4
+     i32.const 3
+     i32.div_s
+     local.set $3
      loop $while-continue|01
       local.get $2
       local.get $3
-      local.get $2
-      i32.div_s
       i32.le_s
       if
        i32.const 0
-       local.get $3
        local.get $2
-       i32.rem_s
-       i32.eqz
+       local.get $3
+       i32.mul
+       local.get $4
+       i32.eq
        br_if $__inlined_func$src/workers/advanced_workers/isPrime$136
        drop
+       local.get $4
        local.get $2
        i32.const 2
        i32.add
-       local.set $2
+       local.tee $2
+       i32.div_s
+       local.set $3
        br $while-continue|01
       end
      end
