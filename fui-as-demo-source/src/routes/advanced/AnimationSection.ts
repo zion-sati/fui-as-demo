@@ -7,6 +7,7 @@ import {
   ScrollBarVisibility,
   ScrollBox,
   ScrollState,
+  TextOverflow,
   Theme,
   Unit,
   activeTheme,
@@ -33,9 +34,10 @@ function buildAnimationPreviewCard(
 ): FlexBox {
   return new FlexBox()
     .fillWidth()
-    .height(128.0, Unit.Pixel)
+    .minHeight(128.0, Unit.Pixel)
     .padding(18.0, 18.0, 18.0, 18.0)
     .cornerRadius(20.0)
+    .clipToBounds(true)
     .border(1.0, theme.colors.border)
     .child(
       Column(
@@ -61,12 +63,16 @@ function makeAnimationScrollRows(): Array<FlexBox> {
         ? "The final target proves retained smooth scrolling can drive to the far end of the viewport."
         : "Retained content stays pooled and composable while the viewport animates independently.",
       DemoTextStyle.BodySecondary,
-    ) as DemoText;
+    )
+      // One line, so a phone's narrower row keeps the fixed height the scroll targets count in.
+      .maxLines(1)
+      .overflow(TextOverflow.Ellipsis) as DemoText;
     const rowCard = new FlexBox()
       .fillWidth()
       .height(ANIMATION_SCROLL_ROW_HEIGHT_PX, Unit.Pixel)
       .padding(16.0, 12.0, 16.0, 12.0)
       .cornerRadius(14.0)
+      .clipToBounds(true)
       .child(
         Column(
           title,

@@ -8,9 +8,11 @@ export class Panel extends FlexBox {
 
   constructor() {
     super();
+    // Content wider than a phone (images, fixed-width samples) is cut at the padding rather than drawn over the border.
     this.flexDirection(FlexDirection.Column)
       .alignItems(AlignItems.Start)
-      .cornerRadius(16.0);
+      .cornerRadius(16.0)
+      .clipToBounds(true);
     this.trackTheme(viewportWidthSignal.bind(this, (panel, _width): void => {
       panel.applySpacing();
     }));

@@ -35,7 +35,8 @@ import {
   Worker,
   activeTheme,
   bindTheme,
-  disposeAll } from "../../fui/Fui";
+  disposeAll,
+  viewportWidthSignal } from "../../fui/Fui";
 import {
   DemoText,
   DemoTextStyle,
@@ -49,6 +50,7 @@ import {
   PAGE_SECTION_GAP_PX,
   TITLE_TO_SUPPORTING_GAP_PX,
   VerticalSpacer,
+  isCompactLayout,
 } from "../shared/design-system";
 import { changeColorAlpha } from "../shared/ColorUtils";
 import { AdvancedModel } from "./AdvancedModel";
@@ -82,6 +84,10 @@ export class AdvancedView {
       view.applyTheme(th);
     }));
     this.applyTheme(activeTheme.value);
+    this.trackTheme(viewportWidthSignal.bind(this, (view, _width): void => {
+      view.applySampleSizes();
+    }));
+    this.applySampleSizes();
   }
 
   getRoot(): SelectionArea {
@@ -280,6 +286,15 @@ export class AdvancedView {
           ]),
       ])
       .fillSize() as Panel;
+  }
+
+  /** The progress bar fills its panel in the compact layout. */
+  private applySampleSizes(): void {
+    if (isCompactLayout()) {
+      this.worker.progressBar.fillLength();
+    } else {
+      this.worker.progressBar.length(320.0);
+    }
   }
 
   private trackTheme(disposable: Disposable): void {

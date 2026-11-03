@@ -1,6 +1,7 @@
-window.__effindomFuiConfig = {"$schema":"https://effindom.dev/schemas/fui-config.schema.json","version":1,"application":{"pageZoom":"enabled"},"web":{"loading":{"delayMs":300,"minimumVisibleMs":300}}};
+window.__effindomFuiConfig = {"$schema":"https://effindom.dev/schemas/fui-config.schema.json","version":1,"application":{"pageZoom":"enabled"},"web":{"loading":{"delayMs":300,"minimumVisibleMs":300},"devTools":{"domMirror":"on-requested"}}};
 window.__effindomRuntime = Object.assign({}, window.__effindomRuntime, {
   manifestUrls: ["https://runtimes.effindom.dev/v2/manifests/WhkBHLgc3FIfLkv_Q82cCn3OFdY2o2Q8RIPeV0N1dLw.json","./runtime/dist/effindom.v2.manifest.json"],
   expectedRuntimeSetHash: "WhkBHLgc3FIfLkv_Q82cCn3OFdY2o2Q8RIPeV0N1dLw",
   buildMode: "release",
+  devToolsDomMirror: "on-requested",
 });

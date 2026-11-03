@@ -430,16 +430,16 @@ async function instantiate(module, imports = {}) {
         out_height = out_height >>> 0;
         return __module1.ui_get_bounds(handle, out_x, out_y, out_width, out_height) ? 1 : 0;
       },
-      ui_set_margin(handle, left, top, right, bottom) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
-        handle = BigInt.asUintN(64, handle);
-        __module1.ui_set_margin(handle, left, top, right, bottom);
-      },
       ui_set_clip_to_bounds(handle, clip) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_clip_to_bounds(u64, bool) => void
         handle = BigInt.asUintN(64, handle);
         clip = clip != 0;
         __module1.ui_set_clip_to_bounds(handle, clip);
+      },
+      ui_set_margin(handle, left, top, right, bottom) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_margin(u64, f32, f32, f32, f32) => void
+        handle = BigInt.asUintN(64, handle);
+        __module1.ui_set_margin(handle, left, top, right, bottom);
       },
       ui_set_position_type(handle, pos_enum) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_position_type(u64, u32) => void
@@ -588,6 +588,12 @@ async function instantiate(module, imports = {}) {
         handle = BigInt.asUintN(64, handle);
         wrap_enum = wrap_enum >>> 0;
         __module1.ui_set_flex_wrap(handle, wrap_enum);
+      },
+      ui_set_align_self(handle, align_enum) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_align_self(u64, u32) => void
+        handle = BigInt.asUintN(64, handle);
+        align_enum = align_enum >>> 0;
+        __module1.ui_set_align_self(handle, align_enum);
       },
       ui_set_fill_width_percent(handle, percent) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_fill_width_percent(u64, f32) => void
@@ -784,12 +790,6 @@ async function instantiate(module, imports = {}) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_flex_basis(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
         __module1.ui_set_flex_basis(handle, basis);
-      },
-      ui_set_align_self(handle, align_enum) {
-        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_align_self(u64, u32) => void
-        handle = BigInt.asUintN(64, handle);
-        align_enum = align_enum >>> 0;
-        __module1.ui_set_align_self(handle, align_enum);
       },
       ui_set_root(handle) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_root(u64) => void
@@ -1096,15 +1096,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord210(callback);
+      callback = __lowerRecord211(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord210(value) {
+  function __lowerRecord211(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 210));
+    const pointer = exports.__pin(exports.__new(0, 211));
     exports.__unpin(pointer);
     return pointer;
   }

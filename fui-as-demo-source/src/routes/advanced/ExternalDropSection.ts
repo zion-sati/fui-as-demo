@@ -42,9 +42,10 @@ function describeDropItems(items: ExternalDropItemInfo[]): string {
 export class ExternalDropSection {
   readonly dropTarget: FlexBox = new FlexBox()
     .fillWidth()
-    .height(156.0, Unit.Pixel)
+    .minHeight(156.0, Unit.Pixel)
     .padding(18.0, 18.0, 18.0, 18.0)
     .cornerRadius(20.0)
+    .clipToBounds(true)
     .allowExternalDrop(true) as FlexBox;
   readonly dropStatusText: DemoText = new DemoText("", DemoTextStyle.Caption) as DemoText;
   readonly dropItemsText: DemoText = new DemoText("", DemoTextStyle.BodySecondary) as DemoText;

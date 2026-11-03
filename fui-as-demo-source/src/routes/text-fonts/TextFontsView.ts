@@ -102,7 +102,7 @@ function createVisibilityDropdown(): DemoDropdown {
     new DropdownItem("collapsed", "Visibility: Collapsed - remove layout space and hide the content"),
   ]);
   dd.selectIndex(0);
-  dd.width(350.0, Unit.Pixel);
+  dd.width(350.0, Unit.Pixel).maxWidth(100.0, Unit.Percent);
   return dd;
 }
 

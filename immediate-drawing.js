@@ -1111,15 +1111,15 @@ async function instantiate(module, imports = {}) {
     },
     onAppClockTick(callback) {
       // src/host/generated/HostEvents/onAppClockTick(~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32> | null) => void
-      callback = __lowerRecord210(callback);
+      callback = __lowerRecord211(callback);
       exports.onAppClockTick(callback);
     },
   }, exports);
-  function __lowerRecord210(value) {
+  function __lowerRecord211(value) {
     // ~lib/@effindomv2/fui-as/src/core/BoundCallback/Callback1<i32>
     // Hint: Opt-out from lowering as a record by providing an empty constructor
     if (value == null) return 0;
-    const pointer = exports.__pin(exports.__new(0, 210));
+    const pointer = exports.__pin(exports.__new(0, 211));
     exports.__unpin(pointer);
     return pointer;
   }

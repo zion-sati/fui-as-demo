@@ -1,5 +1,6 @@
 import {
   AlignItems,
+  AlignSelf,
   Bitmap,
   Checkbox,
   Column,
@@ -57,6 +58,7 @@ import {
   VerticalSpacer,
   Panel,
   applyRowBackground,
+  COMPACT_SAMPLE_WIDTH_PX,
   isCompactLayout,
   PrimaryButton,
 } from "../shared/design-system";
@@ -91,7 +93,10 @@ export class HomeView {
   private readonly biStateCheckbox!: Checkbox;
   private readonly qualityRadioGroup!: RadioGroup;
   private readonly horizontalSlider!: Slider;
+  private readonly horizontalSliderColumn!: FlexBox;
   private readonly verticalSlider!: Slider;
+  private nestedScrollPanel!: Panel;
+  private nestedScrollBox!: DemoScrollBox;
   private readonly dropdownItems: Array<DropdownItem> = [
     new DropdownItem("tiny", "Tiny"),
     new DropdownItem("small", "Small"),
@@ -101,24 +106,17 @@ export class HomeView {
   ];
   private readonly picture1: Image = Image.load("https://upload.wikimedia.org/wikipedia/commons/d/d3/Golden_Gate_Bridge_at_sunset_1.jpg", ObjectFit.Cover)
     .altText("Sample image1 - JPG")
-    .width(640.0, Unit.Pixel)
-    .height(480.0, Unit.Pixel)
     .toolTip(new ToolTip().text("Sample image1 - JPG").initialShowDelay(1000)) as Image;
   private readonly picture2: Image = Image.load("https://upload.wikimedia.org/wikipedia/commons/6/67/1932_eagle_reverse%28Transparency%29.png", ObjectFit.Cover)
     .altText("Sample image2 - PNG with transparency")
-    .width(0.0, Unit.Auto)
-    .height(0.0, Unit.Auto)
     .toolTip(new ToolTip().text("Sample image2 - PNG with transparency").initialShowDelay(1000)) as Image;
   private readonly picture3: Svg = Svg.load("https://upload.wikimedia.org/wikipedia/commons/d/d0/Drawsvgbird.svg", 0)
     .altText("Sample SVG image")
-    .height(600.0, Unit.Pixel)
     .toolTip(new ToolTip().text("Sample SVG image").initialShowDelay(1000)) as Svg;
   private static readonly DEMO_BITMAP_SIZE: u32 = 512;
   private readonly bitmap: Bitmap = HomeView.createCustomBitmap();
   private readonly bitmapImage: Image = new Image(this.bitmap.textureId, ObjectFit.Contain)
     .altText("App-owned premultiplied RGBA bitmap sample")
-    .width(0.0, Unit.Auto)
-    .height(0.0, Unit.Auto)
     .toolTip(new ToolTip().text("App-owned premultiplied RGBA bitmap sample").initialShowDelay(1000)) as Image;
 
   private readonly nestedScrollContent: FlexBox = new FlexBox()
@@ -223,10 +221,14 @@ export class HomeView {
       .min(0.0)
       .max(100.0)
       .step(5.0)
-      .length(300.0)
       .orientation(Orientation.Horizontal)
       .onChangedWith(this, (view) => view.setSummary(view.buildSelectionSummary()));
     this.horizontalSlider = horizontalSlider;
+    this.horizontalSliderColumn = new FlexBox()
+      .flexDirection(FlexDirection.Column)
+      .child(new DemoText("Horizontal", DemoTextStyle.BodySecondary))
+      .child(VerticalSpacer(MICRO_STACK_GAP_PX))
+      .child(horizontalSlider);
 
     const verticalSlider = new DemoSlider(65.0);
     verticalSlider
@@ -346,11 +348,7 @@ export class HomeView {
         new DemoText("Sliders", DemoTextStyle.Label),
         VerticalSpacer(LABEL_TO_CONTROL_GAP_PX),
         Row(
-          new FlexBox()
-            .flexDirection(FlexDirection.Column)
-            .child(new DemoText("Horizontal", DemoTextStyle.BodySecondary))
-            .child(VerticalSpacer(MICRO_STACK_GAP_PX))
-            .child(this.horizontalSlider),
+          this.horizontalSliderColumn,
           HorizontalSpacer(16.0),
           new FlexBox()
             .flexDirection(FlexDirection.Column)
@@ -387,23 +385,20 @@ export class HomeView {
   }
 
   private createNestedScrollPanel(): Panel {
+    this.nestedScrollBox = new DemoScrollBox("Nested ScrollBox")
+      .scrollEnabledX(true)
+      .scrollEnabledY(true)
+      .horizontalScrollbarVisibility(ScrollBarVisibility.Always)
+      .verticalScrollbarVisibility(ScrollBarVisibility.Always)
+      .scrollbarGutter(8.0)
+      .height(240.0, Unit.Pixel)
+      .child(this.nestedScrollContent) as DemoScrollBox;
+    this.nestedScrollPanel = new Panel().child(this.nestedScrollBox) as Panel;
     return new Panel()
       .children([
         new DemoText("Nested ScrollBox", DemoTextStyle.Heading3),
         VerticalSpacer(PANEL_SECTION_GAP_PX),
-        new Panel()
-          .child(
-            new DemoScrollBox("Nested ScrollBox")
-              .scrollEnabledX(true)
-              .scrollEnabledY(true)
-              .horizontalScrollbarVisibility(ScrollBarVisibility.Always)
-              .verticalScrollbarVisibility(ScrollBarVisibility.Always)
-              .scrollbarGutter(8.0)
-              .width(300.0, Unit.Pixel)
-              .height(240.0, Unit.Pixel)
-              .child(this.nestedScrollContent)
-          )
-          .width(360.0, Unit.Pixel),
+        this.nestedScrollPanel,
       ]) as Panel;
   }
 
@@ -482,8 +477,10 @@ export class HomeView {
       .fillHeight() as FlexBox;
     this.trackTheme(viewportWidthSignal.bind(this, (view, _width): void => {
       view.applyColumnLayout();
+      view.applySampleSizes();
     }));
     this.applyColumnLayout();
+    this.applySampleSizes();
     return new PageShell("Home Page - FUI-AS Demo ✌🏼", "home", this.columns, "mainScrollBox", COMPACT_PAGE_MIN_HEIGHT_PX);
   }
 
@@ -497,6 +494,33 @@ export class HomeView {
     } else {
       this.listPanel.width(250.0, Unit.Pixel).fillHeight();
       this.columnGap.width(24.0, Unit.Pixel).height(0.0, Unit.Auto);
+    }
+  }
+
+  /**
+   * In the compact layout the images shrink to fit a phone, the horizontal slider fills the room the vertical one
+   * leaves, and the nested scroll box takes its panel's width.
+   */
+  private applySampleSizes(): void {
+    if (isCompactLayout()) {
+      // A fixed width with an automatic height keeps each image's proportions.
+      this.picture1.width(COMPACT_SAMPLE_WIDTH_PX, Unit.Pixel).height(0.0, Unit.Auto);
+      this.picture2.width(COMPACT_SAMPLE_WIDTH_PX, Unit.Pixel).height(0.0, Unit.Auto);
+      this.picture3.width(COMPACT_SAMPLE_WIDTH_PX, Unit.Pixel).height(0.0, Unit.Auto);
+      this.bitmapImage.width(COMPACT_SAMPLE_WIDTH_PX, Unit.Pixel).height(0.0, Unit.Auto);
+      this.horizontalSliderColumn.fillWidth();
+      this.horizontalSlider.fillLength();
+      this.nestedScrollPanel.width(0.0, Unit.Auto).alignSelf(AlignSelf.Stretch);
+      this.nestedScrollBox.fillWidth();
+    } else {
+      this.picture1.width(640.0, Unit.Pixel).height(480.0, Unit.Pixel);
+      this.picture2.width(0.0, Unit.Auto).height(0.0, Unit.Auto);
+      this.picture3.width(0.0, Unit.Auto).height(600.0, Unit.Pixel);
+      this.bitmapImage.width(0.0, Unit.Auto).height(0.0, Unit.Auto);
+      this.horizontalSliderColumn.width(0.0, Unit.Auto);
+      this.horizontalSlider.length(300.0);
+      this.nestedScrollPanel.width(360.0, Unit.Pixel).alignSelf(AlignSelf.Auto);
+      this.nestedScrollBox.width(300.0, Unit.Pixel);
     }
   }
 
@@ -695,7 +719,7 @@ export class HomeView {
       case PlatformFamily.Windows:
         return "Win+Shift+F12";
       case PlatformFamily.Linux:
-        return "Super+Shift+F12";
+        return "Meta+Shift+F12";
       default:
         return "Meta+Shift+F12";
     }

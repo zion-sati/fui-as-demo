@@ -16,6 +16,7 @@ import {
   ScrollBox,
   ScrollState,
   SemanticRole,
+  TextOverflow,
   Theme,
   Unit,
   Visibility,
@@ -24,17 +25,18 @@ import {
   Disposable,
   disposeAll,
   scheduleTimer,
+  viewportWidthSignal,
   } from "../../fui/Fui";
 import { clearCurrentSelection } from "../../fui/FuiPrimitives";
 import { DemoText,
   DemoTextStyle,
   applyRowBackground,
+  isCompactLayout,
 } from "../shared/design-system";
 import { changeColorAlpha } from "../shared/ColorUtils";
 import {
   REORDER_DRAG_FORMAT,
   REORDER_MARKER_HEIGHT,
-  REORDER_ROW_BODY_HEIGHT,
   REORDER_VIEWPORT_HEIGHT,
   ReorderItem,
   ReorderVisibleRange,
@@ -49,6 +51,7 @@ import {
   findItemIndex,
   moveReorderItem,
   normalizeReorderInsertionIndex,
+  reorderRowBodyHeight,
 } from "./ReorderLogic";
 
 const AUTOSCROLL_TIMER_ID: u32 = 4101;
@@ -104,7 +107,8 @@ class ReorderRowView {
   readonly grip!: FlexBox;
   readonly titleText: DemoText = new DemoText("", DemoTextStyle.Body) as DemoText;
   readonly detailText: DemoText = new DemoText("", DemoTextStyle.Caption)
-    .maxLines(2) as DemoText;
+    .maxLines(2)
+    .overflow(TextOverflow.Ellipsis) as DemoText;
   readonly card!: FlexBox;
   readonly slot!: FlexBox;
 
@@ -132,9 +136,10 @@ class ReorderRowView {
 
     this.card = new FlexBox()
       .fillWidth()
-      .height(REORDER_ROW_BODY_HEIGHT, Unit.Pixel)
+      .height(controller.rowBodyHeight, Unit.Pixel)
       .padding(16.0, 14.0, 16.0, 14.0)
       .cornerRadius(18.0)
+      .justifyContent(JustifyContent.Center)
       .child(
         Row(
           this.grip,
@@ -143,9 +148,11 @@ class ReorderRowView {
         ).fillWidth(),
       ) as FlexBox;
 
+    // Clipped at the card's border, so text a narrow screen wraps onto more lines stays inside the card.
     this.slot = new FlexBox()
       .fillWidth()
       .flexDirection(FlexDirection.Column)
+      .clipToBounds(true)
       .allowDrop(true)
       .onDragEnterWith<ReorderRowView>(this, rowDragOver)
       .onDragOverWith<ReorderRowView>(this, rowDragOver)
@@ -223,6 +230,7 @@ export class ReorderSection {
   rows: Array<ReorderRowView> = new Array<ReorderRowView>();
   readonly items: Array<ReorderItem> = createReorderItems();
   readonly disposables: Array<Disposable> = new Array<Disposable>();
+  rowBodyHeight: f32 = reorderRowBodyHeight(isCompactLayout());
   readonly scrollContent: FlexBox = new FlexBox()
     .fillWidth()
     .flexDirection(FlexDirection.Column);
@@ -296,6 +304,9 @@ export class ReorderSection {
   private ghostCardWidth: f32 = 0.0;
 
   constructor() {
+    this.disposables.push(viewportWidthSignal.bind(this, (section, _width): void => {
+      section.applyRowBodyHeight();
+    }));
     (this.scrollBox as ScrollBox).verticalScrollBar.trackCornerRadius(8.0);
     (this.scrollBox as ScrollBox).verticalScrollBar.thumbCornerRadius(8.0);
 
@@ -458,6 +469,7 @@ export class ReorderSection {
       this.autoScrollDeltaY,
       this.items.length,
       viewportHeight,
+      this.rowBodyHeight,
     );
     if (nextOffset == (this.scrollBox as ScrollBox).scrollState.offsetY.value) {
       this.stopAutoScroll();
@@ -541,7 +553,7 @@ export class ReorderSection {
     const sb = this.scrollBox as ScrollBox;
     const offsetY = sb.scrollState.offsetY.value;
     const viewH = sb.scrollState.viewportHeight.value;
-    const contentH = computeContentHeight(this.items.length);
+    const contentH = computeContentHeight(this.items.length, this.rowBodyHeight);
     this.viewportStatusText.text(
       "Viewport: offset=" + offsetY.toString() +
       " viewH=" + viewH.toString() +
@@ -614,7 +626,20 @@ export class ReorderSection {
 
   private readVisibleRange(): ReorderVisibleRange {
     const sb = this.scrollBox as ScrollBox;
-    return computeReorderVisibleRange(this.items.length, sb.scrollState.offsetY.value, this.readViewportHeight());
+    return computeReorderVisibleRange(this.items.length, sb.scrollState.offsetY.value, this.readViewportHeight(), this.rowBodyHeight);
+  }
+
+  /** Rows are taller in the compact layout, where a phone wraps their text. */
+  private applyRowBodyHeight(): void {
+    const height = reorderRowBodyHeight(isCompactLayout());
+    if (height == this.rowBodyHeight) {
+      return;
+    }
+    this.rowBodyHeight = height;
+    for (let index = 0; index < this.rows.length; index += 1) {
+      unchecked(this.rows[index]).card.height(height, Unit.Pixel);
+    }
+    this.syncViewportStatus();
   }
 
   private readViewportHeight(): f32 {

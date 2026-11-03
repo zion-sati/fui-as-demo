@@ -19,7 +19,7 @@ function parseLeadingPercent(text: string): f32 {
 }
 
 export class WorkerSection {
-  readonly progressBar: ProgressBar = new ProgressBar(0.0).length(320.0) as ProgressBar;
+  readonly progressBar: ProgressBar = new ProgressBar(0.0);
   readonly startButton: DemoButton = new DemoButton("Start prime worker")
     .width(170.0, Unit.Pixel).height(60.0, Unit.Pixel) as DemoButton;
   readonly cancelButton: DemoButton = new DemoButton("Cancel prime worker")

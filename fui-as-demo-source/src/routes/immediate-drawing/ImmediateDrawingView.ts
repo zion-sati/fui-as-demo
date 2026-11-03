@@ -27,11 +27,13 @@ import {
   rgba,
   rgb,
   span,
+  viewportWidthSignal,
   } from "../../fui/Fui";
 import { HandlerAction,
   Signal,
   scheduleTimer } from "@effindomv2/fui-as/src/Fui";
 import { PageShell,
+  COMPACT_SAMPLE_WIDTH_PX,
   DemoScrollBox,
   DemoText,
   DemoTextStyle,
@@ -40,6 +42,7 @@ import { PageShell,
   PAGE_SECTION_GAP_PX,
   TITLE_TO_SUPPORTING_GAP_PX,
   VerticalSpacer,
+  isCompactLayout,
 } from "../shared/design-system";
 
 
@@ -141,10 +144,13 @@ class PaintCanvas extends CustomDrawable {
   }
 
   private brushAtLogical(x: f32, y: f32, radius: f32, color: u32): void {
+    // The bitmap keeps its full-size resolution when the canvas is drawn smaller.
+    const drawnSize: f32 = this.getBounds()[2];
+    const scale: f32 = drawnSize > 0.0 ? <f32>this.bmp.width / drawnSize : this.bitmapScale;
     this.brushAt(
-      <i32>Math.round(<f64>(x * this.bitmapScale)),
-      <i32>Math.round(<f64>(y * this.bitmapScale)),
-      <i32>Math.max(1.0, Math.round(<f64>(radius * this.bitmapScale))),
+      <i32>Math.round(<f64>(x * scale)),
+      <i32>Math.round(<f64>(y * scale)),
+      <i32>Math.max(1.0, Math.round(<f64>(radius * scale))),
       color,
     );
   }
@@ -202,6 +208,18 @@ class DemoState {
   scatter: ScatterPlot | null = null;
   yarn: DancingYarn | null = null;
   paintCanvas: PaintCanvas | null = null;
+
+  /** Every surface is square and draws to its own size from its next frame. */
+  resizeSurfaces(size: f32): void {
+    const surfaces: CustomDrawable[] = [
+      this.gauge!, this.chart!, this.wave!, this.spark!, this.pie!, this.scatter!, this.yarn!, this.paintCanvas!,
+    ];
+    for (let index = 0; index < surfaces.length; index += 1) {
+      const surface = unchecked(surfaces[index]);
+      surface.width(size).height(size);
+      surface.markDirty();
+    }
+  }
 
   init(): void {
     this.gauge = new Gauge();
@@ -866,6 +884,10 @@ export class ImmediateDrawingView {
       view.applyTheme(theme);
     }));
     this.applyTheme(activeTheme.value);
+    this.themeBindings.push(viewportWidthSignal.bind(this, (view, _width): void => {
+      view.applySampleSizes();
+    }));
+    this.applySampleSizes();
   }
 
   getRoot(): SelectionArea {
@@ -913,5 +935,10 @@ export class ImmediateDrawingView {
 
   private applyTheme(theme: Theme): void {
     this.root.bgColor(theme.colors.background);
+  }
+
+  /** The drawing surfaces fit a phone in the compact layout. */
+  private applySampleSizes(): void {
+    demo.resizeSurfaces(isCompactLayout() ? COMPACT_SAMPLE_WIDTH_PX : 300.0);
   }
 }

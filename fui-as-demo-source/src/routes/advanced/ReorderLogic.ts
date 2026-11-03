@@ -1,7 +1,8 @@
 export const REORDER_DRAG_FORMAT = "application/x-effindom-reorder-item-id";
 export const REORDER_MARKER_HEIGHT: f32 = 8.0;
 export const REORDER_ROW_BODY_HEIGHT: f32 = 72.0;
-export const REORDER_SLOT_HEIGHT: f32 = REORDER_MARKER_HEIGHT + REORDER_ROW_BODY_HEIGHT;
+// Taller in the compact layout, where a phone wraps a row's title and detail onto two lines each.
+export const REORDER_COMPACT_ROW_BODY_HEIGHT: f32 = 116.0;
 export const REORDER_END_SLOT_HEIGHT: f32 = 44.0;
 export const REORDER_VIEWPORT_HEIGHT: f32 = 248.0;
 export const REORDER_AUTOSCROLL_STEP_PX: f32 = 18.0;
@@ -47,20 +48,25 @@ export function findItemIndex(items: Array<ReorderItem>, itemId: string): i32 {
   return -1;
 }
 
-export function computeContentHeight(itemCount: i32): f32 {
-  const clampedItemCount = itemCount > 0 ? itemCount : 0;
-  return (<f32>clampedItemCount * REORDER_SLOT_HEIGHT) + REORDER_END_SLOT_HEIGHT;
+export function reorderRowBodyHeight(compact: bool): f32 {
+  return compact ? REORDER_COMPACT_ROW_BODY_HEIGHT : REORDER_ROW_BODY_HEIGHT;
 }
 
-export function computeReorderVisibleRange(itemCount: i32, offsetY: f32, viewportHeight: f32): ReorderVisibleRange {
+export function computeContentHeight(itemCount: i32, rowBodyHeight: f32): f32 {
+  const clampedItemCount = itemCount > 0 ? itemCount : 0;
+  return (<f32>clampedItemCount * (REORDER_MARKER_HEIGHT + rowBodyHeight)) + REORDER_END_SLOT_HEIGHT;
+}
+
+export function computeReorderVisibleRange(itemCount: i32, offsetY: f32, viewportHeight: f32, rowBodyHeight: f32): ReorderVisibleRange {
   if (itemCount <= 0) {
     return new ReorderVisibleRange(0, -1);
   }
-  let firstVisibleIndex = <i32>Math.floor(offsetY / REORDER_SLOT_HEIGHT);
+  const slotHeight = REORDER_MARKER_HEIGHT + rowBodyHeight;
+  let firstVisibleIndex = <i32>Math.floor(offsetY / slotHeight);
   if (firstVisibleIndex < 0) { firstVisibleIndex = 0; }
   if (firstVisibleIndex > itemCount - 1) { firstVisibleIndex = itemCount - 1; }
   const effectiveViewportHeight = viewportHeight > 0.0 ? viewportHeight : REORDER_VIEWPORT_HEIGHT;
-  let lastVisibleIndex = <i32>Math.floor((offsetY + effectiveViewportHeight - 1.0) / REORDER_SLOT_HEIGHT);
+  let lastVisibleIndex = <i32>Math.floor((offsetY + effectiveViewportHeight - 1.0) / slotHeight);
   if (lastVisibleIndex < firstVisibleIndex) { lastVisibleIndex = firstVisibleIndex; }
   if (lastVisibleIndex > itemCount - 1) { lastVisibleIndex = itemCount - 1; }
   return new ReorderVisibleRange(firstVisibleIndex, lastVisibleIndex);
@@ -100,14 +106,20 @@ export function moveReorderItem(items: Array<ReorderItem>, itemId: string, rawIn
   return true;
 }
 
-export function computeReorderMaxScrollOffset(itemCount: i32, viewportHeight: f32): f32 {
-  const maxOffset = computeContentHeight(itemCount) - viewportHeight;
+export function computeReorderMaxScrollOffset(itemCount: i32, viewportHeight: f32, rowBodyHeight: f32): f32 {
+  const maxOffset = computeContentHeight(itemCount, rowBodyHeight) - viewportHeight;
   return maxOffset > 0.0 ? maxOffset : 0.0;
 }
 
-export function computeNextReorderAutoScrollOffset(currentOffset: f32, delta: f32, itemCount: i32, viewportHeight: f32): f32 {
+export function computeNextReorderAutoScrollOffset(
+  currentOffset: f32,
+  delta: f32,
+  itemCount: i32,
+  viewportHeight: f32,
+  rowBodyHeight: f32,
+): f32 {
   let newOffset = currentOffset + delta;
-  const maxOffset = computeReorderMaxScrollOffset(itemCount, viewportHeight);
+  const maxOffset = computeReorderMaxScrollOffset(itemCount, viewportHeight, rowBodyHeight);
   if (newOffset < 0.0) { newOffset = 0.0; }
   if (newOffset > maxOffset) { newOffset = maxOffset; }
   return newOffset;
