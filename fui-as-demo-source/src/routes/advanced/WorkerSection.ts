@@ -21,9 +21,9 @@ function parseLeadingPercent(text: string): f32 {
 export class WorkerSection {
   readonly progressBar: ProgressBar = new ProgressBar(0.0);
   readonly startButton: DemoButton = new DemoButton("Start prime worker")
-    .width(170.0, Unit.Pixel).height(60.0, Unit.Pixel) as DemoButton;
+    .minWidth(170.0, Unit.Pixel).minHeight(60.0, Unit.Pixel) as DemoButton;
   readonly cancelButton: DemoButton = new DemoButton("Cancel prime worker")
-    .width(170.0, Unit.Pixel).height(60.0, Unit.Pixel) as DemoButton;
+    .minWidth(170.0, Unit.Pixel).minHeight(60.0, Unit.Pixel) as DemoButton;
   readonly statusText: DemoText = new DemoText("", DemoTextStyle.Caption) as DemoText;
   readonly detailText: DemoText = new DemoText("", DemoTextStyle.BodySecondary) as DemoText;
   readonly hintText: DemoText = new DemoText(

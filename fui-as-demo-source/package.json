@@ -30,8 +30,8 @@
     "test": "npm run build && tsx scripts/smoke.ts"
   },
   "dependencies": {
-    "@effindomv2/fui-as": "0.4.0",
-    "@effindomv2/runtime": "0.4.0"
+    "@effindomv2/fui-as": "0.4.1",
+    "@effindomv2/runtime": "0.4.1"
   },
   "devDependencies": {
     "@devcycle/assemblyscript-json": "^2.0.0",

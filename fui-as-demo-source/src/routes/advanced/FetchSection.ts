@@ -12,9 +12,9 @@ import { DemoButton,
 
 export class FetchSection {
   readonly getButton: DemoButton = new DemoButton("GET /posts/1")
-    .width(156.0, Unit.Pixel) as DemoButton;
+    .minWidth(156.0, Unit.Pixel) as DemoButton;
   readonly postButton: DemoButton = new DemoButton("POST /posts", DemoButtonTone.Primary)
-    .width(156.0, Unit.Pixel) as DemoButton;
+    .minWidth(156.0, Unit.Pixel) as DemoButton;
   readonly statusText: DemoText = new DemoText("", DemoTextStyle.Caption) as DemoText;
   readonly requestText: DemoText = new DemoText("", DemoTextStyle.BodySecondary) as DemoText;
   readonly resultText: DemoText = new DemoText("", DemoTextStyle.BodySecondary)

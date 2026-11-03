@@ -832,6 +832,12 @@ async function instantiate(module, imports = {}) {
         smooth_scrolling = smooth_scrolling != 0;
         __module1.ui_set_smooth_scrolling(handle, smooth_scrolling);
       },
+      ui_set_scroll_wheel_latching(handle, latching) {
+        // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_wheel_latching(u64, bool) => void
+        handle = BigInt.asUintN(64, handle);
+        latching = latching != 0;
+        __module1.ui_set_scroll_wheel_latching(handle, latching);
+      },
       ui_set_scroll_friction(handle, friction) {
         // ~lib/@effindomv2/fui-as/src/core/generated/UiAbi/ui_set_scroll_friction(u64, f32) => void
         handle = BigInt.asUintN(64, handle);
